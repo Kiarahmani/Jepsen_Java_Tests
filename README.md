@@ -1,2 +1,2 @@
-# SampleApplication
-Sample OLTP application used to test the ststic anlysis tool
+# Jepsen Tests
+Repo for tests run in Jepsen, for comparison to my static analysis tool
