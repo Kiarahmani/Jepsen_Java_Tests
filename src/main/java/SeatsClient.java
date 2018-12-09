@@ -36,7 +36,7 @@ public class SeatsClient {
 			preparedStatement.setInt(1, 100);
 			preparedStatement.executeUpdate();
 			preparedStatement = connect.prepareStatement("update A set balance= ? where id=1");
-			preparedStatement.setInt(1, 300);
+			preparedStatement.setInt(1, 200);
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			throw e;
