@@ -33,10 +33,10 @@ public class SeatsClient {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement preparedStatement = connect.prepareStatement("update A set balance= ? where id=1");
-			preparedStatement.setInt(1, 100);
+			preparedStatement.setInt(1, value);
 			preparedStatement.executeUpdate();
 			preparedStatement = connect.prepareStatement("update A set balance= ? where id=1");
-			preparedStatement.setInt(1, 100);
+			preparedStatement.setInt(1, value * 2);
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			throw e;
