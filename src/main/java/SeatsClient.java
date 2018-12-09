@@ -29,7 +29,7 @@ public class SeatsClient {
 		}
 	}
 
-	public static void writeTxn(Connection connect, int key, int value) throws Exception {
+	public static void writeTransaction(Connection connect, int key, int value) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement preparedStatement = connect.prepareStatement("update A set balance= ? where id=?");
@@ -45,7 +45,7 @@ public class SeatsClient {
 		}
 	}
 
-	public static int readTxn(Connection connect, int key) throws Exception {
+	public static int readTransaction(Connection connect, int key) throws Exception {
 		int result = -1;
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
