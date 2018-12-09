@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SeatsClient {
+public class App {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -33,10 +33,10 @@ public class SeatsClient {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement preparedStatement = connect.prepareStatement("update A set balance= ? where id=1");
-			preparedStatement.setInt(1, value);
+			preparedStatement.setInt(1, 100);
 			preparedStatement.executeUpdate();
 			preparedStatement = connect.prepareStatement("update A set balance= ? where id=1");
-			preparedStatement.setInt(1, value * 2);
+			preparedStatement.setInt(1, 400);
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			throw e;
