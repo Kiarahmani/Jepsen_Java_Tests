@@ -29,25 +29,28 @@ public class SeatsClient {
 		}
 	}
 
-	public static void writeTxn(Connection connect, int value) throws Exception {
+	public static void writeTxn(Connection connect, int key, int value) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			PreparedStatement preparedStatement = connect.prepareStatement("update A set balance= ? where id=1");
+			PreparedStatement preparedStatement = connect.prepareStatement("update A set balance= ? where id=?");
 			preparedStatement.setInt(1, value);
+			preparedStatement.setInt(2, key);
 			preparedStatement.executeUpdate();
-			preparedStatement = connect.prepareStatement("update A set balance= ? where id=1");
+			preparedStatement = connect.prepareStatement("update A set balance= ? where id=?");
 			preparedStatement.setInt(1, value * 2);
+			preparedStatement.setInt(2, key);
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			throw e;
 		}
 	}
 
-	public static int readTxn(Connection connect) throws Exception {
+	public static int readTxn(Connection connect, int key) throws Exception {
 		int result = -1;
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			PreparedStatement preparedStatement = connect.prepareStatement("select * from A where id=1");
+			PreparedStatement preparedStatement = connect.prepareStatement("select * from A where id=?");
+			preparedStatement.setInt(1, key);
 			ResultSet rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				result = rs.getInt("balance");
