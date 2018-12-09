@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class App {
+public class SeatsClient {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -36,7 +36,7 @@ public class App {
 			preparedStatement.setInt(1, 100);
 			preparedStatement.executeUpdate();
 			preparedStatement = connect.prepareStatement("update A set balance= ? where id=1");
-			preparedStatement.setInt(1, 400);
+			preparedStatement.setInt(1, 300);
 			preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			throw e;
