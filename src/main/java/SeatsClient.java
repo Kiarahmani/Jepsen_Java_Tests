@@ -47,6 +47,12 @@ public class SeatsClient {
 			// END
 
 			if (oldBal > value) {
+				preparedStatement = connect.prepareStatement("select * from A where id=?");
+				preparedStatement.setInt(1, key);
+				rs = preparedStatement.executeQuery();
+				oldBal = -10000;
+				if (rs.next())
+					oldBal = rs.getInt("balance");
 				preparedStatement = connect.prepareStatement("update A set balance= ? where id=?");
 				preparedStatement.setInt(1, oldBal - value);
 				preparedStatement.setInt(2, key);
