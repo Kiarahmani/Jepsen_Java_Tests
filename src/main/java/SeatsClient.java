@@ -39,8 +39,6 @@ public class SeatsClient {
 			int oldBal = -10000;
 			if (rs.next())
 				oldBal = rs.getInt("balance");
-			
-			Thread.sleep(50);
 			// BEGIN: manually injected assertion regargin non-negativity invariant
 			if (oldBal < 0)
 				return 1;
