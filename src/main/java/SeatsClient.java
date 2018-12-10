@@ -56,6 +56,27 @@ public class SeatsClient {
 		}
 	}
 
+	public static int incTransaction(Connection connect, int key, int value) throws Exception {
+		try {
+			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+
+			PreparedStatement preparedStatement = connect.prepareStatement("select * from A where id=?");
+			preparedStatement.setInt(1, key);
+			ResultSet rs = preparedStatement.executeQuery();
+			int oldBal = -10000;
+			if (rs.next())
+				oldBal = rs.getInt("balance");
+			preparedStatement = connect.prepareStatement("update A set balance= ? where id=?");
+			preparedStatement.setInt(1, oldBal + value);
+			preparedStatement.setInt(2, key);
+			preparedStatement.executeUpdate();
+
+			return 0;
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+
 	public static void initTransaction(Connection connect, int key) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
