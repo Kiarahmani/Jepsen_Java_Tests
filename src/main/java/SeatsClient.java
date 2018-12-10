@@ -45,16 +45,16 @@ public class SeatsClient {
 			// END
 
 			if (oldBal > value) {
-				preparedStatement = connect.prepareStatement("select * from A where id=?");
-				preparedStatement.setInt(1, key);
-				rs = preparedStatement.executeQuery();
+				PreparedStatement preparedStatement2 = connect.prepareStatement("select * from A where id=?");
+				preparedStatement2.setInt(1, key);
+				rs = preparedStatement2.executeQuery();
 				oldBal = -10000;
 				if (rs.next())
 					oldBal = rs.getInt("balance");
-				preparedStatement = connect.prepareStatement("update A set balance= ? where id=?");
-				preparedStatement.setInt(1, oldBal - value);
-				preparedStatement.setInt(2, key);
-				preparedStatement.executeUpdate();
+				PreparedStatement preparedStatement3 = connect.prepareStatement("update A set balance= ? where id=?");
+				preparedStatement3.setInt(1, oldBal - value);
+				preparedStatement3.setInt(2, key);
+				preparedStatement3.executeUpdate();
 			}
 			return 0;
 		} catch (Exception e) {
@@ -72,10 +72,10 @@ public class SeatsClient {
 			int oldBal = -10000;
 			if (rs.next())
 				oldBal = rs.getInt("balance");
-			preparedStatement = connect.prepareStatement("update A set balance= ? where id=?");
-			preparedStatement.setInt(1, oldBal + value);
-			preparedStatement.setInt(2, key);
-			preparedStatement.executeUpdate();
+			PreparedStatement preparedStatement2 = connect.prepareStatement("update A set balance= ? where id=?");
+			preparedStatement2.setInt(1, oldBal + value);
+			preparedStatement2.setInt(2, key);
+			preparedStatement2.executeUpdate();
 
 			return 0;
 		} catch (Exception e) {
