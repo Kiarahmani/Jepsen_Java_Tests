@@ -50,7 +50,7 @@ public class SeatsClient {
 				preparedStatement.setInt(2, key);
 				preparedStatement.executeUpdate();
 			}
-			return 0;
+			return 1;
 		} catch (Exception e) {
 			return -1;
 		}
