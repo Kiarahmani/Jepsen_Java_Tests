@@ -48,7 +48,7 @@ public class SeatsClient {
 				PreparedStatement preparedStatement2 = connect.prepareStatement("select * from A where id=?");
 				preparedStatement2.setInt(1, key);
 				rs = preparedStatement2.executeQuery();
-				oldBal = -10000;
+				oldBal = -10000; 
 				if (rs.next())
 					oldBal = rs.getInt("balance");
 				PreparedStatement preparedStatement3 = connect.prepareStatement("update A set balance= ? where id=?");
