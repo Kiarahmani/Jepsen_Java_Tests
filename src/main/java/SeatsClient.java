@@ -33,7 +33,7 @@ public class SeatsClient {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
-			PreparedStatement preparedStatement = connect.prepareStatement("select * from table where id=?");
+			PreparedStatement preparedStatement = connect.prepareStatement("select * from t where id=?");
 			preparedStatement.setInt(1, key);
 			ResultSet rs = preparedStatement.executeQuery();
 			int oldBal = -10000;
@@ -45,13 +45,13 @@ public class SeatsClient {
 			// END
 
 			if (oldBal > value) {
-				PreparedStatement preparedStatement2 = connect.prepareStatement("select * from table where id=?");
+				PreparedStatement preparedStatement2 = connect.prepareStatement("select * from t where id=?");
 				preparedStatement2.setInt(1, key);
 				rs = preparedStatement2.executeQuery();
 				oldBal = -10000; 
 				if (rs.next())
 					oldBal = rs.getInt("balance");
-				PreparedStatement preparedStatement3 = connect.prepareStatement("update table set balance= ? where id=?");
+				PreparedStatement preparedStatement3 = connect.prepareStatement("update t set balance= ? where id=?");
 				preparedStatement3.setInt(1, oldBal - value);
 				preparedStatement3.setInt(2, key);
 				preparedStatement3.executeUpdate();
@@ -66,13 +66,13 @@ public class SeatsClient {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
-			PreparedStatement preparedStatement = connect.prepareStatement("select * from table where id=?");
+			PreparedStatement preparedStatement = connect.prepareStatement("select * from t where id=?");
 			preparedStatement.setInt(1, key);
 			ResultSet rs = preparedStatement.executeQuery();
 			int oldBal = -10000;
 			if (rs.next())
 				oldBal = rs.getInt("balance");
-			PreparedStatement preparedStatement2 = connect.prepareStatement("update table set balance= ? where id=?");
+			PreparedStatement preparedStatement2 = connect.prepareStatement("update t set balance= ? where id=?");
 			preparedStatement2.setInt(1, oldBal + value);
 			preparedStatement2.setInt(2, key);
 			preparedStatement2.executeUpdate();
@@ -87,7 +87,7 @@ public class SeatsClient {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
-			PreparedStatement preparedStatement = connect.prepareStatement("update table set balance= 1000 where id=?");
+			PreparedStatement preparedStatement = connect.prepareStatement("update t set balance= 1000 where id=?");
 			preparedStatement.setInt(1, key);
 			preparedStatement.executeUpdate();
 
