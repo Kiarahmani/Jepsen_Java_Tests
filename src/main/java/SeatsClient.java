@@ -29,51 +29,17 @@ public class SeatsClient {
 		}
 	}
 
-	public static int decTransaction(Connection connect, int key, int value) throws Exception {
+	public static int writeTransaction(Connection connect, int key, int value) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
-			PreparedStatement preparedStatement = connect.prepareStatement("select * from k where id=?");
-			preparedStatement.setInt(1, key);
-			ResultSet rs = preparedStatement.executeQuery();
-			int oldBal = -10000;
-			if (rs.next())
-				oldBal = rs.getInt("balance");
-			// BEGIN: manually injected assertion regargin non-negativity invariant
-			if (oldBal < 0)
-				return 1;
-			// END
+			PreparedStatement preparedStatement1 = connect.prepareStatement("update a set balance= ? where id=?");
+			preparedStatement1.setInt(1, value);
+			preparedStatement1.setInt(2, key);
+			preparedStatement1.executeUpdate();
 
-			if (oldBal > value) {
-				PreparedStatement preparedStatement2 = connect.prepareStatement("select * from k where id=?");
-				preparedStatement2.setInt(1, key);
-				rs = preparedStatement2.executeQuery();
-				oldBal = -10000; 
-				if (rs.next())
-					oldBal = rs.getInt("balance");
-				PreparedStatement preparedStatement3 = connect.prepareStatement("update k set balance= ? where id=?");
-				preparedStatement3.setInt(1, oldBal - value);
-				preparedStatement3.setInt(2, key);
-				preparedStatement3.executeUpdate();
-			}
-			return 0;
-		} catch (Exception e) {
-			return -1;
-		}
-	}
-
-	public static int incTransaction(Connection connect, int key, int value) throws Exception {
-		try {
-			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-
-			PreparedStatement preparedStatement = connect.prepareStatement("select * from k where id=?");
-			preparedStatement.setInt(1, key);
-			ResultSet rs = preparedStatement.executeQuery();
-			int oldBal = -10000;
-			if (rs.next())
-				oldBal = rs.getInt("balance");
-			PreparedStatement preparedStatement2 = connect.prepareStatement("update k set balance= ? where id=?");
-			preparedStatement2.setInt(1, oldBal + value);
+			PreparedStatement preparedStatement2 = connect.prepareStatement("update b set balance= ? where id=?");
+			preparedStatement2.setInt(1, value);
 			preparedStatement2.setInt(2, key);
 			preparedStatement2.executeUpdate();
 
@@ -83,27 +49,32 @@ public class SeatsClient {
 		}
 	}
 
-	public static void initTransaction(Connection connect, int key) throws Exception {
+	
+	
+	public static int readTransaction(Connection connect, int key, int value) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
-			PreparedStatement preparedStatement = connect.prepareStatement("update k set balance= 1000 where id=?");
-			preparedStatement.setInt(1, key);
-			preparedStatement.executeUpdate();
+			PreparedStatement preparedStatement1 = connect.prepareStatement("select * from a where id=?");
+			preparedStatement1.setInt(1, key);
+			ResultSet rs1 = preparedStatement1.executeQuery();
+			int bala = -10000;
+			if (rs1.next())
+				bala = rs1.getInt("balance");
 
+			PreparedStatement preparedStatement2 = connect.prepareStatement("select * from b where id=?");
+			preparedStatement2.setInt(1, key);
+			ResultSet rs2 = preparedStatement2.executeQuery();
+			int balb = -10000;
+			if (rs2.next())
+				balb = rs2.getInt("balance");
+			if (bala == balb)
+				return 0;
+			else
+				return 1;
 		} catch (Exception e) {
-			throw e;
+			return -1;
 		}
 	}
 
-	/*
-	 * public static int readTransaction(Connection connect, int key) throws
-	 * Exception { int result = -1; try {
-	 * Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-	 * PreparedStatement preparedStatement =
-	 * connect.prepareStatement("select * from A where id=?");
-	 * preparedStatement.setInt(1, key); ResultSet rs =
-	 * preparedStatement.executeQuery(); if (rs.next()) { result =
-	 * rs.getInt("balance"); } } catch (Exception e) { throw e; } return result; }
-	 */
 }
