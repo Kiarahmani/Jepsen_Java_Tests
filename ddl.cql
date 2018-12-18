@@ -10,3 +10,30 @@ AP_IATTR07 int, AP_IATTR08 int, AP_IATTR09 int, AP_IATTR10 int, AP_IATTR11 int, 
 
 
 create TABLE seats.AIRPORT_DISTANCE (D_AP_ID0 int, D_AP_ID1 int, D_DISTANCE int , PRIMARY KEY (D_AP_ID0, D_AP_ID1));
+
+create TABLE seats.AIRLINE ( 
+	AL_ID int PRIMARY KEY,
+    AL_IATA_CODE text,
+    AL_ICAO_CODE text,
+    AL_CALL_SIGN text,
+    AL_NAME text,
+    AL_CO_ID int,
+    AL_IATTR00 int,
+    AL_IATTR01 int,
+    AL_IATTR02 int,
+    AL_IATTR03 int,
+    AL_IATTR04 int,
+    AL_IATTR05 int,
+    AL_IATTR06 int,
+    AL_IATTR07 int,
+    AL_IATTR08 int,
+    AL_IATTR09 int,
+    AL_IATTR10 int,
+    AL_IATTR11 int,
+    AL_IATTR12 int,
+    AL_IATTR13 int,
+    AL_IATTR14 int,
+    AL_IATTR15 int);
+    
+    
+    
