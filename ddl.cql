@@ -113,6 +113,82 @@ create TABLE seats.FREQUENT_FLYER (
 );
 
 
+create TABLE seats.FLIGHT ( 
+    F_ID            int,
+    F_AL_ID         int,
+    F_DEPART_AP_ID  int,
+    F_DEPART_TIME   int, 
+    F_ARRIVE_AP_ID  int,
+    F_ARRIVE_TIME   int,
+    F_STATUS        int,
+    F_BASE_PRICE    int,
+    F_SEATS_TOTAL   int,
+    F_SEATS_LEFT    int,
+    F_IATTR00       int,
+    F_IATTR01       int,
+    F_IATTR02       int,
+    F_IATTR03       int,
+    F_IATTR04       int,
+    F_IATTR05       int,
+    F_IATTR06       int,
+    F_IATTR07       int,
+    F_IATTR08       int,
+    F_IATTR09       int,
+    F_IATTR10       int,
+    F_IATTR11       int,
+    F_IATTR12       int,
+    F_IATTR13       int,
+    F_IATTR14       int,
+    F_IATTR15       int,
+    F_IATTR16       int,
+    F_IATTR17       int,
+    F_IATTR18       int,
+    F_IATTR19       int,
+    F_IATTR20       int,
+    F_IATTR21       int,
+    F_IATTR22       int,
+    F_IATTR23       int,
+    F_IATTR24       int,
+    F_IATTR25       int,
+    F_IATTR26       int,
+    F_IATTR27       int,
+    F_IATTR28       int,
+    F_IATTR29       int,
+    PRIMARY KEY (F_ID));
+
+
+create TABLE seats.RESERVATION ( 
+	 R_ID           int,
+    R_C_ID          int,
+    R_F_ID          int,
+    R_SEAT          int,
+    R_PRICE         double,
+    R_IATTR00       int,
+    R_IATTR01       int,
+    R_IATTR02       int,
+    R_IATTR03       int,
+    R_IATTR04       int,
+    R_IATTR05       int,
+    R_IATTR06       int,
+    R_IATTR07       int,
+    R_IATTR08       int,
+    PRIMARY KEY (R_ID, R_C_ID, R_F_ID)
+);	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
