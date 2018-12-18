@@ -49,8 +49,23 @@ public class SeatsClient {
 		}
 	}
 
-	
-	
+	public static int tempTransaction(Connection connect, int key, int value) throws Exception {
+		try {
+			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+
+			PreparedStatement preparedStatement1 = connect.prepareStatement("select * from a where id=?");
+			preparedStatement1.setInt(1, key);
+			ResultSet rs1 = preparedStatement1.executeQuery();
+			int bala = -10000;
+			if (rs1.next())
+				bala = rs1.getInt("balance");
+
+			return 0;
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+
 	public static int readTransaction(Connection connect, int key, int value) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
