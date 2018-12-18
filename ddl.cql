@@ -36,4 +36,97 @@ create TABLE seats.AIRLINE (
     AL_IATTR15 int);
     
     
-    
+
+create TABLE seats.CUSTOMER ( 
+	C_ID           int PRIMARY KEY,
+    C_ID_STR       text,
+    C_BASE_AP_ID   int,
+    C_BALANCE      int,
+    C_SATTR00      text,
+    C_SATTR01      text,
+    C_SATTR02      text,
+    C_SATTR03      text,
+    C_SATTR04      text,
+    C_SATTR05      text,
+    C_SATTR06      text,
+    C_SATTR07      text,
+    C_SATTR08      text,
+    C_SATTR09      text,
+    C_SATTR10      text,
+    C_SATTR11      text,
+    C_SATTR12      text,
+    C_SATTR13      text,
+    C_SATTR14      text,
+    C_SATTR15      text,
+    C_SATTR16      text,
+    C_SATTR17      text,
+    C_SATTR18      text,
+    C_SATTR19      text,
+    C_IATTR00      int,
+    C_IATTR01      int,
+    C_IATTR02      int,
+    C_IATTR03      int,
+    C_IATTR04      int,
+    C_IATTR05      int,
+    C_IATTR06      int,
+    C_IATTR07      int,
+    C_IATTR08      int,
+    C_IATTR09      int,
+    C_IATTR10      int,
+    C_IATTR11      int,
+    C_IATTR12      int,
+    C_IATTR13      int,
+    C_IATTR14      int,
+    C_IATTR15      int,
+    C_IATTR16      int,
+    C_IATTR17      int,
+    C_IATTR18      int,
+    C_IATTR19      int
+);
+
+
+create TABLE seats.FREQUENT_FLYER ( 
+    FF_C_ID        int,
+    FF_AL_ID       int,
+    FF_C_ID_STR    text,
+    FF_SATTR00     text,
+    FF_SATTR01     text,
+    FF_SATTR02     text,
+    FF_SATTR03     text,
+    FF_IATTR00     int,
+    FF_IATTR01     int,
+    FF_IATTR02     int,
+    FF_IATTR03     int,
+    FF_IATTR04     int,
+    FF_IATTR05     int,
+    FF_IATTR06     int,
+    FF_IATTR07     int,
+    FF_IATTR08     int,
+    FF_IATTR09     int,
+    FF_IATTR10     int,
+    FF_IATTR11     int,
+    FF_IATTR12     int,
+    FF_IATTR13     int,
+    FF_IATTR14     int,
+    FF_IATTR15     int,
+    PRIMARY KEY (FF_C_ID, FF_AL_ID)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
