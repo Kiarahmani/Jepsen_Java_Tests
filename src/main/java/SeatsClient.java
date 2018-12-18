@@ -49,7 +49,7 @@ public class SeatsClient {
 		}
 	}
 
-	public static int tempTransaction(Connection connect, int key, int value) throws Exception {
+	public static int tempTransaction(Connection connect, int key, int value, int value2) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
