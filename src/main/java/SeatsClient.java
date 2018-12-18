@@ -71,7 +71,7 @@ public class SeatsClient {
 			if (bala == balb)
 				return 0;
 			else
-				return 0;
+				return 1;
 		} catch (Exception e) {
 			return -1;
 		}
