@@ -35,7 +35,7 @@ public class SeatsClient {
 	 * 
 	 */
 	public static int deleteReservation(Connection conn, int f_id, int c_id, String c_id_str, String ff_c_id_str,
-			Long ff_al_id) throws Exception {
+			int ff_al_id) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
@@ -68,7 +68,7 @@ public class SeatsClient {
 			// 1
 			stmt = conn.prepareStatement(
 					"SELECT C_SATTR00, C_SATTR02, C_SATTR04, C_IATTR00, C_IATTR02, C_IATTR04, C_IATTR06, C_BALANCE, C_IATTR10, C_IATTR11 FROM CUSTOMER WHERE C_ID = ?");
-			stmt.setLong(1, c_id);
+			stmt.setInt(1, c_id);
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
 				results2.close();
@@ -77,18 +77,18 @@ public class SeatsClient {
 			int oldBal = results2.getInt("C_BALANCE");
 			int oldAttr10 = results2.getInt("C_IATTR10");
 			int oldAttr11 = results2.getInt("C_IATTR11");
-			long c_iattr00 = results2.getLong("C_SATTR00") + 1;
+			int c_iattr00 = results2.getInt("C_SATTR00") + 1;
 			// 2
 			stmt = conn.prepareStatement("SELECT F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ? ");
-			stmt.setLong(1, f_id);
+			stmt.setInt(1, f_id);
 			ResultSet results3 = stmt.executeQuery();
 			results3.next();
 			int seats_left = results3.getInt(0);
 			// 3
 			stmt = conn.prepareStatement(
 					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ");
-			stmt.setLong(1, c_id);
-			stmt.setLong(2, f_id);
+			stmt.setInt(1, c_id);
+			stmt.setInt(2, f_id);
 			ResultSet results4 = stmt.executeQuery();
 			int r_id = results4.getInt("R_ID");
 			double r_price = results4.getDouble("R_PRICE");
@@ -106,18 +106,18 @@ public class SeatsClient {
 			// Update Available Seats on Flight
 			stmt = conn.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ?" + " WHERE F_ID = ? ");
 			stmt.setInt(1, seats_left + 1);
-			stmt.setLong(2, f_id);
+			stmt.setInt(2, f_id);
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
 
 			// Update Customer's Balance
 			stmt = conn.prepareStatement(
 					"UPDATE CUSTOMER SET C_BALANCE = ?, C_IATTR00 = ?, C_IATTR10 = ?,  C_IATTR11 = ? WHERE C_ID = ? ");
-			stmt.setLong(1, oldBal + (long) (-1 * r_price));
-			stmt.setLong(2, c_iattr00);
-			stmt.setLong(3, oldAttr10 - 1);
-			stmt.setLong(4, oldAttr11 - 1);
-			stmt.setLong(5, c_id);
+			stmt.setInt(1, oldBal + (int) (-1 * r_price));
+			stmt.setInt(2, c_iattr00);
+			stmt.setInt(3, oldAttr10 - 1);
+			stmt.setInt(4, oldAttr11 - 1);
+			stmt.setInt(5, c_id);
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
 
@@ -125,16 +125,16 @@ public class SeatsClient {
 			if (ff_al_id != -1) {
 				stmt = conn.prepareStatement(
 						"SELECT FF_IATTR10 FROM FREQUENT_FLYER " + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
-				stmt.setLong(1, c_id);
-				stmt.setLong(2, ff_al_id);
+				stmt.setInt(1, c_id);
+				stmt.setInt(2, ff_al_id);
 				ResultSet results5 = stmt.executeQuery();
 				results5.next();
 				int olAttr10 = results5.getInt(0);
 				stmt = conn.prepareStatement(
 						"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?" + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
-				stmt.setLong(1, olAttr10 - 1);
-				stmt.setLong(2, c_id);
-				stmt.setLong(3, ff_al_id);
+				stmt.setInt(1, olAttr10 - 1);
+				stmt.setInt(2, c_id);
+				stmt.setInt(3, ff_al_id);
 				updated = stmt.executeUpdate();
 				assert (updated == 1) : String.format("Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]",
 						c_id, ff_al_id);
