@@ -54,7 +54,7 @@ public class SeatsClient {
 				}
 				results.close();
 			}
-
+			/*
 			// Now get the result of the information that we need
 			// If there is no valid customer record, then throw an abort
 			// This should happen 5% of the time
@@ -74,7 +74,7 @@ public class SeatsClient {
 				// id '%d'", c_id));
 
 			}
-			/*
+			
 			int oldBal = results2.getInt("C_BALANCE");
 			int oldAttr10 = results2.getInt("C_IATTR10");
 			int oldAttr11 = results2.getInt("C_IATTR11");
