@@ -48,9 +48,10 @@ public class SeatsClient {
 					c_id = results.getInt("C_ID");
 				} else {
 					results.close();
-					throw new Exception(
-							String.format("No Customer record was found [c_id_str=%s, ff_c_id_str=%s, ff_al_id=%s]",
-									c_id_str, ff_c_id_str, ff_al_id));
+					return 1;
+					//throw new Exception(
+					//		String.format("No Customer record was found [c_id_str=%s, ff_c_id_str=%s, ff_al_id=%s]",
+					//				c_id_str, ff_c_id_str, ff_al_id));
 				}
 				results.close();
 			}
