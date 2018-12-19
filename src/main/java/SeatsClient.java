@@ -6,13 +6,10 @@ import java.sql.SQLException;
 
 public class SeatsClient {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-	}
+
 
 	public static Connection getConnection(String localAddr) {
 		Connection connect = null;
-		// "172.18.0.7"
 		try {
 			connect = DriverManager.getConnection("jdbc:cassandra://" + localAddr + ":9042/seats");
 		} catch (SQLException e) {
@@ -72,7 +69,7 @@ public class SeatsClient {
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
 				results2.close();
-				return -2;
+				return 1;
 				// throw new Exception(String.format("No Customer information record found for
 				// id '%d'", c_id));
 
