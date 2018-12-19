@@ -29,7 +29,7 @@ public class SeatsClient {
 		}
 	}
 
-	public static int writeTransaction(Connection connect, int key, int value) throws Exception {
+	public static int deleteReservation(Connection connect, int key, int value) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
@@ -50,30 +50,6 @@ public class SeatsClient {
 	}
 
 
-	public static int readTransaction(Connection connect, int key, int value) throws Exception {
-		try {
-			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-
-			PreparedStatement preparedStatement1 = connect.prepareStatement("select * from a where id=?");
-			preparedStatement1.setInt(1, key);
-			ResultSet rs1 = preparedStatement1.executeQuery();
-			int bala = -10000;
-			if (rs1.next())
-				bala = rs1.getInt("balance");
-
-			PreparedStatement preparedStatement2 = connect.prepareStatement("select * from b where id=?");
-			preparedStatement2.setInt(1, key);
-			ResultSet rs2 = preparedStatement2.executeQuery();
-			int balb = -10000;
-			if (rs2.next())
-				balb = rs2.getInt("balance");
-			if (bala == balb)
-				return 0;
-			else
-				return 1;
-		} catch (Exception e) {
-			return -1;
-		}
-	}
+	
 
 }
