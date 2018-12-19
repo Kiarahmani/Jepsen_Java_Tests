@@ -72,7 +72,10 @@ public class SeatsClient {
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
 				results2.close();
-				throw new Exception(String.format("No Customer information record found for id '%d'", c_id));
+				return -69;
+				// throw new Exception(String.format("No Customer information record found for
+				// id '%d'", c_id));
+
 			}
 			int oldBal = results2.getInt("C_BALANCE");
 			int oldAttr10 = results2.getInt("C_IATTR10");
