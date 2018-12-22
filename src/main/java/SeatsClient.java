@@ -56,12 +56,9 @@ public class SeatsClient {
 				results.close();
 			}
 			
-			// Now get the result of the information that we need
-			// If there is no valid customer record, then throw an abort
-			// This should happen 5% of the time
-			// XXX We will in fact chop the original query with join on three table into
-			// three
-			// separate queries. We also read extra columns which will be used later when
+
+			// XXX We are in fact chopping the original query with joins on three table into
+			// three separate queries. We also read extra columns which will be used later when
 			// updating them
 			// 1
 			stmt = conn.prepareStatement(
