@@ -156,7 +156,7 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public int findFlights(int depart_aid, int arrive_aid, long start_date, long end_date, int distance)
+	public int findFlights(Connection conn, int depart_aid, int arrive_aid, long start_date, long end_date, int distance)
 			throws Exception {
 		try {
 
