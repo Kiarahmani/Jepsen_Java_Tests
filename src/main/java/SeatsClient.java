@@ -156,11 +156,12 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public void findFlights(int depart_aid, int arrive_aid, long start_date, long end_date, int distance)
+	public int findFlights(int depart_aid, int arrive_aid, long start_date, long end_date, int distance)
 			throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			return 0;
 			/*
 			System.out.println("connecting...");
 			connect = DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID + "/testks");
@@ -271,10 +272,11 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public void findOpenSeats(int f_id) throws Exception {
+	public int findOpenSeats(int f_id) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			return 0;
 			/*
 			System.out.println("connecting...");
 			connect = DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID + "/testks");
@@ -340,10 +342,11 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public void newReservation(int r_id, int c_id, int f_id, int seatnum, int price, int attrs[]) throws Exception {
+	public int newReservation(int r_id, int c_id, int f_id, int seatnum, int price, int attrs[]) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			return 0;
 			/*
 			System.out.println("connecting...");
 			connect = DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID + "/testks");
@@ -466,11 +469,12 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public void updateCustomer(int c_id, int cidGiven, String c_id_str, int update_ff, int shouldUpdateFF, int attr0,
+	public int updateCustomer(int c_id, int cidGiven, String c_id_str, int update_ff, int shouldUpdateFF, int attr0,
 			int attr1) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			return 0;
 			/*
 			System.out.println("connecting...");
 			connect = DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID + "/testks");
@@ -557,11 +561,12 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public void updateReservation(int r_id, int f_id, int c_id, int seatnum, int attr_idx, int attr_val)
+	public int updateReservation(int r_id, int f_id, int c_id, int seatnum, int attr_idx, int attr_val)
 			throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			return 0;
 			/*
 			System.out.println("connecting...");
 			connect = DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID + "/testks");
