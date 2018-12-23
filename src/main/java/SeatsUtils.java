@@ -1,6 +1,6 @@
 
 public class SeatsUtils {
 	public static long getNextCustomerId() {
-		return 69;
+		return 69L;
 	}
 }
