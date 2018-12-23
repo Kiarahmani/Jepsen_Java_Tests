@@ -33,8 +33,7 @@ public class SeatsClient {
 	 * (1) DELETE RESERVATION
 	 * 
 	 */
-	public static int deleteReservation(Connection conn, int f_id, int c_id, String c_id_str, String ff_c_id_str,
-			int ff_al_id) throws Exception {
+	public static int deleteReservation(Connection conn, long f_id, Long c_id, String c_id_str, String ff_c_id_str, Long ff_al_id) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
@@ -48,7 +47,7 @@ public class SeatsClient {
 				stmt.setString(1, c_id_str);
 				ResultSet results = stmt.executeQuery();
 				if (results.next()) {
-					c_id = results.getInt("C_ID");
+					c_id = results.getLong("C_ID");
 				} else {
 					results.close();
 					return 1;
