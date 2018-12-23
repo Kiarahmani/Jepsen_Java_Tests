@@ -190,20 +190,20 @@ create TABLE seats.FLIGHT (
 
 
 create TABLE seats.RESERVATION ( 
-	 R_ID           int,
-    R_C_ID          int,
-    R_F_ID          int,
-    R_SEAT          int,
-    R_PRICE         double,
-    R_IATTR00       int,
-    R_IATTR01       int,
-    R_IATTR02       int,
-    R_IATTR03       int,
-    R_IATTR04       int,
-    R_IATTR05       int,
-    R_IATTR06       int,
-    R_IATTR07       int,
-    R_IATTR08       int,
+	 R_ID           bigint,
+    R_C_ID          bigint,
+    R_F_ID          bigint,
+    R_SEAT          bigint,
+    R_PRICE         float,
+    R_IATTR00       bigint,
+    R_IATTR01       bigint,
+    R_IATTR02       bigint,
+    R_IATTR03       bigint,
+    R_IATTR04       bigint,
+    R_IATTR05       bigint,
+    R_IATTR06       bigint,
+    R_IATTR07       bigint,
+    R_IATTR08       bigint,
     PRIMARY KEY (R_ID, R_C_ID, R_F_ID)
 );	
 
