@@ -37,6 +37,7 @@ public class SeatsClient {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
 			PreparedStatement stmt = null;
+			/*
 			// If we weren't given the customer id, then look it up
 			if (c_id == -1) {
 				// Use the customer's id as a string
@@ -72,7 +73,7 @@ public class SeatsClient {
 				// id '%d'", c_id));
 
 			}
-			/*
+			
 			int oldBal = results2.getInt("C_BALANCE");
 			int oldAttr10 = results2.getInt("C_IATTR10");
 			int oldAttr11 = results2.getInt("C_IATTR11");
