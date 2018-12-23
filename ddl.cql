@@ -190,7 +190,7 @@ create TABLE seats.FLIGHT (
 
 
 create TABLE seats.RESERVATION ( 
-	 R_ID           bigint,
+	R_ID           bigint,
     R_C_ID          bigint,
     R_F_ID          bigint,
     R_SEAT          bigint,
