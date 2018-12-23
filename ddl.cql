@@ -33,7 +33,11 @@ create TABLE seats.AIRPORT (
 	AP_IATTR15 bigint);
 
 
-create TABLE seats.AIRPORT_DISTANCE (D_AP_ID0 int, D_AP_ID1 int, D_DISTANCE int , PRIMARY KEY (D_AP_ID0, D_AP_ID1));
+create TABLE seats.AIRPORT_DISTANCE (
+	D_AP_ID0 bigint, 
+	D_AP_ID1 bigint,
+	D_DISTANCE float, 
+	PRIMARY KEY (D_AP_ID0, D_AP_ID1));
 
 create TABLE seats.AIRLINE ( 
 	AL_ID int PRIMARY KEY,
