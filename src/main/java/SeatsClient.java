@@ -156,7 +156,7 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public int findFlights(Connection conn)
+	public static int findFlights(Connection conn)
 			throws Exception {
 		try {
 
@@ -272,7 +272,7 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public int findOpenSeats(Connection conn) throws Exception {
+	public static int findOpenSeats(Connection conn) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
@@ -342,7 +342,7 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public int newReservation(Connection conn) throws Exception {
+	public static int newReservation(Connection conn) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
@@ -469,7 +469,7 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public int updateCustomer(Connection conn) throws Exception {
+	public static int updateCustomer(Connection conn) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
@@ -560,7 +560,7 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public int updateReservation(Connection conn)
+	public static int updateReservation(Connection conn)
 			throws Exception {
 		try {
 
