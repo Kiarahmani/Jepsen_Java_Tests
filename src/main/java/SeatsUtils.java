@@ -3,12 +3,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SeatsUtils {
 	public static long getNextCustomerId() {
-
-		long kos =  encode(new long[] { ThreadLocalRandom.current().nextLong(10, 21),
-				ThreadLocalRandom.current().nextLong(2, 21) }, COMPOSITE_BITS, COMPOSITE_POWS);
-		System.out.println("\n\n\n\n\n\n\n\n"+kos+"\n\n\n\n\n\n\n\n");
-		return kos;
-		// return nextLong(281474976710656L, 80501843339247631L);
+		long id = ThreadLocalRandom.current().nextLong(10, 21);
+		long depart_airport_id = ThreadLocalRandom.current().nextLong(2, 21);
+		long composite_id = encode(new long[] { id, depart_airport_id }, COMPOSITE_BITS, COMPOSITE_POWS);
+		System.out.println(
+				"\n\n\n\n\n\n\n\n" + id + " + " + depart_airport_id + " --> " + composite_id + "\n\n\n\n\n\n\n\n");
+		return id;
 
 	}
 
