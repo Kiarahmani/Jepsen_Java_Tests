@@ -50,7 +50,7 @@ public class SeatsClient {
 					c_id = results.getLong("C_ID");
 				} else {
 					results.close();
-					return 1;
+					return 0;
 					//throw new Exception(
 					//		String.format("No Customer record was found [c_id_str=%s, ff_c_id_str=%s, ff_al_id=%s]",
 					//				c_id_str, ff_c_id_str, ff_al_id));
