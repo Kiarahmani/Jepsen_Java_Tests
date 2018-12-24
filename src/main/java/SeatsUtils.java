@@ -4,8 +4,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SeatsUtils {
 	public static long getNextCustomerId() {
 
-		//return encode(new long[] { 1L, 69L }, COMPOSITE_BITS, COMPOSITE_POWS);
-		 return nextLong(281474976710656L, 80501843339247631L);
+		return encode(new long[] { ThreadLocalRandom.current().nextLong(1, 100000),
+				ThreadLocalRandom.current().nextLong(1, 286) }, COMPOSITE_BITS, COMPOSITE_POWS);
+		// return nextLong(281474976710656L, 80501843339247631L);
 
 	}
 
