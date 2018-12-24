@@ -50,7 +50,7 @@ public class SeatsClient {
 					c_id = results.getLong("C_ID");
 				} else {
 					results.close();
-					return 0;
+					return 1;
 					//throw new Exception(
 					//		String.format("No Customer record was found [c_id_str=%s, ff_c_id_str=%s, ff_al_id=%s]",
 					//				c_id_str, ff_c_id_str, ff_al_id));
@@ -58,14 +58,14 @@ public class SeatsClient {
 				results.close();
 			}
 			
-/*
+
 			// XXX We are in fact chopping the original query with joins on three table into
 			// three separate queries. We also read extra columns which will be used later when
 			// updating them
 			// 1
 			stmt = conn.prepareStatement(
 					"SELECT C_SATTR00, C_SATTR02, C_SATTR04, C_IATTR00, C_IATTR02, C_IATTR04, C_IATTR06, C_BALANCE, C_IATTR10, C_IATTR11 FROM CUSTOMER WHERE C_ID = ?");
-			stmt.setInt(1, c_id);
+			stmt.setLong(1, c_id);
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
 				results2.close();
@@ -74,7 +74,7 @@ public class SeatsClient {
 				// id '%d'", c_id));
 
 			}
-			
+			/*
 			int oldBal = results2.getInt("C_BALANCE");
 			int oldAttr10 = results2.getInt("C_IATTR10");
 			int oldAttr11 = results2.getInt("C_IATTR11");
