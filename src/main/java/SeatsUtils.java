@@ -54,7 +54,7 @@ public class SeatsUtils {
 	}
 
 	public static void initializeCustomerMap() {
-		System.out.println("\n\n\n"+"INIT!"+"\n\n\n");
+		customerIdCount = new HashMap<Long, Integer>();
 		customerIdCount.put(1L, 53);
 		customerIdCount.put(2L, 38);
 		customerIdCount.put(3L, 531);
