@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SeatsUtils {
 
-	private static Map<Long, Integer> customerIdCount = new HashMap<Long, Integer>();
+	private static Map<Long, Integer> customerIdCount;
 
 	public static long getNextCustomerId() {
 		long depart_airport_id = ThreadLocalRandom.current().nextLong(1, 284);
@@ -54,6 +54,8 @@ public class SeatsUtils {
 	}
 
 	public static void initializeCustomerMap() {
+		System.out.println("\n\n\n"+"INIT!"+"\n\n\n");
+		customerIdCount = new HashMap<Long, Integer>();
 		customerIdCount.put(1L, 57);
 		customerIdCount.put(3L, 567);
 		customerIdCount.put(6L, 45);
