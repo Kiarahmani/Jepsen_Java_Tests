@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SeatsUtils {
 	public static long getNextCustomerId() {
 
-		return encode(null, null, null);
+		return encode(new long[] { 1L, 69L }, COMPOSITE_BITS, COMPOSITE_POWS);
 		// return nextLong(281474976710656L, 80501843339247631L);
 
 	}
@@ -25,6 +25,8 @@ public class SeatsUtils {
 			16, // AIRPORT_ID
 	};
 
+	private static final long COMPOSITE_POWS[] = compositeBitsPreCompute(COMPOSITE_BITS);
+
 	protected static final long[] compositeBitsPreCompute(int offset_bits[]) {
 		long pows[] = new long[offset_bits.length];
 		for (int i = 0; i < offset_bits.length; i++) {
@@ -32,8 +34,6 @@ public class SeatsUtils {
 		} // FOR
 		return (pows);
 	}
-
-	private static final long COMPOSITE_POWS[] = compositeBitsPreCompute(COMPOSITE_BITS);
 
 	public static long encode(long values[], int offset_bits[], long offset_pows[]) {
 		assert (values.length == offset_bits.length);
