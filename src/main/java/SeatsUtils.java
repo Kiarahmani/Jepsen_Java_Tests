@@ -62,7 +62,7 @@ public class SeatsUtils {
 		customerIdCount.put(5L, 6);
 		customerIdCount.put(6L, 53);
 		customerIdCount.put(7L, 12);
-		customerIdCount.put(8L, -1);
+		customerIdCount.put(8L, 2);
 		customerIdCount.put(9L, 11);
 		customerIdCount.put(10L, 50);
 		customerIdCount.put(11L, 61);
@@ -168,7 +168,7 @@ public class SeatsUtils {
 		customerIdCount.put(119L, 22);
 		customerIdCount.put(120L, 6);
 		customerIdCount.put(121L, 23);
-		customerIdCount.put(122L, -1);
+		customerIdCount.put(122L, 2);
 		customerIdCount.put(123L, 46);
 		customerIdCount.put(124L, 18);
 		customerIdCount.put(125L, 879);
@@ -299,7 +299,7 @@ public class SeatsUtils {
 		customerIdCount.put(253L, 678);
 		customerIdCount.put(255L, 660);
 		customerIdCount.put(256L, 34);
-		customerIdCount.put(258L, -1);
+		customerIdCount.put(258L, 2);
 		customerIdCount.put(259L, 120);
 		customerIdCount.put(260L, 952);
 		customerIdCount.put(261L, 68);
