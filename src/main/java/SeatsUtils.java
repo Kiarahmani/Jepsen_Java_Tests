@@ -39,7 +39,7 @@ public class SeatsUtils {
 	public static long getNextFlightId() {
 		// return nextLong(89124701353L, 87750050550350462L);
 		System.out.println("~~~~~~~~>>>" + flightIds.size());
-		int index = ThreadLocalRandom.current().nextInt(1, flightIds.size() - 1);
+		int index = ThreadLocalRandom.current().nextInt(1, 33);
 		System.out.println("-------->>>"+index);
 		
 		long fid =  flightIds.get(100);
