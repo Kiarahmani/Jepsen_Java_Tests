@@ -10,6 +10,7 @@ public class SeatsUtils {
 	public static long getNextCustomerId() {
 		long depart_airport_id = ThreadLocalRandom.current().nextLong(2, 283);
 		Integer customerId = customerIdCount.get(depart_airport_id);
+		
 		while (customerId < 10) {
 			depart_airport_id = ThreadLocalRandom.current().nextLong(2, 283);
 			customerId = customerIdCount.get(depart_airport_id);
