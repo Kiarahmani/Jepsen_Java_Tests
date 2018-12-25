@@ -74,7 +74,7 @@ public class SeatsClient {
 				// id '%d'", c_id));
 			}
 			
-			int oldBal = results2.getInt("C_BALANCE");
+			float oldBal = results2.getFloat("C_BALANCE");
 			int oldAttr10 = results2.getInt("C_IATTR10");
 			int oldAttr11 = results2.getInt("C_IATTR11");
 			int c_iattr00 = results2.getInt("C_SATTR00") + 1;
