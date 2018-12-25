@@ -77,9 +77,7 @@ public class SeatsUtils {
 			waitForInit.notifyAll();
 		} else {
 			try {
-				synchronized (waitForInit) {
-					waitForInit.wait();
-				}
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
