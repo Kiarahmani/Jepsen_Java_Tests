@@ -112,15 +112,15 @@ public class SeatsClient {
 			stmt.setLong(3, f_id);
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
-			return 96969696;
-/*
+
+
 			// Update Available Seats on Flight
 			stmt = conn.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ?" + " WHERE F_ID = ? ");
 			stmt.setInt(1, seats_left + 1);
-			stmt.setInt(2, f_id);
+			stmt.setLong(2, f_id);
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
-
+/*
 			// Update Customer's Balance
 			stmt = conn.prepareStatement(
 					"UPDATE CUSTOMER SET C_BALANCE = ?, C_IATTR00 = ?, C_IATTR10 = ?,  C_IATTR11 = ? WHERE C_ID = ? ");
@@ -151,7 +151,7 @@ public class SeatsClient {
 						c_id, ff_al_id);
 			}
 */
-		//	return 0;
+			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
