@@ -84,9 +84,11 @@ public class SeatsClient {
 			
 			//if (!results3.next())
 			//	return 3;
-			results3.next();
+			boolean flight_exists = results3.next();
+			if (!flight_exists)
+				return 3;
 			int seats_left = results3.getInt("F_SEATS_LEFT");
-			System.out.println("\n\n\n\n"+seats_left+"\n\n\n\n");
+
 		
 			// 3
 			/*
