@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SeatsUtils {
 
 	private static Map<Long, Integer> customerIdCount;
 	private static List<Long> flightIds;
+	static AtomicBoolean atomicInitialized;
 
 	public static long getNextCustomerId() {
 		long composite_id = -1;
@@ -67,7 +69,16 @@ public class SeatsUtils {
 		return (id);
 	}
 
-	public static void initializeFLightIds() {
+	public static void initialize() {
+		if (atomicInitialized.compareAndSet(false, true)) {
+			initializeFLightIds();
+			initializeCustomerMap();
+		}
+	}
+
+	
+	
+	private static void initializeFLightIds() {
 		System.out.println("\n\n\n\n\n\n\n INITIALIZINFGN FLIGHT IDS");
 		flightIds = new ArrayList<Long>();
 		Scanner s = null;
@@ -80,11 +91,11 @@ public class SeatsUtils {
 			e.printStackTrace();
 		}
 		s.close();
-		System.out.println("DONE ====>>> size: "+ flightIds.size() + "\n\n\n\n\n\n");
-		
+		System.out.println("DONE ====>>> size: " + flightIds.size() + "\n\n\n\n\n\n");
+
 	}
 
-	public static void initializeCustomerMap() {
+	private static void initializeCustomerMap() {
 		customerIdCount = new HashMap<Long, Integer>();
 		customerIdCount.put(1L, 69);
 		customerIdCount.put(2L, 39);
