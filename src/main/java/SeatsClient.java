@@ -77,7 +77,7 @@ public class SeatsClient {
 			float oldBal = results2.getFloat("C_BALANCE");
 			int oldAttr10 = results2.getInt("C_IATTR10");
 			int oldAttr11 = results2.getInt("C_IATTR11");
-			int c_iattr00 = results2.getInt("C_SATTR00") + 1;
+			String c_iattr00 = results2.getString ("C_SATTR00");
 			// 2
 			/*
 			stmt = conn.prepareStatement("SELECT F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ? ");
