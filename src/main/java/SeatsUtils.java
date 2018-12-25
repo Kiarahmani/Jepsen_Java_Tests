@@ -19,7 +19,7 @@ public class SeatsUtils {
 	static AtomicBoolean atomicInitialized = new AtomicBoolean(false);
 	static boolean waitForInit = true;
 
-	public static long getNextCustomerId() {
+	public static long getRandomCustomerId() {
 		long composite_id = -1;
 		while (true) {
 			long depart_airport_id = ThreadLocalRandom.current().nextLong(2, 284);
@@ -39,10 +39,21 @@ public class SeatsUtils {
 		return nextLong(281474976710656L, 80501843339247631L);
 	}
 
-	public static long getNextFlightId() {
+	public static long getRandomFlightId() {
 		int index = ThreadLocalRandom.current().nextInt(1, flightIds.size() - 1);
 		return flightIds.get(index);
+	}
 
+	public static long getExistingResCustomerId(int index) {
+		return r_c_id.get(index);
+	}
+
+	public static long getExistingResFlightId(int index) {
+		return r_f_id.get(index);
+	}
+
+	public static int getRandomResIndex() {
+		return ThreadLocalRandom.current().nextInt(r_f_id.size());
 	}
 
 	public static long nextLong(long minimum, long maximum) {
@@ -80,7 +91,6 @@ public class SeatsUtils {
 			initializeFLightIds();
 			initializeCustomerMap();
 			initializeReservations();
-			System.out.println("\n\n\n\n\n\n\n\n\n" + r_c_id.size() + "\n" + r_f_id.size() + "\n\n\n\n\n\n\n\n\n\n");
 			waitForInit = false;
 		} else {
 			while (waitForInit)
