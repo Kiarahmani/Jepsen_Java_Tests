@@ -38,13 +38,13 @@ public class SeatsUtils {
 
 	public static long getNextFlightId() {
 		// return nextLong(89124701353L, 87750050550350462L);
-		//System.out.println("~~~~~~~~>>>" + flightIds.size());
-		//int index = ThreadLocalRandom.current().nextInt(1, 33);
-		//System.out.println("-------->>>"+index);
-		
-		//long fid =  flightIds.get(100);
-		//System.out.println("========>>>"+fid);
-		return 76420745014494187L;
+		// System.out.println("~~~~~~~~>>>" + flightIds.size());
+		int index = ThreadLocalRandom.current().nextInt(1, flightIds.size() - 1);
+		// System.out.println("-------->>>"+index);
+
+		long fid = flightIds.get(index);
+		// System.out.println("========>>>"+fid);
+		return fid;
 	}
 
 	public static long nextLong(long minimum, long maximum) {
