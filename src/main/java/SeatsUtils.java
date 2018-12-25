@@ -1,11 +1,17 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SeatsUtils {
 
 	private static Map<Long, Integer> customerIdCount;
+	private static List<Long> flightIds;
 
 	public static long getNextCustomerId() {
 		long composite_id = -1;
@@ -14,10 +20,8 @@ public class SeatsUtils {
 			Integer customerId = customerIdCount.get(depart_airport_id);
 			if (customerId == null || customerId < 5)
 				continue;
-			long id = ThreadLocalRandom.current().nextLong(1,customerId);
+			long id = ThreadLocalRandom.current().nextLong(1, customerId);
 			composite_id = encode(new long[] { id, depart_airport_id }, COMPOSITE_BITS, COMPOSITE_POWS);
-			//System.out.println("composite_id: " + composite_id + " -- id: " + id + " -- depart_airport_id: "
-			//		+ depart_airport_id + " -- customerId: " + customerId);
 			break;
 		}
 
@@ -61,6 +65,23 @@ public class SeatsUtils {
 		} // FOR
 
 		return (id);
+	}
+
+	public static void initializeFLightIds() {
+		System.out.println("\n\n\n\n\n\n\n INITIALIZINFGN FLIGHT IDS");
+		flightIds = new ArrayList<Long>();
+		Scanner s = null;
+		try {
+			s = new Scanner(new File("/root/seats/flight.id"));
+			while (s.hasNext()) {
+				flightIds.add(Long.parseLong(s.next()));
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		s.close();
+		System.out.println("DONE ====>>> size: "+ flightIds.size() + "\n\n\n\n\n\n");
+		
 	}
 
 	public static void initializeCustomerMap() {
