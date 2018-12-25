@@ -93,7 +93,7 @@ public class SeatsClient {
 			// 3
 			
 			stmt = conn.prepareStatement(
-					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ");
+					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ALLOW FILTERING");
 			stmt.setLong(1, c_id);
 			stmt.setLong(2, f_id);
 			ResultSet results4 = stmt.executeQuery();
