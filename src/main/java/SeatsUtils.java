@@ -14,7 +14,7 @@ public class SeatsUtils {
 	private static Map<Long, Integer> customerIdCount;
 	private static List<Long> flightIds;
 	static AtomicBoolean atomicInitialized = new AtomicBoolean(false);
-	static Object waitForInit = new Object();
+	static boolean waitForInit = true;
 
 	public static long getNextCustomerId() {
 		long composite_id = -1;
@@ -74,12 +74,14 @@ public class SeatsUtils {
 		if (atomicInitialized.compareAndSet(false, true)) {
 			initializeFLightIds();
 			initializeCustomerMap();
+			waitForInit = false;
 		} else {
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			while (waitForInit)
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 		}
 	}
 
