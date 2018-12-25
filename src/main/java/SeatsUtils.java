@@ -79,7 +79,7 @@ public class SeatsUtils {
 		if (atomicInitialized.compareAndSet(false, true)) {
 			initializeFLightIds();
 			initializeCustomerMap();
-			initializeFLightIds();
+			initializeReservations();
 			waitForInit = false;
 		} else {
 			while (waitForInit)
@@ -92,7 +92,7 @@ public class SeatsUtils {
 		}
 	}
 
-	private static void initializeReservations() {
+	private static void initializeFLightIds() {
 		flightIds = new ArrayList<Long>();
 		Scanner s = null;
 		try {
@@ -108,7 +108,7 @@ public class SeatsUtils {
 
 	// another data structure holding customer and flight id, extracted from valid
 	// reservations
-	private static void initializeFLightIds() {
+	private static void initializeReservations() {
 		r_c_id = new ArrayList<Long>();
 		r_f_id = new ArrayList<Long>();
 		Scanner s1 = null, s2 = null;
