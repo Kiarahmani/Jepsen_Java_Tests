@@ -131,26 +131,26 @@ public class SeatsClient {
 			stmt.setLong(5, c_id);
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
-/*
+
 			// Update Customer's Frequent Flyer Information (Optional)
 			if (ff_al_id != -1) {
 				stmt = conn.prepareStatement(
 						"SELECT FF_IATTR10 FROM FREQUENT_FLYER " + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
-				stmt.setInt(1, c_id);
-				stmt.setInt(2, ff_al_id);
+				stmt.setLong(1, c_id);
+				stmt.setLong(2, ff_al_id);
 				ResultSet results5 = stmt.executeQuery();
 				results5.next();
 				int olAttr10 = results5.getInt(0);
 				stmt = conn.prepareStatement(
 						"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?" + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
-				stmt.setInt(1, olAttr10 - 1);
-				stmt.setInt(2, c_id);
-				stmt.setInt(3, ff_al_id);
+				stmt.setLong(1, olAttr10 - 1);
+				stmt.setLong(2, c_id);
+				stmt.setLong(3, ff_al_id);
 				updated = stmt.executeUpdate();
 				assert (updated == 1) : String.format("Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]",
 						c_id, ff_al_id);
 			}
-*/
+
 			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
