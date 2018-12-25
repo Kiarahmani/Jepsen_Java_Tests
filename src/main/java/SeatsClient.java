@@ -106,7 +106,7 @@ public class SeatsClient {
 			int updated = 0;
 
 			// Now delete all of the flights that they have on this flight
-			stmt = conn.prepareStatement("DELETE FROM RESERVATION WHERE R_ID = ? AND R_C_ID = 70931694131086892 AND R_F_ID = 563179738301475");
+			stmt = conn.prepareStatement("DELETE FROM RESERVATION WHERE R_ID = ? AND R_C_ID = 1 AND R_F_ID = 2");
 			stmt.setInt(1, r_id);
 			//stmt.setLong(2, c_id);
 		//	stmt.setLong(3, f_id);
