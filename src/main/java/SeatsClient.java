@@ -98,8 +98,8 @@ public class SeatsClient {
 			stmt.setLong(2, f_id);
 			ResultSet results4 = stmt.executeQuery();
 			boolean reservation_exists = results4.next();
-			//if (!reservation_exists)
-			//	return 4;
+			if (!reservation_exists)
+				return 4;
 			int r_id = results4.getInt("R_ID");
 			double r_price = results4.getDouble("R_PRICE");
 			results4.close();
@@ -112,7 +112,7 @@ public class SeatsClient {
 			stmt.setLong(3, f_id);
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
-			return 9;
+			return 69696969;
 /*
 			// Update Available Seats on Flight
 			stmt = conn.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ?" + " WHERE F_ID = ? ");
