@@ -112,7 +112,7 @@ public class SeatsClient {
 			stmt.setLong(3, f_id);
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
-			return 69696969;
+			return 96969696;
 /*
 			// Update Available Seats on Flight
 			stmt = conn.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ?" + " WHERE F_ID = ? ");
