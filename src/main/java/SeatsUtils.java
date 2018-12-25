@@ -27,8 +27,8 @@ public class SeatsUtils {
 			composite_id = encode(new long[] { id, depart_airport_id }, COMPOSITE_BITS, COMPOSITE_POWS);
 			break;
 		}
-
-		return composite_id;
+		return 70931694131086892L;
+		//return composite_id;
 
 	}
 
@@ -38,7 +38,8 @@ public class SeatsUtils {
 
 	public static long getNextFlightId() {
 		int index = ThreadLocalRandom.current().nextInt(1, flightIds.size() - 1);
-		return flightIds.get(index);
+		return 563179738301475L;
+		//return flightIds.get(index);
 	}
 
 	public static long nextLong(long minimum, long maximum) {
