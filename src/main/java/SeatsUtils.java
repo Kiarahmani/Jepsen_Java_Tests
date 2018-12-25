@@ -13,7 +13,7 @@ public class SeatsUtils {
 
 	private static Map<Long, Integer> customerIdCount;
 	private static List<Long> flightIds;
-	static AtomicBoolean atomicInitialized;
+	static AtomicBoolean atomicInitialized = new AtomicBoolean(false);
 
 	public static long getNextCustomerId() {
 		long composite_id = -1;
