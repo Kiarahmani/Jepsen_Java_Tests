@@ -8,18 +8,19 @@ public class SeatsUtils {
 	private static Map<Long, Integer> customerIdCount;
 
 	public static long getNextCustomerId() {
-		long depart_airport_id = ThreadLocalRandom.current().nextLong(2, 283);
-		Integer customerId = customerIdCount.get(depart_airport_id);
-
-		// while (customerId < 10) {
-		// depart_airport_id = ThreadLocalRandom.current().nextLong(2, 283);
-		// customerId = customerIdCount.get(depart_airport_id);
-		// }
-		long id = ThreadLocalRandom.current().nextLong(
-				(customerId == null) ? 1 : (Math.max(customerId - (customerId / 20), 1)));
-		long composite_id = encode(new long[] { id, depart_airport_id }, COMPOSITE_BITS, COMPOSITE_POWS);
-		System.out.println("composite_id: " + composite_id + "   --   id: " + id + "   --   depart_airport_id: "
-				+ depart_airport_id + "   --   customerId: " + customerId);
+		long composite_id = -1;
+		while (true) {
+			long depart_airport_id = ThreadLocalRandom.current().nextLong(2, 283);
+			Integer customerId = customerIdCount.get(depart_airport_id);
+			if (customerId == null || customerId < 10)
+				continue;
+			long id = ThreadLocalRandom.current().nextLong(customerId);
+			composite_id = encode(new long[] { id, depart_airport_id }, COMPOSITE_BITS, COMPOSITE_POWS);
+			break;
+		}
+		// System.out.println("composite_id: " + composite_id + " -- id: " + id + " --
+		// depart_airport_id: "
+		// + depart_airport_id + " -- customerId: " + customerId);
 		return composite_id;
 
 	}
