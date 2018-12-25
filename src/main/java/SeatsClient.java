@@ -69,17 +69,17 @@ public class SeatsClient {
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
 				results2.close();
-				return 677118475;
+				return 2;
 				// throw new Exception(String.format("No Customer information record found for
 				// id '%d'", c_id));
-
 			}
-			/*
+			
 			int oldBal = results2.getInt("C_BALANCE");
 			int oldAttr10 = results2.getInt("C_IATTR10");
 			int oldAttr11 = results2.getInt("C_IATTR11");
 			int c_iattr00 = results2.getInt("C_SATTR00") + 1;
 			// 2
+			/*
 			stmt = conn.prepareStatement("SELECT F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ? ");
 			stmt.setInt(1, f_id);
 			ResultSet results3 = stmt.executeQuery();
