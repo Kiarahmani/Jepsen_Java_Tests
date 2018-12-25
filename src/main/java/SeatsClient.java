@@ -93,9 +93,9 @@ public class SeatsClient {
 			// 3
 			
 			stmt = conn.prepareStatement(
-					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = 70931694131086892 AND R_F_ID = 563179738301475 ALLOW FILTERING");
-		//	stmt.setLong(1, c_id);
-		//	stmt.setLong(2, f_id);
+					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ALLOW FILTERING");
+			stmt.setLong(1, c_id);
+			stmt.setLong(2, f_id);
 			ResultSet results4 = stmt.executeQuery();
 			boolean reservation_exists = results4.next();
 			if (!reservation_exists)
@@ -106,11 +106,13 @@ public class SeatsClient {
 			int updated = 0;
 
 			// Now delete all of the flights that they have on this flight
-			stmt = conn.prepareStatement("DELETE FROM RESERVATION WHERE R_ID = ? AND R_C_ID = 1 AND R_F_ID = 2");
+			stmt = conn.prepareStatement("DELETE FROM RESERVATION WHERE R_ID = ? AND R_C_ID = ? AND R_F_ID = ?");
 			stmt.setInt(1, r_id);
-			//stmt.setLong(2, c_id);
-		//	stmt.setLong(3, f_id);
+			stmt.setLong(2, c_id);
+			stmt.setLong(3, f_id);
+			System.out.println("~~~~~~~~~~~~~~~~~~~~1111111");
 			updated = stmt.executeUpdate();
+			System.out.println("~~~~~~~~~~~~~~~~~~~~2222222");
 			assert (updated == 1);
 			return 69696969;
 /*
