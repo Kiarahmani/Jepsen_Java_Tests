@@ -13,6 +13,9 @@ public class SeatsUtils {
 
 	private static Map<Long, Integer> customerIdCount;
 	private static List<Long> flightIds;
+	private static List<Long> r_f_id;
+	private static List<Long> r_c_id;
+
 	static AtomicBoolean atomicInitialized = new AtomicBoolean(false);
 	static boolean waitForInit = true;
 
@@ -76,6 +79,7 @@ public class SeatsUtils {
 		if (atomicInitialized.compareAndSet(false, true)) {
 			initializeFLightIds();
 			initializeCustomerMap();
+			initializeFLightIds();
 			waitForInit = false;
 		} else {
 			while (waitForInit)
@@ -88,8 +92,7 @@ public class SeatsUtils {
 		}
 	}
 
-	private static void initializeFLightIds() {
-		System.out.println("\n\n\n\n\n\n\n INITIALIZINFGN FLIGHT IDS");
+	private static void initializeReservations() {
 		flightIds = new ArrayList<Long>();
 		Scanner s = null;
 		try {
@@ -101,8 +104,26 @@ public class SeatsUtils {
 			e.printStackTrace();
 		}
 		s.close();
-		System.out.println("DONE ====>>> size: " + flightIds.size() + "\n\n\n\n\n\n");
+	}
 
+	// another data structure holding customer and flight id, extracted from valid
+	// reservations
+	private static void initializeFLightIds() {
+		r_c_id = new ArrayList<Long>();
+		r_f_id = new ArrayList<Long>();
+		Scanner s1 = null, s2 = null;
+		try {
+			s1 = new Scanner(new File("/root/seats/r_c.id"));
+			s2 = new Scanner(new File("/root/seats/r_f.id"));
+			while (s1.hasNext() && s2.hasNext()) {
+				r_c_id.add(Long.parseLong(s1.next()));
+				r_f_id.add(Long.parseLong(s2.next()));
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		s1.close();
+		s2.close();
 	}
 
 	private static void initializeCustomerMap() {
