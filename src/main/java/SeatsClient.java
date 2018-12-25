@@ -73,8 +73,8 @@ public class SeatsClient {
 			}
 			
 			float oldBal = results2.getFloat("C_BALANCE");
-			int oldAttr10 = results2.getInt("C_IATTR10");
-			int oldAttr11 = results2.getInt("C_IATTR11");
+			long oldAttr10 = results2.getLong("C_IATTR10");
+			long oldAttr11 = results2.getLong("C_IATTR11");
 			String c_iattr00 = results2.getString ("C_SATTR00");
 			// 2
 			
@@ -101,7 +101,7 @@ public class SeatsClient {
 			if (!reservation_exists)
 				return 4;
 			int r_id = results4.getInt("R_ID");
-			double r_price = results4.getDouble("R_PRICE");
+			float r_price = results4.getFloat("R_PRICE");
 			results4.close();
 			int updated = 0;
 
@@ -120,18 +120,18 @@ public class SeatsClient {
 			stmt.setLong(2, f_id);
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
-/*
+
 			// Update Customer's Balance
 			stmt = conn.prepareStatement(
 					"UPDATE CUSTOMER SET C_BALANCE = ?, C_IATTR00 = ?, C_IATTR10 = ?,  C_IATTR11 = ? WHERE C_ID = ? ");
-			stmt.setInt(1, oldBal + (int) (-1 * r_price));
-			stmt.setInt(2, c_iattr00);
-			stmt.setInt(3, oldAttr10 - 1);
-			stmt.setInt(4, oldAttr11 - 1);
-			stmt.setInt(5, c_id);
+			stmt.setFloat(1, oldBal + (-1 * r_price));
+			stmt.setString(2, c_iattr00);
+			stmt.setLong(3, oldAttr10 - 1);
+			stmt.setLong(4, oldAttr11 - 1);
+			stmt.setLong(5, c_id);
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
-
+/*
 			// Update Customer's Frequent Flyer Information (Optional)
 			if (ff_al_id != -1) {
 				stmt = conn.prepareStatement(
