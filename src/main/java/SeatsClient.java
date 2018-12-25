@@ -31,12 +31,13 @@ public class SeatsClient {
 	 * (1) DELETE RESERVATION
 	 * 
 	 */
-	public static int deleteReservation(Connection conn, long f_id, Long c_id, String c_id_str, String ff_c_id_str, Long ff_al_id) throws Exception {
+	public static int deleteReservation(Connection conn, long f_id, Long c_id, String c_id_str, String ff_c_id_str,
+			Long ff_al_id) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
 			PreparedStatement stmt = null;
-			
+
 			// If we weren't given the customer id, then look it up
 			if (c_id == -1) {
 				// Use the customer's id as a string
@@ -49,16 +50,17 @@ public class SeatsClient {
 				} else {
 					results.close();
 					return 1;
-					//throw new Exception(
-					//		String.format("No Customer record was found [c_id_str=%s, ff_c_id_str=%s, ff_al_id=%s]",
-					//				c_id_str, ff_c_id_str, ff_al_id));
+					// throw new Exception(
+					// String.format("No Customer record was found [c_id_str=%s, ff_c_id_str=%s,
+					// ff_al_id=%s]",
+					// c_id_str, ff_c_id_str, ff_al_id));
 				}
 				results.close();
 			}
-			
 
 			// XXX We are in fact chopping the original query with joins on three table into
-			// three separate queries. We also read extra columns which will be used later when
+			// three separate queries. We also read extra columns which will be used later
+			// when
 			// updating them
 			// 1
 			stmt = conn.prepareStatement(
@@ -71,27 +73,26 @@ public class SeatsClient {
 				// throw new Exception(String.format("No Customer information record found for
 				// id '%d'", c_id));
 			}
-			
+
 			float oldBal = results2.getFloat("C_BALANCE");
 			long oldAttr10 = results2.getLong("C_IATTR10");
 			long oldAttr11 = results2.getLong("C_IATTR11");
-			String c_iattr00 = results2.getString ("C_SATTR00");
+			String c_iattr00 = results2.getString("C_SATTR00");
 			// 2
-			
+
 			stmt = conn.prepareStatement("SELECT F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ? ");
 			stmt.setLong(1, f_id);
 			ResultSet results3 = stmt.executeQuery();
-			
-			//if (!results3.next())
-			//	return 3;
+
+			// if (!results3.next())
+			// return 3;
 			boolean flight_exists = results3.next();
 			if (!flight_exists)
 				return 3;
 			int seats_left = results3.getInt("F_SEATS_LEFT");
 
-		
 			// 3
-			
+
 			stmt = conn.prepareStatement(
 					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ALLOW FILTERING");
 			stmt.setLong(1, c_id);
@@ -112,7 +113,6 @@ public class SeatsClient {
 			stmt.setLong(3, f_id);
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
-
 
 			// Update Available Seats on Flight
 			stmt = conn.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ?" + " WHERE F_ID = ? ");
@@ -139,7 +139,9 @@ public class SeatsClient {
 				stmt.setLong(1, c_id);
 				stmt.setLong(2, ff_al_id);
 				ResultSet results5 = stmt.executeQuery();
-				results5.next();
+				boolean ff_exists = results5.next();
+				if (!ff_exists)
+					return 5;
 				long olAttr10 = results5.getLong("FF_IATTR10");
 				stmt = conn.prepareStatement(
 						"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?" + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
