@@ -94,8 +94,8 @@ public class SeatsClient {
 			
 			stmt = conn.prepareStatement(
 					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ALLOW FILTERING");
-			stmt.setLong(1, c_id);
-			stmt.setLong(2, f_id);
+			stmt.setLong(1, 70931694131086892L);
+			stmt.setLong(2, 563179738301475L);
 			ResultSet results4 = stmt.executeQuery();
 			boolean reservation_exists = results4.next();
 			if (!reservation_exists)
