@@ -91,12 +91,15 @@ public class SeatsClient {
 
 		
 			// 3
-			/*
+			
 			stmt = conn.prepareStatement(
 					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ");
-			stmt.setInt(1, c_id);
-			stmt.setInt(2, f_id);
+			stmt.setLong(1, c_id);
+			stmt.setLong(2, f_id);
 			ResultSet results4 = stmt.executeQuery();
+			boolean reservation_exists = results4.next();
+			if (!reservation_exists)
+				return 4;
 			int r_id = results4.getInt("R_ID");
 			double r_price = results4.getDouble("R_PRICE");
 			results4.close();
@@ -105,11 +108,11 @@ public class SeatsClient {
 			// Now delete all of the flights that they have on this flight
 			stmt = conn.prepareStatement("DELETE FROM RESERVATION WHERE R_ID = ? AND R_C_ID = ? AND R_F_ID = ?");
 			stmt.setInt(1, r_id);
-			stmt.setInt(2, c_id);
-			stmt.setInt(3, f_id);
+			stmt.setLong(2, c_id);
+			stmt.setLong(3, f_id);
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
-
+/*
 			// Update Available Seats on Flight
 			stmt = conn.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ?" + " WHERE F_ID = ? ");
 			stmt.setInt(1, seats_left + 1);
