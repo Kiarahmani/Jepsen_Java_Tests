@@ -69,7 +69,7 @@ public class SeatsClient {
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
 				results2.close();
-				return 631144305;
+				return 631184305;
 				// throw new Exception(String.format("No Customer information record found for
 				// id '%d'", c_id));
 
