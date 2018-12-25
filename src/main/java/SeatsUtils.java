@@ -14,6 +14,7 @@ public class SeatsUtils {
 	private static Map<Long, Integer> customerIdCount;
 	private static List<Long> flightIds;
 	static AtomicBoolean atomicInitialized = new AtomicBoolean(false);
+	static Object waitForInit = new Object();
 
 	public static long getNextCustomerId() {
 		long composite_id = -1;
@@ -73,11 +74,16 @@ public class SeatsUtils {
 		if (atomicInitialized.compareAndSet(false, true)) {
 			initializeFLightIds();
 			initializeCustomerMap();
+			waitForInit.notifyAll();
+		} else {
+			try {
+				waitForInit.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
-	
-	
 	private static void initializeFLightIds() {
 		System.out.println("\n\n\n\n\n\n\n INITIALIZINFGN FLIGHT IDS");
 		flightIds = new ArrayList<Long>();
