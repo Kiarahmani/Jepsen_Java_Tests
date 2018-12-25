@@ -37,7 +37,7 @@ public class SeatsUtils {
 	}
 
 	public static long getNextFlightId() {
-		return flightIds.get(ThreadLocalRandom.current().nextInt(flightIds.size()-1));
+		return flightIds.get(ThreadLocalRandom.current().nextInt(1,flightIds.size()-1));
 	}
 
 	public static long nextLong(long minimum, long maximum) {
