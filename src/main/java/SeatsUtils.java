@@ -37,9 +37,11 @@ public class SeatsUtils {
 	}
 
 	public static long getNextFlightId() {
-		//return nextLong(89124701353L, 87750050550350462L);
+		// return nextLong(89124701353L, 87750050550350462L);
 		System.out.println("~~~~~~~~>>>" + flightIds.size());
-		 return flightIds.get(ThreadLocalRandom.current().nextInt(1,flightIds.size()-1));
+		int index = ThreadLocalRandom.current().nextInt(1, flightIds.size() - 1);
+		System.out.println("-------->>>"+index);
+		return flightIds.get(index);
 	}
 
 	public static long nextLong(long minimum, long maximum) {
@@ -84,7 +86,7 @@ public class SeatsUtils {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-			//System.out.println("~~~~~~~~>>>" + flightIds.size());
+			// System.out.println("~~~~~~~~>>>" + flightIds.size());
 		}
 	}
 
