@@ -10,7 +10,7 @@ public class SeatsUtils {
 	public static long getNextCustomerId() {
 		long depart_airport_id = ThreadLocalRandom.current().nextLong(2, 283);
 		Integer customerId = customerIdCount.get(depart_airport_id);
-		long id = ThreadLocalRandom.current().nextLong((customerId == null) ? 2 : (Math.max(customerId - 20, 2)));
+		long id = ThreadLocalRandom.current().nextLong((customerId == null) ? 1 : (Math.max(customerId - 20, 1)));
 		long composite_id = encode(new long[] { id, depart_airport_id }, COMPOSITE_BITS, COMPOSITE_POWS);
 		return composite_id;
 
