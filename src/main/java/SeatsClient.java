@@ -80,13 +80,13 @@ public class SeatsClient {
 			
 			stmt = conn.prepareStatement("SELECT F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ? ");
 			stmt.setLong(1, f_id);
-			//ResultSet results3 = stmt.executeQuery();
+			ResultSet results3 = stmt.executeQuery();
 			
 			//if (!results3.next())
-				// no flight exists with the given f_id
 			//	return 3;
-			//int seats_left = results3.getInt(0);
-			//System.out.println("\n\n\n\n"+seats_left+"\n\n\n\n");
+			results3.next();
+			int seats_left = results3.getInt("F_SEATS_LEFT");
+			System.out.println("\n\n\n\n"+seats_left+"\n\n\n\n");
 		
 			// 3
 			/*
