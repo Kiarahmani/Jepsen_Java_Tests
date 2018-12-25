@@ -80,6 +80,7 @@ public class SeatsUtils {
 			initializeFLightIds();
 			initializeCustomerMap();
 			initializeReservations();
+			System.out.println("\n\n\n\n\n\n\n\n\n" + r_c_id.size() + "\n" + r_f_id.size() + "\n\n\n\n\n\n\n\n\n\n");
 			waitForInit = false;
 		} else {
 			while (waitForInit)
