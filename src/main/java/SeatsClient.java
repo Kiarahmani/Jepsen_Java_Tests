@@ -140,7 +140,7 @@ public class SeatsClient {
 				stmt.setLong(2, ff_al_id);
 				ResultSet results5 = stmt.executeQuery();
 				results5.next();
-				int olAttr10 = results5.getInt(0);
+				long olAttr10 = results5.getLong("FF_IATTR10");
 				stmt = conn.prepareStatement(
 						"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?" + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
 				stmt.setLong(1, olAttr10 - 1);
