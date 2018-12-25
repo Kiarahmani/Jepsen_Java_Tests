@@ -12,8 +12,8 @@ public class SeatsUtils {
 		Integer customerId = customerIdCount.get(depart_airport_id);
 		long id = ThreadLocalRandom.current().nextLong((customerId == null) ? 1 : (Math.max(customerId - 20, 1)));
 		long composite_id = encode(new long[] { id, depart_airport_id }, COMPOSITE_BITS, COMPOSITE_POWS);
-		System.out.println("customerId: " + composite_id + "   --   id: " + id + "   --   depart_airport_id: "
-				+ depart_airport_id);
+		System.out.println("composite_id: " + composite_id + "   --   id: " + id + "   --   depart_airport_id: "
+				+ depart_airport_id + "   --   customerId: " + customerId);
 		return composite_id;
 
 	}
