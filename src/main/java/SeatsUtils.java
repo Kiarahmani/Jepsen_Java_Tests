@@ -43,6 +43,7 @@ public class SeatsUtils {
 		System.out.println("-------->>>"+index);
 		
 		long fid =  flightIds.get(index);
+		System.out.println("========>>>"+fid);
 		return fid;
 	}
 
