@@ -74,7 +74,6 @@ public class SeatsUtils {
 		if (atomicInitialized.compareAndSet(false, true)) {
 			initializeFLightIds();
 			initializeCustomerMap();
-			waitForInit.notifyAll();
 		} else {
 			try {
 				Thread.sleep(5000);
