@@ -41,7 +41,9 @@ public class SeatsUtils {
 		System.out.println("~~~~~~~~>>>" + flightIds.size());
 		int index = ThreadLocalRandom.current().nextInt(1, flightIds.size() - 1);
 		System.out.println("-------->>>"+index);
-		return flightIds.get(index);
+		
+		long fid =  flightIds.get(index);
+		return fid;
 	}
 
 	public static long nextLong(long minimum, long maximum) {
