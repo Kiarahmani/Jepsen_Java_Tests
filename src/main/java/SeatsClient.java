@@ -69,7 +69,7 @@ public class SeatsClient {
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
 				results2.close();
-				System.out.println("ERROR_2: c_id "+c_id +" does not exist");
+				System.out.println("ERROR_2: c_id " + c_id + " does not exist");
 				return 2;
 				// throw new Exception(String.format("No Customer information record found for
 				// id '%d'", c_id));
@@ -143,15 +143,17 @@ public class SeatsClient {
 				boolean ff_exists = results5.next();
 				//if (!ff_exists)
 				//	return 5;
-				long olAttr10 = results5.getLong("FF_IATTR10");
-				stmt = conn.prepareStatement(
-						"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?" + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
-				stmt.setLong(1, olAttr10 - 1);
-				stmt.setLong(2, c_id);
-				stmt.setLong(3, ff_al_id);
-				updated = stmt.executeUpdate();
-				assert (updated == 1) : String.format("Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]",
-						c_id, ff_al_id);
+				if (ff_exists) {
+					long olAttr10 = results5.getLong("FF_IATTR10");
+					stmt = conn.prepareStatement(
+							"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?" + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
+					stmt.setLong(1, olAttr10 - 1);
+					stmt.setLong(2, c_id);
+					stmt.setLong(3, ff_al_id);
+					updated = stmt.executeUpdate();
+					assert (updated == 1) : String.format("Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]",
+							c_id, ff_al_id);
+				}
 			}
 
 			return 0;
