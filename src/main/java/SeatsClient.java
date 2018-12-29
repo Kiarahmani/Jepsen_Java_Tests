@@ -128,7 +128,7 @@ public class SeatsClient {
 			// Update Customer's Balance
 			stmt = conn.prepareStatement(
 					"UPDATE CUSTOMER SET C_BALANCE = ?, C_IATTR00 = ?, C_IATTR10 = ?,  C_IATTR11 = ? WHERE C_ID = ? AND C_ID_STR = ?");
-			stmt.setFloat(1, oldBal + (-1 * r_price));
+			stmt.setFloat(1, oldBal + (-1 * 2));
 			stmt.setString(2, c_iattr00);
 			stmt.setLong(3, oldAttr10 - 1);
 			stmt.setLong(4, oldAttr11 - 1);
