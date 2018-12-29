@@ -101,7 +101,7 @@ public class SeatsClient {
 			ResultSet results4 = stmt.executeQuery();
 			boolean reservation_exists = results4.next();
 			if (!reservation_exists) {
-				System.out.println("ERROR_4: reservation does not exist:" + "r_f_id:" + f_id + "    r_c_id:"+c_id);
+				System.out.println("ERROR_4: reservation does not exist:" + "r_f_id:" + f_id + "    r_c_id:" + c_id);
 				return 4;
 			}
 			int r_id = results4.getInt("R_ID");
@@ -143,8 +143,8 @@ public class SeatsClient {
 				stmt.setLong(2, ff_al_id);
 				ResultSet results5 = stmt.executeQuery();
 				boolean ff_exists = results5.next();
-				//if (!ff_exists)
-				//	return 5;
+				// if (!ff_exists)
+				// return 5;
 				if (ff_exists) {
 					long olAttr10 = results5.getLong("FF_IATTR10");
 					stmt = conn.prepareStatement(
@@ -171,82 +171,108 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public static int findFlights(Connection conn, int depart_aid, int arrive_aid, long start_date, long end_date,
+	public static int findFlights(Connection connect, int depart_aid, int arrive_aid, long start_date, long end_date,
 			int distance) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			final List<Integer> arrive_aids = new ArrayList<Integer>();
+			arrive_aids.add(arrive_aid);
+			final List<Object[]> finalResults = new ArrayList<Object[]>();
+			if (distance > 0) {
+				System.out.println("%%%%%%% doing shit");
+				/*
+				// First get the nearby airports for the departure and arrival cities
+				PreparedStatement nearby_stmt = connect
+						.prepareStatement("SELECT * " + "  FROM AIRPORT_DISTANCE WHERE D_AP_ID0 = ? "
+								+ "   AND D_DISTANCE <= ? " + " ORDER BY D_DISTANCE ASC ");
+				nearby_stmt.setInt(1, depart_aid);
+				nearby_stmt.setInt(2, distance);
+				ResultSet nearby_results = nearby_stmt.executeQuery();
+				while (nearby_results.next()) {
+					int aid = nearby_results.getInt(1);
+					int aid_distance = nearby_results.getInt(2);
+					arrive_aids.add(aid);
+				} // WHILE
+				nearby_results.close();
+				int num_nearby = arrive_aids.size();
+				if (num_nearby > 0) {
+					PreparedStatement f_stmt1 = connect.prepareStatement("SELECT F_ID, F_AL_ID, F_SEATS_LEFT, "
+							+ " F_DEPART_AP_ID, F_DEPART_TIME, F_ARRIVE_AP_ID, F_ARRIVE_TIME, "
+							+ " AL_NAME, AL_IATTR00, AL_IATTR01 " + " FROM FLIGHT WHERE F_DEPART_AP_ID = ? "
+							+ "   AND F_DEPART_TIME >= ? AND F_DEPART_TIME <= ? ");
+					// Set Parameters
+					f_stmt1.setInt(1, depart_aid);
+					f_stmt1.setLong(2, start_date);
+					f_stmt1.setLong(3, end_date);
+
+					ResultSet flightResults1 = f_stmt1.executeQuery();
+					flightResults1.next();
+
+					while (flightResults1.next()) {
+						int f_depart_airport = flightResults1.getInt("F_DEPART_AP_ID");
+						int f_arrive_airport = flightResults1.getInt("F_ARRIVE_AP_ID");
+						PreparedStatement f_stmt2 = connect
+								.prepareStatement("SELECT AL_NAME, AL_IATTR00, AL_IATTR01 FROM AIRLINE WHERE AL_ID=?");
+						f_stmt2.setInt(1, flightResults1.getInt("F_AL_ID"));
+						ResultSet flightResults2 = f_stmt2.executeQuery();
+						flightResults2.next();
+						String al_name = flightResults2.getString("AL_NAME");
+
+						Object row[] = new Object[13];
+						int r = 0;
+
+						row[r++] = flightResults1.getInt("F_ID"); // [00] F_ID
+						row[r++] = flightResults1.getInt("SEATS_LEFT"); // [01] SEATS_LEFT
+						row[r++] = flightResults2.getString("AL_NAME"); // [02] AL_NAME
+
+						// DEPARTURE AIRPORT
+						PreparedStatement ai_stmt1 = connect.prepareStatement(
+								"SELECT AP_CODE, AP_NAME, AP_CITY, AP_LONGITUDE, AP_LATITUDE, AP_CO_ID "
+										+ " FROM AIRPORT WHERE AP_ID = ? ");
+						ai_stmt1.setInt(1, f_depart_airport);
+						ResultSet ai_results1 = ai_stmt1.executeQuery();
+						ai_results1.next();
+						int countryId = ai_results1.getInt("AP_CO_ID");
+						PreparedStatement ai_stmt2 = connect.prepareStatement(
+								"SELECT CO_ID, CO_NAME, CO_CODE_2, CO_CODE_3 " + " FROM COUNTRY WHERE CO_ID = ?");
+						ai_stmt2.setInt(1, countryId);
+						ResultSet ai_results2 = ai_stmt2.executeQuery();
+						// save the results
+						boolean adv = ai_results2.next();
+						row[r++] = flightResults1.getInt("F_DEPART_TIME"); // [03] DEPART_TIME
+						row[r++] = ai_results1.getString("AP_CODE"); // [04] DEPART_AP_CODE
+						row[r++] = ai_results1.getString("AP_NAME"); // [05] DEPART_AP_NAME
+						row[r++] = ai_results1.getString("AP_CITY"); // [06] DEPART_AP_CITY
+						row[r++] = ai_results2.getString("CO_NAME"); // [07] DEPART_AP_COUNTRY
+
+						// ARRIVAL AIRPORT
+						PreparedStatement ai_stmt3 = connect.prepareStatement(
+								"SELECT AP_CODE, AP_NAME, AP_CITY, AP_LONGITUDE, AP_LATITUDE, AP_CO_ID "
+										+ " FROM AIRPORT WHERE AP_ID = ? ");
+						ai_stmt3.setInt(1, f_arrive_airport);
+						ResultSet ai_results3 = ai_stmt3.executeQuery();
+						ai_results3.next();
+
+						int countryId2 = ai_results3.getInt("AP_CO_ID");
+						PreparedStatement ai_stmt4 = connect.prepareStatement(
+								"SELECT CO_ID, CO_NAME, CO_CODE_2, CO_CODE_3 " + " FROM COUNTRY WHERE CO_ID = ?");
+						ai_stmt4.setInt(1, countryId2);
+						ResultSet ai_results4 = ai_stmt4.executeQuery();
+						ai_results4.next();
+						row[r++] = flightResults1.getDate(7); // [08] ARRIVE_TIME
+						row[r++] = ai_results3.getString("AP_CODE"); // [09] ARRIVE_AP_CODE
+						row[r++] = ai_results3.getString("AP_NAME"); // [10] ARRIVE_AP_NAME
+						row[r++] = ai_results3.getString("AP_CITY"); // [11] ARRIVE_AP_CITY
+						row[r++] = ai_results4.getString("CO_NAME"); // [12] ARRIVE_AP_COUNTRY
+						finalResults.add(row);
+					}
+				}
+			*/}
+
 			return 0;
-			/*
-			 * System.out.println("connecting..."); connect =
-			 * DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID +
-			 * "/testks"); final List<Integer> arrive_aids = new ArrayList<Integer>();
-			 * arrive_aids.add(arrive_aid); final List<Object[]> finalResults = new
-			 * ArrayList<Object[]>(); if (distance > 0) { // First get the nearby airports
-			 * for the departure and arrival cities PreparedStatement nearby_stmt = connect
-			 * .prepareStatement("SELECT * " + "  FROM AIRPORT_DISTANCE WHERE D_AP_ID0 = ? "
-			 * + "   AND D_DISTANCE <= ? " + " ORDER BY D_DISTANCE ASC ");
-			 * nearby_stmt.setInt(1, depart_aid); nearby_stmt.setInt(2, distance); ResultSet
-			 * nearby_results = nearby_stmt.executeQuery(); while (nearby_results.next()) {
-			 * int aid = nearby_results.getInt(1); int aid_distance =
-			 * nearby_results.getInt(2); arrive_aids.add(aid); } // WHILE
-			 * nearby_results.close(); int num_nearby = arrive_aids.size(); if (num_nearby >
-			 * 0) { PreparedStatement f_stmt1 =
-			 * connect.prepareStatement("SELECT F_ID, F_AL_ID, F_SEATS_LEFT, " +
-			 * " F_DEPART_AP_ID, F_DEPART_TIME, F_ARRIVE_AP_ID, F_ARRIVE_TIME, " +
-			 * " AL_NAME, AL_IATTR00, AL_IATTR01 " +
-			 * " FROM FLIGHT WHERE F_DEPART_AP_ID = ? " +
-			 * "   AND F_DEPART_TIME >= ? AND F_DEPART_TIME <= ? "); // Set Parameters
-			 * f_stmt1.setInt(1, depart_aid); f_stmt1.setLong(2, start_date);
-			 * f_stmt1.setLong(3, end_date);
-			 * 
-			 * ResultSet flightResults1 = f_stmt1.executeQuery(); flightResults1.next();
-			 * 
-			 * while (flightResults1.next()) { int f_depart_airport =
-			 * flightResults1.getInt("F_DEPART_AP_ID"); int f_arrive_airport =
-			 * flightResults1.getInt("F_ARRIVE_AP_ID"); PreparedStatement f_stmt2 = connect
-			 * .prepareStatement("SELECT AL_NAME, AL_IATTR00, AL_IATTR01 FROM AIRLINE WHERE AL_ID=?"
-			 * ); f_stmt2.setInt(1, flightResults1.getInt("F_AL_ID")); ResultSet
-			 * flightResults2 = f_stmt2.executeQuery(); flightResults2.next(); String
-			 * al_name = flightResults2.getString("AL_NAME");
-			 * 
-			 * Object row[] = new Object[13]; int r = 0;
-			 * 
-			 * row[r++] = flightResults1.getInt("F_ID"); // [00] F_ID row[r++] =
-			 * flightResults1.getInt("SEATS_LEFT"); // [01] SEATS_LEFT row[r++] =
-			 * flightResults2.getString("AL_NAME"); // [02] AL_NAME
-			 * 
-			 * // DEPARTURE AIRPORT PreparedStatement ai_stmt1 = connect.prepareStatement(
-			 * "SELECT AP_CODE, AP_NAME, AP_CITY, AP_LONGITUDE, AP_LATITUDE, AP_CO_ID " +
-			 * " FROM AIRPORT WHERE AP_ID = ? "); ai_stmt1.setInt(1, f_depart_airport);
-			 * ResultSet ai_results1 = ai_stmt1.executeQuery(); ai_results1.next(); int
-			 * countryId = ai_results1.getInt("AP_CO_ID"); PreparedStatement ai_stmt2 =
-			 * connect.prepareStatement( "SELECT CO_ID, CO_NAME, CO_CODE_2, CO_CODE_3 " +
-			 * " FROM COUNTRY WHERE CO_ID = ?"); ai_stmt2.setInt(1, countryId); ResultSet
-			 * ai_results2 = ai_stmt2.executeQuery(); // save the results boolean adv =
-			 * ai_results2.next(); row[r++] = flightResults1.getInt("F_DEPART_TIME"); //
-			 * [03] DEPART_TIME row[r++] = ai_results1.getString("AP_CODE"); // [04]
-			 * DEPART_AP_CODE row[r++] = ai_results1.getString("AP_NAME"); // [05]
-			 * DEPART_AP_NAME row[r++] = ai_results1.getString("AP_CITY"); // [06]
-			 * DEPART_AP_CITY row[r++] = ai_results2.getString("CO_NAME"); // [07]
-			 * DEPART_AP_COUNTRY
-			 * 
-			 * // ARRIVAL AIRPORT PreparedStatement ai_stmt3 = connect.prepareStatement(
-			 * "SELECT AP_CODE, AP_NAME, AP_CITY, AP_LONGITUDE, AP_LATITUDE, AP_CO_ID " +
-			 * " FROM AIRPORT WHERE AP_ID = ? "); ai_stmt3.setInt(1, f_arrive_airport);
-			 * ResultSet ai_results3 = ai_stmt3.executeQuery(); ai_results3.next();
-			 * 
-			 * int countryId2 = ai_results3.getInt("AP_CO_ID"); PreparedStatement ai_stmt4 =
-			 * connect.prepareStatement( "SELECT CO_ID, CO_NAME, CO_CODE_2, CO_CODE_3 " +
-			 * " FROM COUNTRY WHERE CO_ID = ?"); ai_stmt4.setInt(1, countryId2); ResultSet
-			 * ai_results4 = ai_stmt4.executeQuery(); ai_results4.next(); row[r++] =
-			 * flightResults1.getDate(7); // [08] ARRIVE_TIME row[r++] =
-			 * ai_results3.getString("AP_CODE"); // [09] ARRIVE_AP_CODE row[r++] =
-			 * ai_results3.getString("AP_NAME"); // [10] ARRIVE_AP_NAME row[r++] =
-			 * ai_results3.getString("AP_CITY"); // [11] ARRIVE_AP_CITY row[r++] =
-			 * ai_results4.getString("CO_NAME"); // [12] ARRIVE_AP_COUNTRY
-			 * finalResults.add(row); } } }
-			 */} catch (Exception e) {
+
+		} catch (Exception e) {
 			throw e;
 		} finally {
 
