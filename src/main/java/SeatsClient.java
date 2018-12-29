@@ -42,7 +42,7 @@ public class SeatsClient {
 			if (c_id == -1) {
 				// Use the customer's id as a string
 				assert (c_id_str != null && c_id_str.length() > 0);
-				stmt = conn.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ALLOW FILTERING");
+				stmt = conn.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ?");
 				stmt.setString(1, c_id_str);
 				ResultSet results = stmt.executeQuery();
 				if (results.next()) {
@@ -94,7 +94,7 @@ public class SeatsClient {
 			int seats_left = results3.getInt("F_SEATS_LEFT");
 
 			// 3
-/*
+
 			stmt = conn.prepareStatement(
 					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ALLOW FILTERING");
 			stmt.setLong(1, c_id);
@@ -109,13 +109,13 @@ public class SeatsClient {
 			float r_price = results4.getFloat("R_PRICE");
 			results4.close();
 			int updated = 0;
-*/
+
 			// Now delete all of the flights that they have on this flight
 			stmt = conn.prepareStatement("DELETE FROM RESERVATION WHERE R_ID = ? AND R_C_ID = ? AND R_F_ID = ?");
-			stmt.setLong(1, 1);
+			stmt.setLong(1, r_id);
 			stmt.setLong(2, c_id);
 			stmt.setLong(3, f_id);
-			int updated = stmt.executeUpdate();
+			updated = stmt.executeUpdate();
 			assert (updated == 1);
 
 			// Update Available Seats on Flight
@@ -128,7 +128,7 @@ public class SeatsClient {
 			// Update Customer's Balance
 			stmt = conn.prepareStatement(
 					"UPDATE CUSTOMER SET C_BALANCE = ?, C_IATTR00 = ?, C_IATTR10 = ?,  C_IATTR11 = ? WHERE C_ID = ? AND C_ID_STR = ?");
-			stmt.setFloat(1, oldBal + (-1 * 2));
+			stmt.setFloat(1, oldBal + (-1 * r_price));
 			stmt.setString(2, c_iattr00);
 			stmt.setLong(3, oldAttr10 - 1);
 			stmt.setLong(4, oldAttr11 - 1);
