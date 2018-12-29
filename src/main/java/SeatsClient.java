@@ -136,7 +136,7 @@ public class SeatsClient {
 			stmt.setString(6, String.valueOf(c_id));
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
-*/
+
 			// Update Customer's Frequent Flyer Information (Optional)
 			if (ff_al_id != -1) {
 				stmt = conn.prepareStatement(
@@ -159,7 +159,7 @@ public class SeatsClient {
 							c_id, ff_al_id);
 				}
 			}
-
+*/
 			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
