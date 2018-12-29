@@ -70,7 +70,7 @@ create TABLE seats.AIRLINE (
     
 
 create TABLE seats.CUSTOMER ( 
-	C_ID           bigint PRIMARY KEY,
+	C_ID           bigint,
     C_ID_STR       text,
     C_BASE_AP_ID   bigint,
     C_BALANCE      float,
@@ -113,7 +113,8 @@ create TABLE seats.CUSTOMER (
     C_IATTR16      bigint,
     C_IATTR17      bigint,
     C_IATTR18      bigint,
-    C_IATTR19      bigint
+    C_IATTR19      bigint,
+    PRIMARY KEY (C_ID, C_ID_STR)
 );
 
 
