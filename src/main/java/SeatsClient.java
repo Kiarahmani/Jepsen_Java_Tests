@@ -39,11 +39,11 @@ public class SeatsClient {
 			PreparedStatement stmt = null;
 
 			// If we weren't given the customer id, then look it up
-			if (c_id == -1) {
+			if (c_id != -1) {
 				// Use the customer's id as a string
 				assert (c_id_str != null && c_id_str.length() > 0);
-				stmt = conn.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ALLOW FILTERING");
-				stmt.setString(1, c_id_str);
+				stmt = conn.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID = ?");
+				stmt.setLong(1, c_id);
 				ResultSet results = stmt.executeQuery();
 				if (results.next()) {
 					c_id = results.getLong("C_ID");
