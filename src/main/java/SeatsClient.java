@@ -37,7 +37,7 @@ public class SeatsClient {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
 			PreparedStatement stmt = null;
-
+/*
 			// If we weren't given the customer id, then look it up
 			if (c_id == -1) {
 				// Use the customer's id as a string
@@ -63,7 +63,7 @@ public class SeatsClient {
 			// when
 			// updating them
 			// 1
-	/*		stmt = conn.prepareStatement(
+			stmt = conn.prepareStatement(
 					"SELECT C_SATTR00, C_SATTR02, C_SATTR04, C_IATTR00, C_IATTR02, C_IATTR04, C_IATTR06, C_BALANCE, C_IATTR10, C_IATTR11 FROM CUSTOMER WHERE C_ID = ? AND C_ID_STR = ?");
 			stmt.setLong(1, c_id);
 			stmt.setString(2, String.valueOf(c_id));
