@@ -69,6 +69,7 @@ public class SeatsClient {
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
 				results2.close();
+				System.out.println("ERROR_2: c_id "+c_id +" dows not exist");
 				return 2;
 				// throw new Exception(String.format("No Customer information record found for
 				// id '%d'", c_id));
