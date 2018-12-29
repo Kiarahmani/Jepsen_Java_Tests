@@ -75,7 +75,7 @@ public class SeatsClient {
 				// throw new Exception(String.format("No Customer information record found for
 				// id '%d'", c_id));
 			}
-
+/*
 			float oldBal = results2.getFloat("C_BALANCE");
 			long oldAttr10 = results2.getLong("C_IATTR10");
 			long oldAttr11 = results2.getLong("C_IATTR11");
@@ -94,7 +94,7 @@ public class SeatsClient {
 			int seats_left = results3.getInt("F_SEATS_LEFT");
 
 			// 3
-/*
+
 			stmt = conn.prepareStatement(
 					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ALLOW FILTERING");
 			stmt.setLong(1, c_id);
