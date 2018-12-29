@@ -100,8 +100,10 @@ public class SeatsClient {
 			stmt.setLong(2, f_id);
 			ResultSet results4 = stmt.executeQuery();
 			boolean reservation_exists = results4.next();
-			if (!reservation_exists)
+			if (!reservation_exists) {
+				System.out.println("ERROR_4: reservation does not exist:" + "r_f_id:" + f_id + "    r_c_id:"+c_id);
 				return 4;
+			}
 			int r_id = results4.getInt("R_ID");
 			float r_price = results4.getFloat("R_PRICE");
 			results4.close();
