@@ -69,7 +69,7 @@ public class SeatsClient {
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
 				results2.close();
-				System.out.println("ERROR_2: c_id "+c_id +" dows not exist");
+				System.out.println("ERROR_2: c_id "+c_id +" does not exist");
 				return 2;
 				// throw new Exception(String.format("No Customer information record found for
 				// id '%d'", c_id));
@@ -141,8 +141,8 @@ public class SeatsClient {
 				stmt.setLong(2, ff_al_id);
 				ResultSet results5 = stmt.executeQuery();
 				boolean ff_exists = results5.next();
-				if (!ff_exists)
-					return 5;
+				//if (!ff_exists)
+				//	return 5;
 				long olAttr10 = results5.getLong("FF_IATTR10");
 				stmt = conn.prepareStatement(
 						"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?" + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
