@@ -94,7 +94,7 @@ public class SeatsClient {
 			int seats_left = results3.getInt("F_SEATS_LEFT");
 
 			// 3
-
+/*
 			stmt = conn.prepareStatement(
 					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ALLOW FILTERING");
 			stmt.setLong(1, c_id);
@@ -136,7 +136,7 @@ public class SeatsClient {
 			stmt.setString(6, String.valueOf(c_id));
 			updated = stmt.executeUpdate();
 			assert (updated == 1);
-
+*/
 			// Update Customer's Frequent Flyer Information (Optional)
 			if (ff_al_id != -1) {
 				stmt = conn.prepareStatement(
@@ -154,7 +154,7 @@ public class SeatsClient {
 					stmt.setLong(1, olAttr10 - 1);
 					stmt.setLong(2, c_id);
 					stmt.setLong(3, ff_al_id);
-					updated = stmt.executeUpdate();
+					int updated = stmt.executeUpdate();
 					assert (updated == 1) : String.format("Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]",
 							c_id, ff_al_id);
 				}
