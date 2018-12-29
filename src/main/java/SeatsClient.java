@@ -37,7 +37,7 @@ public class SeatsClient {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
 			PreparedStatement stmt = null;
-/*
+
 			// If we weren't given the customer id, then look it up
 			if (c_id == -1) {
 				// Use the customer's id as a string
@@ -57,7 +57,7 @@ public class SeatsClient {
 				}
 				results.close();
 			}
-
+/*
 			// XXX We are in fact chopping the original query with joins on three table into
 			// three separate queries. We also read extra columns which will be used later
 			// when
