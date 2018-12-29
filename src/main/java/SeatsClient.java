@@ -63,7 +63,7 @@ public class SeatsClient {
 			// when
 			// updating them
 			// 1
-			stmt = conn.prepareStatement(
+	/*		stmt = conn.prepareStatement(
 					"SELECT C_SATTR00, C_SATTR02, C_SATTR04, C_IATTR00, C_IATTR02, C_IATTR04, C_IATTR06, C_BALANCE, C_IATTR10, C_IATTR11 FROM CUSTOMER WHERE C_ID = ? AND C_ID_STR = ?");
 			stmt.setLong(1, c_id);
 			stmt.setString(2, String.valueOf(c_id));
@@ -75,7 +75,7 @@ public class SeatsClient {
 				// throw new Exception(String.format("No Customer information record found for
 				// id '%d'", c_id));
 			}
-/*
+
 			float oldBal = results2.getFloat("C_BALANCE");
 			long oldAttr10 = results2.getLong("C_IATTR10");
 			long oldAttr11 = results2.getLong("C_IATTR11");
