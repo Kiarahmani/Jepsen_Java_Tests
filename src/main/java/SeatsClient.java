@@ -94,7 +94,7 @@ public class SeatsClient {
 			int seats_left = results3.getInt("F_SEATS_LEFT");
 
 			// 3
-
+/*
 			stmt = conn.prepareStatement(
 					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ALLOW FILTERING");
 			stmt.setLong(1, c_id);
@@ -109,13 +109,13 @@ public class SeatsClient {
 			float r_price = results4.getFloat("R_PRICE");
 			results4.close();
 			int updated = 0;
-
+*/
 			// Now delete all of the flights that they have on this flight
 			stmt = conn.prepareStatement("DELETE FROM RESERVATION WHERE R_ID = ? AND R_C_ID = ? AND R_F_ID = ?");
-			stmt.setLong(1, r_id);
+			stmt.setLong(1, 1);
 			stmt.setLong(2, c_id);
 			stmt.setLong(3, f_id);
-			updated = stmt.executeUpdate();
+			int updated = stmt.executeUpdate();
 			assert (updated == 1);
 
 			// Update Available Seats on Flight
