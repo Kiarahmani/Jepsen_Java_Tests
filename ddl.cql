@@ -211,7 +211,7 @@ create TABLE seats.RESERVATION (
 );	
 
 CREATE INDEX resCustIDX on seats.reservation (R_C_ID);
-
+CREATE INDEX resCFlghtIDX on seats.reservation (R_F_ID);
 
 
 

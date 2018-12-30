@@ -107,15 +107,20 @@ public class SeatsClient {
 			int updated = 0;
 
 			
-			/*
+			
 			// Now delete all of the flights that they have on this flight
 			stmt = conn.prepareStatement("DELETE FROM RESERVATION WHERE R_ID = ? AND R_C_ID = ? AND R_F_ID = ?");
 			stmt.setLong(1, r_id);
 			stmt.setLong(2, c_id);
 			stmt.setLong(3, f_id);
 			updated = stmt.executeUpdate();
+			if (updated != 1){
+				System.out.println(String.format("ERROR_5: delete did NOT succeed: r_id: %d   c_id: %d    f_id: %d",r_id,c_id,f_id));
+				return 5;
+			}
 			assert (updated == 1);
-
+			
+/*
 			// Update Available Seats on Flight
 			stmt = conn.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ?" + " WHERE F_ID = ? ");
 			stmt.setLong(1, seats_left + 1);
