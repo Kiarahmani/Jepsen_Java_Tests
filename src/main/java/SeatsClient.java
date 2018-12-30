@@ -99,7 +99,7 @@ public class SeatsClient {
 			boolean reservation_exists = results4.next();
 			if (!reservation_exists) {
 				System.out.println("ERROR_4: reservation does not exist:" + "r_f_id:" + f_id + "    r_c_id:" + c_id);
-				//return 4;
+				return 0;
 			}
 
 			int r_id = results4.getInt("R_ID");
