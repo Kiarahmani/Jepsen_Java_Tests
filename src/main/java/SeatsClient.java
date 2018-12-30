@@ -57,7 +57,7 @@ public class SeatsClient {
 				}
 				results.close();
 			}
-
+/*
 			// XXX We are in fact chopping the original query with joins on three table into
 			// three separate queries. We also read extra columns which will be used later
 			// when
@@ -160,7 +160,7 @@ public class SeatsClient {
 				}
 			}
 
-			return 0;
+	*/		return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
