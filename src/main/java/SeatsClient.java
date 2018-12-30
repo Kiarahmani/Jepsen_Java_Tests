@@ -141,7 +141,7 @@ public class SeatsClient {
 			stmt.setLong(3, oldAttr10 - 1);
 			stmt.setLong(4, oldAttr11 - 1);
 			stmt.setLong(5, c_id);
-			//stmt.setString(6, String.valueOf(c_id));
+			stmt.setString(6, String.valueOf(c_id));
 			updated = stmt.executeUpdate();
 			if (updated != 0){
 				System.out.println(String.format("ERROR_7: update customer balance did NOT succeed: c_id: %d",c_id));
