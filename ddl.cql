@@ -117,7 +117,7 @@ create TABLE seats.CUSTOMER (
     PRIMARY KEY (C_ID, C_ID_STR)
 );
 
-CREATE INDEX testIDX on customer (c_id_str);
+CREATE INDEX testIDX on seats.customer (c_id_str);
 
 
 create TABLE seats.FREQUENT_FLYER ( 
