@@ -119,8 +119,7 @@ public class SeatsClient {
 			stmt.setLong(2, c_id);
 			stmt.setLong(3, f_id);
 			updated = stmt.executeUpdate();
-			if (updated != 1){
-				System.out.println(updated);
+			if (updated != 0){
 				System.out.println(String.format("ERROR_5: delete did NOT succeed: r_id: %d   c_id: %d    f_id: %d",r_id,c_id,f_id));
 				return 5;
 			}
