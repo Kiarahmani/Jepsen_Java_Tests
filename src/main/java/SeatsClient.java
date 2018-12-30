@@ -80,6 +80,11 @@ public class SeatsClient {
 			long oldAttr10 = results2.getLong("C_IATTR10");
 			long oldAttr11 = results2.getLong("C_IATTR11");
 			String c_iattr00 = results2.getString("C_SATTR00");
+			System.out.println(oldBal);
+			System.out.println(oldAttr10);
+			System.out.println(oldAttr11);
+			System.out.println(c_iattr00);
+			
 			// 2
 
 			stmt = conn.prepareStatement("SELECT F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ? ");
