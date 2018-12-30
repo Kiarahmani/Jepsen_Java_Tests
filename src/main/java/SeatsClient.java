@@ -189,7 +189,7 @@ public class SeatsClient {
 	 */
 
 	public static int findFlights(Connection connect, long depart_aid, long arrive_aid, long start_date, long end_date,
-			int distance) throws Exception {
+			float distance) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
@@ -206,10 +206,10 @@ public class SeatsClient {
 				
 				// First get the nearby airports for the departure and arrival cities
 				PreparedStatement nearby_stmt = connect
-						.prepareStatement("SELECT * " + "  FROM AIRPORT_DISTANCE WHERE d_ap_id0 = 111 AND d_distance <= 300 ALLOW FILTERING");
+						.prepareStatement("SELECT * " + "  FROM AIRPORT_DISTANCE WHERE d_ap_id0 = ? AND d_distance <= ? ALLOW FILTERING");
 								//+ "   AND d_distance <= 1000 " + "ALLOW FILTERING");
-			//	nearby_stmt.setLong(1, depart_aid);
-				//nearby_stmt.setLong(2, arrive_aid);
+				nearby_stmt.setLong(1, depart_aid);
+				nearby_stmt.setFloat(2, distance);
 				ResultSet nearby_results = nearby_stmt.executeQuery();
 				
 				while (nearby_results.next()) {
