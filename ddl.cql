@@ -192,7 +192,7 @@ create TABLE seats.FLIGHT (
     PRIMARY KEY (F_ID));
     
 CREATE INDEX f_dep_IDX ON seats.flight (f_depart_ap_id) ;
- CREATE INDEX f_dep_IDX_Time ON flight (F_DEPART_TIME) ;
+ CREATE INDEX f_dep_IDX_Time ON seats.flight (F_DEPART_TIME) ;
 
 create TABLE seats.RESERVATION ( 
 	R_ID           bigint,
