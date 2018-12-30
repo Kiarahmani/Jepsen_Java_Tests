@@ -155,8 +155,9 @@ public class SeatsClient {
 				if (!ff_exists) {
 					System.out.println(String.format("ERROR_8: Frequent Flyer does NOT exist: c_id: %d   ff_al_id: %d",
 							c_id, ff_al_id));
-					//return 8;
+					return 8;
 				}
+				System.out.println("KOS!");
 				long olAttr10 = results5.getLong("FF_IATTR10");
 				stmt = conn.prepareStatement(
 						"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?" + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
