@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SeatsClient {
 
-	private static boolean _NO_ERROR_MODE = false;
+	private static boolean _NO_ERROR_MODE = true;
 
 	public static Connection getConnection(String localAddr) {
 		Connection connect = null;
