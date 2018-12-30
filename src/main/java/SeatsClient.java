@@ -145,7 +145,6 @@ public class SeatsClient {
 			}
 
 			// Update Customer's Frequent Flyer Information (Optional)
-			System.out.println("#######"+ff_al_id);
 			if (ff_al_id != -1) {
 				stmt = conn.prepareStatement(
 						"SELECT FF_IATTR10 FROM FREQUENT_FLYER " + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
@@ -158,7 +157,6 @@ public class SeatsClient {
 							c_id, ff_al_id));
 					return 8;
 				}
-				System.out.println("KOS!");
 				long olAttr10 = results5.getLong("FF_IATTR10");
 				stmt = conn.prepareStatement(
 						"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?" + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
@@ -172,10 +170,8 @@ public class SeatsClient {
 					return 9;
 				}
 			}
-
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
-			
 			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
