@@ -3,6 +3,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -188,7 +189,7 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public static int findFlights(Connection connect, long depart_aid, long arrive_aid, long start_date, long end_date,
+	public static int findFlights(Connection connect, long depart_aid, long arrive_aid, Timestamp start_date, Timestamp end_date,
 			float distance) throws Exception {
 		try {
 
