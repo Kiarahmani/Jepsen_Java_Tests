@@ -58,10 +58,10 @@ public class SeatsClient {
 				results.close();
 			}
 
-			// We are in fact chopping the original query with joins on three table into
+			// We are chopping the original query with joins on three table into
 			// three separate queries. We also read extra columns which will be used later
 			// when updating them
-			
+
 			// 1
 			stmt = conn.prepareStatement(
 					"SELECT C_SATTR00, C_SATTR02, C_SATTR04, C_IATTR00, C_IATTR02, C_IATTR04, C_IATTR06, C_BALANCE, C_IATTR10, C_IATTR11 FROM CUSTOMER WHERE C_ID = ?");
@@ -77,7 +77,7 @@ public class SeatsClient {
 			long oldAttr10 = results2.getLong("C_IATTR10");
 			long oldAttr11 = results2.getLong("C_IATTR11");
 			String c_iattr00 = results2.getString("C_SATTR00");
-			
+
 			// 2
 			stmt = conn.prepareStatement("SELECT F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ? ");
 			stmt.setLong(1, f_id);
@@ -88,7 +88,7 @@ public class SeatsClient {
 				System.out.println("ERROR_3: f_id " + f_id + " does not exist");
 				return 3;
 			}
-			int seats_left = results3.getInt("F_SEATS_LEFT");			
+			int seats_left = results3.getInt("F_SEATS_LEFT");
 
 			// 3
 			stmt = conn.prepareStatement(
@@ -107,31 +107,27 @@ public class SeatsClient {
 			results4.close();
 			int updated = 0;
 
-			
-			
 			// Now delete all of the flights that they have on this flight
 			stmt = conn.prepareStatement("DELETE FROM RESERVATION WHERE R_ID = ? AND R_C_ID = ? AND R_F_ID = ?");
 			stmt.setLong(1, r_id);
 			stmt.setLong(2, c_id);
 			stmt.setLong(3, f_id);
 			updated = stmt.executeUpdate();
-			if (updated != 0){
-				System.out.println(String.format("ERROR_5: delete did NOT succeed: r_id: %d   c_id: %d    f_id: %d",r_id,c_id,f_id));
+			if (updated != 0) {
+				System.out.println(String.format("ERROR_5: delete did NOT succeed: r_id: %d   c_id: %d    f_id: %d",
+						r_id, c_id, f_id));
 				return 5;
 			}
-
-			
 
 			// Update Available Seats on Flight
 			stmt = conn.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ?" + " WHERE F_ID = ? ");
 			stmt.setLong(1, seats_left + 1);
 			stmt.setLong(2, f_id);
 			updated = stmt.executeUpdate();
-			if (updated != 0){
-				System.out.println(String.format("ERROR_6: update flight did NOT succeed: f_id: %d",f_id));
+			if (updated != 0) {
+				System.out.println(String.format("ERROR_6: update flight did NOT succeed: f_id: %d", f_id));
 				return 6;
 			}
-
 
 			// Update Customer's Balance
 			stmt = conn.prepareStatement(
@@ -143,11 +139,11 @@ public class SeatsClient {
 			stmt.setLong(5, c_id);
 			stmt.setString(6, String.valueOf(c_id));
 			updated = stmt.executeUpdate();
-			if (updated != 0){
-				System.out.println(String.format("ERROR_7: update customer balance did NOT succeed: c_id: %d",c_id));
+			if (updated != 0) {
+				System.out.println(String.format("ERROR_7: update customer balance did NOT succeed: c_id: %d", c_id));
 				return 7;
 			}
-/*
+
 			// Update Customer's Frequent Flyer Information (Optional)
 			if (ff_al_id != -1) {
 				stmt = conn.prepareStatement(
@@ -156,22 +152,29 @@ public class SeatsClient {
 				stmt.setLong(2, ff_al_id);
 				ResultSet results5 = stmt.executeQuery();
 				boolean ff_exists = results5.next();
-				// if (!ff_exists)
-				// return 5;
-				if (ff_exists) {
-					long olAttr10 = results5.getLong("FF_IATTR10");
-					stmt = conn.prepareStatement(
-							"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?" + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
-					stmt.setLong(1, olAttr10 - 1);
-					stmt.setLong(2, c_id);
-					stmt.setLong(3, ff_al_id);
-					updated = stmt.executeUpdate();
-					assert (updated == 1) : String.format("Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]",
-							c_id, ff_al_id);
+				if (!ff_exists) {
+					System.out.println(String.format("ERROR_8: Frequent Flyer does NOT exist: c_id: %d   ff_al_id: %d",
+							c_id, ff_al_id));
+					return 8;
+				}
+				long olAttr10 = results5.getLong("FF_IATTR10");
+				stmt = conn.prepareStatement(
+						"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?" + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
+				stmt.setLong(1, olAttr10 - 1);
+				stmt.setLong(2, c_id);
+				stmt.setLong(3, ff_al_id);
+				updated = stmt.executeUpdate();
+				if (updated != 0) {
+					System.out.println(String.format("ERROR_9: Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]", c_id,
+							ff_al_id));
+					return 9;
 				}
 			}
 
-	*/		return 0;
+			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+			// TXN SUCCESSFUL!
+			
+			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
