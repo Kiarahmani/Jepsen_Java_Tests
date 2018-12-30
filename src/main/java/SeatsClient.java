@@ -207,7 +207,7 @@ public class SeatsClient {
 				// First get the nearby airports for the departure and arrival cities
 				PreparedStatement nearby_stmt = connect
 						.prepareStatement("SELECT * " + "  FROM AIRPORT_DISTANCE WHERE D_AP_ID0 = ? "
-								+ "   AND D_DISTANCE <= ? " + " ORDER BY D_DISTANCE ASC ALLOW FILTERING");
+								+ "   AND D_DISTANCE <= ? " + "ALLOW FILTERING");
 				nearby_stmt.setInt(1, depart_aid);
 				nearby_stmt.setInt(2, distance);
 				ResultSet nearby_results = nearby_stmt.executeQuery();
