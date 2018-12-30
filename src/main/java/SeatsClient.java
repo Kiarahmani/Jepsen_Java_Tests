@@ -57,7 +57,7 @@ public class SeatsClient {
 				}
 				results.close();
 			}
-/*
+
 			// XXX We are in fact chopping the original query with joins on three table into
 			// three separate queries. We also read extra columns which will be used later
 			// when
@@ -154,12 +154,12 @@ public class SeatsClient {
 					stmt.setLong(1, olAttr10 - 1);
 					stmt.setLong(2, c_id);
 					stmt.setLong(3, ff_al_id);
-					int updated = stmt.executeUpdate();
+					updated = stmt.executeUpdate();
 					assert (updated == 1) : String.format("Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]",
 							c_id, ff_al_id);
 				}
 			}
-*/
+
 			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
