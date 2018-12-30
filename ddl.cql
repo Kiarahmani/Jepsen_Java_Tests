@@ -190,6 +190,8 @@ create TABLE seats.FLIGHT (
     F_IATTR28       bigint,
     F_IATTR29       bigint,
     PRIMARY KEY (F_ID));
+    
+CREATE INDEX f_dep_IDX ON seats.flight (f_depart_ap_id) ;
 
 
 create TABLE seats.RESERVATION ( 
