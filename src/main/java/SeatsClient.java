@@ -69,6 +69,7 @@ public class SeatsClient {
 			//stmt.setString(2, String.valueOf(c_id));
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
+				System.out.println("KOON!");
 				results2.close();
 				System.out.println("ERROR_2: c_id " + c_id + " does not exist");
 				return 2;
