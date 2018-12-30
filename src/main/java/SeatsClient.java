@@ -132,19 +132,22 @@ public class SeatsClient {
 				return 6;
 			}
 
-/*
+
 			// Update Customer's Balance
 			stmt = conn.prepareStatement(
-					"UPDATE CUSTOMER SET C_BALANCE = ?, C_IATTR00 = ?, C_IATTR10 = ?,  C_IATTR11 = ? WHERE C_ID = ? AND C_ID_STR = ?");
+					"UPDATE CUSTOMER SET C_BALANCE = ?, C_IATTR00 = ?, C_IATTR10 = ?,  C_IATTR11 = ? WHERE C_ID = ?");
 			stmt.setFloat(1, oldBal + (-1 * r_price));
 			stmt.setString(2, c_iattr00);
 			stmt.setLong(3, oldAttr10 - 1);
 			stmt.setLong(4, oldAttr11 - 1);
 			stmt.setLong(5, c_id);
-			stmt.setString(6, String.valueOf(c_id));
+			//stmt.setString(6, String.valueOf(c_id));
 			updated = stmt.executeUpdate();
-			assert (updated == 1);
-
+			if (updated != 0){
+				System.out.println(String.format("ERROR_7: update customer balance did NOT succeed: c_id: %d",c_id));
+				return 7;
+			}
+/*
 			// Update Customer's Frequent Flyer Information (Optional)
 			if (ff_al_id != -1) {
 				stmt = conn.prepareStatement(
