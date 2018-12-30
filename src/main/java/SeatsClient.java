@@ -40,6 +40,7 @@ public class SeatsClient {
 
 			// If we weren't given the customer id, then look it up
 			if (c_id == -1) {
+				System.out.println("KOON!");
 				// Use the customer's id as a string
 				assert (c_id_str != null && c_id_str.length() > 0);
 				stmt = conn.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ");
@@ -69,7 +70,7 @@ public class SeatsClient {
 			//stmt.setString(2, String.valueOf(c_id));
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
-				System.out.println("KOON!");
+				
 				results2.close();
 				System.out.println("ERROR_2: c_id " + c_id + " does not exist");
 				return 2;
@@ -81,11 +82,6 @@ public class SeatsClient {
 			long oldAttr10 = results2.getLong("C_IATTR10");
 			long oldAttr11 = results2.getLong("C_IATTR11");
 			String c_iattr00 = results2.getString("C_SATTR00");
-			System.out.println(oldBal);
-			System.out.println(oldAttr10);
-			System.out.println(oldAttr11);
-			System.out.println(c_iattr00);
-			
 			// 2
 
 			stmt = conn.prepareStatement("SELECT F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ? ");
