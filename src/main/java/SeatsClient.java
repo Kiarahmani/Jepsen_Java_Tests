@@ -188,12 +188,12 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public static int findFlights(Connection connect, int depart_aid, int arrive_aid, long start_date, long end_date,
+	public static int findFlights(Connection connect, long depart_aid, long arrive_aid, long start_date, long end_date,
 			int distance) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			final List<Integer> arrive_aids = new ArrayList<Integer>();
+			final List<Long> arrive_aids = new ArrayList<Long>();
 			arrive_aids.add(arrive_aid);
 			final List<Object[]> finalResults = new ArrayList<Object[]>();
 			if (distance > 0) {
@@ -208,12 +208,12 @@ public class SeatsClient {
 				PreparedStatement nearby_stmt = connect
 						.prepareStatement("SELECT * " + "  FROM AIRPORT_DISTANCE WHERE D_AP_ID0 = ? "
 								+ "   AND D_DISTANCE <= ? " + "ALLOW FILTERING");
-				nearby_stmt.setInt(1, depart_aid);
+				nearby_stmt.setLong(1, depart_aid);
 				nearby_stmt.setInt(2, distance);
 				ResultSet nearby_results = nearby_stmt.executeQuery();
 				
 				while (nearby_results.next()) {
-					int aid = nearby_results.getInt(1);
+					long aid = nearby_results.getLong(1);
 					int aid_distance = nearby_results.getInt(2);
 					arrive_aids.add(aid);
 				} // WHILE
