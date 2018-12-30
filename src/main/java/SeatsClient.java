@@ -221,7 +221,7 @@ public class SeatsClient {
 				nearby_results.close();
 				int num_nearby = arrive_aids.size();
 				if (num_nearby > 0) {
-					PreparedStatement f_stmt1 = connect.prepareStatement("SELECT F_ID, F_AL_ID, F_SEATS_LEFT, F_DEPART_AP_ID, F_DEPART_TIME, F_ARRIVE_AP_ID, F_ARRIVE_TIME, "
+					PreparedStatement f_stmt1 = connect.prepareStatement("SELECT F_ID, F_AL_ID, F_SEATS_LEFT, F_DEPART_AP_ID, F_DEPART_TIME, F_ARRIVE_AP_ID, F_ARRIVE_TIME "
 							+ " FROM FLIGHT "
 							+ " WHERE F_DEPART_AP_ID = ? "
 							+ " AND F_ID = 562967134569319"
