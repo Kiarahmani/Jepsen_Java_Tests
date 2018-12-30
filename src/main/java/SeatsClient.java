@@ -200,7 +200,8 @@ public class SeatsClient {
 				System.out.println("depart_aid: "+depart_aid);
 				System.out.println("arrive_aid: "+arrive_aid);
 				System.out.println("start_date: "+start_date);
-				System.out.println("end_date: "+end_date);
+				System.out.println("end_date  : "+end_date);
+				System.out.println("distance  : "+distance);
 				
 				/*
 				// First get the nearby airports for the departure and arrival cities
