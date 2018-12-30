@@ -197,17 +197,16 @@ public class SeatsClient {
 			arrive_aids.add(arrive_aid);
 			final List<Object[]> finalResults = new ArrayList<Object[]>();
 			if (distance > 0) {
-				//System.out.println("depart_aid: "+depart_aid);
-				//System.out.println("arrive_aid: "+arrive_aid);
-				//System.out.println("start_date: "+start_date);
-				//System.out.println("end_date  : "+end_date);
-				//System.out.println("distance  : "+distance);
+				System.out.println("depart_aid: "+depart_aid);
+				System.out.println("arrive_aid: "+arrive_aid);
+				System.out.println("start_date: "+start_date);
+				System.out.println("end_date  : "+end_date);
+				System.out.println("distance  : "+distance);
 				
 				
 				// First get the nearby airports for the departure and arrival cities
 				PreparedStatement nearby_stmt = connect
 						.prepareStatement("SELECT * " + "  FROM AIRPORT_DISTANCE WHERE d_ap_id0 = ? AND d_distance <= ? ALLOW FILTERING");
-								//+ "   AND d_distance <= 1000 " + "ALLOW FILTERING");
 				nearby_stmt.setLong(1, depart_aid);
 				nearby_stmt.setFloat(2, distance);
 				ResultSet nearby_results = nearby_stmt.executeQuery();
@@ -217,20 +216,21 @@ public class SeatsClient {
 					int aid_distance = nearby_results.getInt(2);
 					arrive_aids.add(aid);
 				} // WHILE
-				System.out.println("number of airports found: "+arrive_aids.size());
-				/* 
+				
 				nearby_results.close();
 				int num_nearby = arrive_aids.size();
 				if (num_nearby > 0) {
-					PreparedStatement f_stmt1 = connect.prepareStatement("SELECT F_ID, F_AL_ID, F_SEATS_LEFT, "
-							+ " F_DEPART_AP_ID, F_DEPART_TIME, F_ARRIVE_AP_ID, F_ARRIVE_TIME, "
-							+ " AL_NAME, AL_IATTR00, AL_IATTR01 " + " FROM FLIGHT WHERE F_DEPART_AP_ID = ? "
-							+ "   AND F_DEPART_TIME >= ? AND F_DEPART_TIME <= ? ");
+				
+					PreparedStatement f_stmt1 = connect.prepareStatement("SELECT F_ID, F_AL_ID, F_SEATS_LEFT, F_DEPART_AP_ID, F_DEPART_TIME, F_ARRIVE_AP_ID, F_ARRIVE_TIME, "
+							+ " FROM FLIGHT "
+							+ " WHERE F_DEPART_AP_ID = ? "
+							+ " AND F_DEPART_TIME >= ? "
+							+ " AND F_DEPART_TIME <= ? ");
 					// Set Parameters
-					f_stmt1.setInt(1, depart_aid);
+					f_stmt1.setLong(1, depart_aid);
 					f_stmt1.setLong(2, start_date);
 					f_stmt1.setLong(3, end_date);
-
+					/*
 					ResultSet flightResults1 = f_stmt1.executeQuery();
 					flightResults1.next();
 
@@ -290,8 +290,8 @@ public class SeatsClient {
 						ai_results4.getString("CO_NAME"); // [12] ARRIVE_AP_COUNTRY
 						finalResults.add(row);
 					}
-				}
-*/	
+*/				}
+	
   		}
  
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄

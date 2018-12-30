@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,6 +34,22 @@ public class SeatsUtils {
 
 		return composite_id;
 
+	}
+
+	public static Timestamp getNextRandomDate() {
+		long offset = Timestamp.valueOf("2018-12-24 04:34:19").getTime();
+		long end = Timestamp.valueOf("2019-02-14 04:04:19").getTime();
+		long diff = end - offset + 1;
+		Timestamp rand = new Timestamp(offset + (long) (Math.random() * diff));
+		return rand;
+	}
+
+	public static Timestamp getNextDateWithBegin(Timestamp beginDate) {
+		long offset = beginDate.getTime();
+		long end = Timestamp.valueOf("2019-02-14 04:04:19").getTime();
+		long diff = end - offset + 1;
+		Timestamp rand = new Timestamp(offset + (long) (Math.random() * diff));
+		return rand;
 	}
 
 	public static long getNextAirlineId() {
