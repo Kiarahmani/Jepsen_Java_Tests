@@ -197,7 +197,11 @@ public class SeatsClient {
 			arrive_aids.add(arrive_aid);
 			final List<Object[]> finalResults = new ArrayList<Object[]>();
 			if (distance > 0) {
-				System.out.println("doing shit");
+				System.out.println("depart_aid: "+depart_aid);
+				System.out.println("arrive_aid: "+arrive_aid);
+				System.out.println("start_date: "+start_date);
+				System.out.println("end_date: "+end_date);
+				
 				/*
 				// First get the nearby airports for the departure and arrival cities
 				PreparedStatement nearby_stmt = connect
