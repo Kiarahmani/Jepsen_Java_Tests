@@ -218,7 +218,7 @@ public class SeatsClient {
 					arrive_aids.add(aid);
 				} // WHILE
 				System.out.println("number of airports found: "+arrive_aids.size());
-				/*
+				/* 
 				nearby_results.close();
 				int num_nearby = arrive_aids.size();
 				if (num_nearby > 0) {
