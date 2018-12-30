@@ -229,8 +229,8 @@ public class SeatsClient {
 							+ " AND F_DEPART_TIME <= ? ");
 					// Set Parameters
 					f_stmt1.setLong(1, depart_aid);
-					f_stmt1.setLong(2, start_date);
-					f_stmt1.setLong(3, end_date);
+					f_stmt1.setTimestamp(2, start_date);
+					f_stmt1.setTimestamp(3, end_date);
 					/*
 					ResultSet flightResults1 = f_stmt1.executeQuery();
 					flightResults1.next();
