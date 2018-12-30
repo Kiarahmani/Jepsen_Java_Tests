@@ -224,7 +224,6 @@ public class SeatsClient {
 					PreparedStatement f_stmt1 = connect.prepareStatement("SELECT F_ID, F_AL_ID, F_SEATS_LEFT, F_DEPART_AP_ID, F_DEPART_TIME, F_ARRIVE_AP_ID, F_ARRIVE_TIME "
 							+ " FROM FLIGHT "
 							+ " WHERE F_DEPART_AP_ID = ? "
-							+ " AND F_ID = 562967134569319"
 							+ " AND F_DEPART_TIME >= ? "
 							+ " AND F_DEPART_TIME <= ? ");
 					// Set Parameters
