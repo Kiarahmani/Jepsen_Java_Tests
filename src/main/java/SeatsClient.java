@@ -209,7 +209,7 @@ public class SeatsClient {
 						.prepareStatement("SELECT * " + "  FROM AIRPORT_DISTANCE WHERE D_AP_ID0 = ? "
 								+ "   AND D_AP_ID0 = ? " + "ALLOW FILTERING");
 				nearby_stmt.setLong(1, depart_aid);
-				nearby_stmt.setInt(2, arrive_aid);
+				nearby_stmt.setLong(2, arrive_aid);
 				ResultSet nearby_results = nearby_stmt.executeQuery();
 				
 				//while (nearby_results.next()) {
