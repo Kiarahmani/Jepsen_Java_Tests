@@ -64,9 +64,9 @@ public class SeatsClient {
 			// updating them
 			// 1
 			stmt = conn.prepareStatement(
-					"SELECT C_SATTR00, C_SATTR02, C_SATTR04, C_IATTR00, C_IATTR02, C_IATTR04, C_IATTR06, C_BALANCE, C_IATTR10, C_IATTR11 FROM CUSTOMER WHERE C_ID = ? AND C_ID_STR = ?");
+					"SELECT C_SATTR00, C_SATTR02, C_SATTR04, C_IATTR00, C_IATTR02, C_IATTR04, C_IATTR06, C_BALANCE, C_IATTR10, C_IATTR11 FROM CUSTOMER WHERE C_ID = ?");
 			stmt.setLong(1, c_id);
-			stmt.setString(2, String.valueOf(c_id));
+			//stmt.setString(2, String.valueOf(c_id));
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
 				results2.close();
@@ -182,7 +182,6 @@ public class SeatsClient {
 			arrive_aids.add(arrive_aid);
 			final List<Object[]> finalResults = new ArrayList<Object[]>();
 			if (distance > 0) {
-				System.out.println("%%%%%%% doing shit");
 				/*
 				 * // First get the nearby airports for the departure and arrival cities
 				 * PreparedStatement nearby_stmt = connect .prepareStatement("SELECT * " +
