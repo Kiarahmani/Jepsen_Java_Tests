@@ -210,6 +210,7 @@ create TABLE seats.RESERVATION (
     PRIMARY KEY (R_ID, R_C_ID, R_F_ID)
 );	
 
+CREATE INDEX resCustIDX on seats.reservation (R_C_ID);
 
 
 
