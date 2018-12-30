@@ -145,6 +145,7 @@ public class SeatsClient {
 			}
 
 			// Update Customer's Frequent Flyer Information (Optional)
+			System.out.println("#######"+ff_al_id);
 			if (ff_al_id != -1) {
 				stmt = conn.prepareStatement(
 						"SELECT FF_IATTR10 FROM FREQUENT_FLYER " + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
