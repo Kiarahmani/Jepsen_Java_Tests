@@ -212,11 +212,11 @@ public class SeatsClient {
 				//nearby_stmt.setLong(2, arrive_aid);
 				ResultSet nearby_results = nearby_stmt.executeQuery();
 				
-				//while (nearby_results.next()) {
-				//	long aid = nearby_results.getLong(1);
-				//	int aid_distance = nearby_results.getInt(2);
-				//	arrive_aids.add(aid);
-				//} // WHILE
+				while (nearby_results.next()) {
+					long aid = nearby_results.getLong(1);
+					int aid_distance = nearby_results.getInt(2);
+					arrive_aids.add(aid);
+				} // WHILE
 				System.out.println("number of airports found: "+arrive_aids.size());
 				/*
 				nearby_results.close();
