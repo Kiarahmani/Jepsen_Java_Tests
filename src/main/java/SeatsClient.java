@@ -57,7 +57,7 @@ public class SeatsClient {
 				}
 				results.close();
 			}
-/*
+
 			// XXX We are in fact chopping the original query with joins on three table into
 			// three separate queries. We also read extra columns which will be used later
 			// when
@@ -94,7 +94,7 @@ public class SeatsClient {
 			int seats_left = results3.getInt("F_SEATS_LEFT");
 
 			// 3
-
+/*
 			stmt = conn.prepareStatement(
 					"SELECT R_ID, R_SEAT, R_PRICE, R_IATTR00 FROM RESERVATION WHERE R_C_ID = ? AND R_F_ID = ? ALLOW FILTERING");
 			stmt.setLong(1, c_id);
