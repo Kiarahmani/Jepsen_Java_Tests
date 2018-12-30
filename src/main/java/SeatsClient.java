@@ -101,11 +101,7 @@ public class SeatsClient {
 				System.out.println("ERROR_4: reservation does not exist:" + "r_f_id:" + f_id + "    r_c_id:" + c_id);
 				return 4;
 			}
-			else {
-				System.out.println(reservation_exists);
-				System.out.println(results4.getInt("R_ID"));
-				
-			}
+
 			int r_id = results4.getInt("R_ID");
 			float r_price = results4.getFloat("R_PRICE");
 			results4.close();
