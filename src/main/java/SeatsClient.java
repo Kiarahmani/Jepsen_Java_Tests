@@ -8,6 +8,8 @@ import java.util.List;
 
 public class SeatsClient {
 
+	private static boolean _NO_ERROR_MODE = false;
+
 	public static Connection getConnection(String localAddr) {
 		Connection connect = null;
 		try {
@@ -99,7 +101,7 @@ public class SeatsClient {
 			boolean reservation_exists = results4.next();
 			if (!reservation_exists) {
 				System.out.println("ERROR_4: reservation does not exist:" + "r_f_id:" + f_id + "    r_c_id:" + c_id);
-				return 0;
+				return (_NO_ERROR_MODE) ? 0 : 4;
 			}
 
 			int r_id = results4.getInt("R_ID");
@@ -155,7 +157,7 @@ public class SeatsClient {
 				if (!ff_exists) {
 					System.out.println(String.format("ERROR_8: Frequent Flyer does NOT exist: c_id: %d   ff_al_id: %d",
 							c_id, ff_al_id));
-					return 0;
+					return (_NO_ERROR_MODE) ? 0 : 8;
 				}
 				long olAttr10 = results5.getLong("FF_IATTR10");
 				stmt = conn.prepareStatement(
@@ -165,8 +167,8 @@ public class SeatsClient {
 				stmt.setLong(3, ff_al_id);
 				updated = stmt.executeUpdate();
 				if (updated != 0) {
-					System.out.println(String.format("ERROR_9: Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]", c_id,
-							ff_al_id));
+					System.out.println(String.format(
+							"ERROR_9: Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]", c_id, ff_al_id));
 					return 9;
 				}
 			}
