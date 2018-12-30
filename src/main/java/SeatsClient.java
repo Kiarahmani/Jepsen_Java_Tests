@@ -197,19 +197,19 @@ public class SeatsClient {
 			arrive_aids.add(arrive_aid);
 			final List<Object[]> finalResults = new ArrayList<Object[]>();
 			if (distance > 0) {
-				System.out.println("depart_aid: "+depart_aid);
-				System.out.println("arrive_aid: "+arrive_aid);
-				System.out.println("start_date: "+start_date);
-				System.out.println("end_date  : "+end_date);
-				System.out.println("distance  : "+distance);
+				//System.out.println("depart_aid: "+depart_aid);
+				//System.out.println("arrive_aid: "+arrive_aid);
+				//System.out.println("start_date: "+start_date);
+				//System.out.println("end_date  : "+end_date);
+				//System.out.println("distance  : "+distance);
 				
 				
 				// First get the nearby airports for the departure and arrival cities
 				PreparedStatement nearby_stmt = connect
 						.prepareStatement("SELECT * " + "  FROM AIRPORT_DISTANCE WHERE D_AP_ID0 = ? "
-								+ "   AND D_AP_ID1 = ? " + "ALLOW FILTERING");
+								+ "   AND d_distance <= 100 " + "ALLOW FILTERING");
 				nearby_stmt.setLong(1, depart_aid);
-				nearby_stmt.setLong(2, arrive_aid);
+				//nearby_stmt.setLong(2, arrive_aid);
 				ResultSet nearby_results = nearby_stmt.executeQuery();
 				
 				//while (nearby_results.next()) {
