@@ -119,16 +119,20 @@ public class SeatsClient {
 				System.out.println(String.format("ERROR_5: delete did NOT succeed: r_id: %d   c_id: %d    f_id: %d",r_id,c_id,f_id));
 				return 5;
 			}
-			assert (updated == 1);
+
 			
-/*
+
 			// Update Available Seats on Flight
 			stmt = conn.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ?" + " WHERE F_ID = ? ");
 			stmt.setLong(1, seats_left + 1);
 			stmt.setLong(2, f_id);
 			updated = stmt.executeUpdate();
-			assert (updated == 1);
+			if (updated != 0){
+				System.out.println(String.format("ERROR_6: update flight did NOT succeed: f_id: %d",f_id));
+				return 6;
+			}
 
+/*
 			// Update Customer's Balance
 			stmt = conn.prepareStatement(
 					"UPDATE CUSTOMER SET C_BALANCE = ?, C_IATTR00 = ?, C_IATTR10 = ?,  C_IATTR11 = ? WHERE C_ID = ? AND C_ID_STR = ?");
