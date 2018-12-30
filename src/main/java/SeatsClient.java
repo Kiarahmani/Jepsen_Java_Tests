@@ -40,7 +40,6 @@ public class SeatsClient {
 
 			// If we weren't given the customer id, then look it up
 			if (c_id == -1) {
-				System.out.println("KOON!");
 				// Use the customer's id as a string
 				assert (c_id_str != null && c_id_str.length() > 0);
 				stmt = conn.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ");
@@ -59,42 +58,40 @@ public class SeatsClient {
 				results.close();
 			}
 
-			// XXX We are in fact chopping the original query with joins on three table into
+			// We are in fact chopping the original query with joins on three table into
 			// three separate queries. We also read extra columns which will be used later
-			// when
-			// updating them
+			// when updating them
+			
 			// 1
 			stmt = conn.prepareStatement(
 					"SELECT C_SATTR00, C_SATTR02, C_SATTR04, C_IATTR00, C_IATTR02, C_IATTR04, C_IATTR06, C_BALANCE, C_IATTR10, C_IATTR11 FROM CUSTOMER WHERE C_ID = ?");
 			stmt.setLong(1, c_id);
-			//stmt.setString(2, String.valueOf(c_id));
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
-				
 				results2.close();
 				System.out.println("ERROR_2: c_id " + c_id + " does not exist");
 				return 2;
-				// throw new Exception(String.format("No Customer information record found for
-				// id '%d'", c_id));
 			}
 
 			float oldBal = results2.getFloat("C_BALANCE");
 			long oldAttr10 = results2.getLong("C_IATTR10");
 			long oldAttr11 = results2.getLong("C_IATTR11");
 			String c_iattr00 = results2.getString("C_SATTR00");
+			
 			// 2
-
 			stmt = conn.prepareStatement("SELECT F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ? ");
 			stmt.setLong(1, f_id);
 			ResultSet results3 = stmt.executeQuery();
-
-			// if (!results3.next())
-			// return 3;
 			boolean flight_exists = results3.next();
-			if (!flight_exists)
+			if (!flight_exists) {
+				results3.close();
+				System.out.println("ERROR_3: f_id " + f_id + " does not exist");
 				return 3;
+			}
 			int seats_left = results3.getInt("F_SEATS_LEFT");
 
+			System.out.println(seats_left);
+			
 			// 3
 /*
 			stmt = conn.prepareStatement(
