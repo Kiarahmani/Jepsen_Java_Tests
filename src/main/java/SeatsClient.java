@@ -296,6 +296,7 @@ public class SeatsClient {
 						ai_results3.getString("AP_CITY"); // [11] ARRIVE_AP_CITY row[r++] =
 						ai_results4.getString("CO_NAME"); // [12] ARRIVE_AP_COUNTRY
 						finalResults.add(row);
+						break;
 					}
 				}
 	
