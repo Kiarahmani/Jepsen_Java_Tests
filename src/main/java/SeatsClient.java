@@ -247,7 +247,7 @@ public class SeatsClient {
 						ResultSet flightResults2 = f_stmt2.executeQuery();
 						flightResults2.next();
 						String al_name = flightResults2.getString("AL_NAME");
-						System.out.println(">>>>>>"+al_name);
+						//System.out.println(">>>>>>"+al_name);
 						Object row[] = new Object[13];
 						int r = 0;
 /*
