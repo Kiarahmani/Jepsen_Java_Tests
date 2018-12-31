@@ -238,17 +238,19 @@ public class SeatsClient {
 					while (flightResults1.next()) {
 						int f_depart_airport = flightResults1.getInt("F_DEPART_AP_ID");
 						int f_arrive_airport = flightResults1.getInt("F_ARRIVE_AP_ID");
-						System.out.println(String.format("f_depart_airport:%d    --   f_arrive_airport:%d", f_depart_airport,f_arrive_airport));
-						/*
+						int f_al_id =  flightResults1.getInt("F_AL_ID");
+						// System.out.println(String.format("f_depart_airport:%d    --   f_arrive_airport:%d", f_depart_airport,f_arrive_airport));
+						
 						PreparedStatement f_stmt2 = connect
 								.prepareStatement("SELECT AL_NAME, AL_IATTR00, AL_IATTR01 FROM AIRLINE WHERE AL_ID=?");
-						f_stmt2.setInt(1, flightResults1.getInt("F_AL_ID"));
+						f_stmt2.setInt(1, f_al_id);
 						ResultSet flightResults2 = f_stmt2.executeQuery();
 						flightResults2.next();
 						String al_name = flightResults2.getString("AL_NAME");
+						System.out.println(">>>>>>"+al_name);
 						Object row[] = new Object[13];
 						int r = 0;
-
+/*
 						row[r++] = flightResults1.getInt("F_ID"); // [00] F_ID
 						row[r++] = flightResults1.getInt("SEATS_LEFT"); // [01] SEATS_LEFT
 						row[r++] = flightResults2.getString("AL_NAME"); // [02] AL_NAME
