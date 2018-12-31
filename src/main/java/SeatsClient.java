@@ -263,15 +263,15 @@ public class SeatsClient {
 						ai_stmt1.setInt(1, f_depart_airport);
 						ResultSet ai_results1 = ai_stmt1.executeQuery();
 						ai_results1.next();
-						int countryId = ai_results1.getInt("AP_CO_ID");
+						long countryId = ai_results1.getLong("AP_CO_ID");
 						
 						
 						PreparedStatement ai_stmt2 = connect.prepareStatement(
 								"SELECT CO_ID, CO_NAME, CO_CODE_2, CO_CODE_3 " + " FROM COUNTRY WHERE CO_ID = ?");
-						ai_stmt2.setInt(1, countryId);
+						ai_stmt2.setLong(1, countryId);
 						ResultSet ai_results2 = ai_stmt2.executeQuery(); // save the results boolean adv =
 						ai_results2.next();
-						row[r++] = flightResults1.getInt("F_DEPART_TIME"); // [03] DEPART_TIME
+						row[r++] = flightResults1.getTimestamp("F_DEPART_TIME"); // [03] DEPART_TIME
 						row[r++] = ai_results1.getString("AP_CODE"); // [04] DEPART_AP_CODE
 						row[r++] = ai_results1.getString("AP_NAME"); // [05] DEPART_AP_NAME
 						row[r++] = ai_results1.getString("AP_CITY"); // [06] DEPART_AP_CITY
