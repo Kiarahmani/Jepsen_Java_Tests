@@ -291,7 +291,7 @@ public class SeatsClient {
 						ai_stmt4.setLong(1, countryId2);
 						ResultSet ai_results4 = ai_stmt4.executeQuery();
 						ai_results4.next();
-						row[r++] = flightResults1.getDate(7); // [08] ARRIVE_TIME row[r++] =
+						row[r++] = flightResults1.getTimestamp("F_ARRIVE_TIME"); // [08] ARRIVE_TIME row[r++] =
 						ai_results3.getString("AP_CODE"); // [09] ARRIVE_AP_CODE row[r++] =
 						ai_results3.getString("AP_NAME"); // [10] ARRIVE_AP_NAME row[r++] =
 						ai_results3.getString("AP_CITY"); // [11] ARRIVE_AP_CITY row[r++] =
