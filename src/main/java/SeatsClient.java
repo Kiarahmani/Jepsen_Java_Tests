@@ -233,10 +233,10 @@ public class SeatsClient {
 					f_stmt1.setTimestamp(2, start_date);
 					f_stmt1.setTimestamp(3, end_date);
 					
-					ResultSet flightResults1 = f_stmt1.executeQuery();
-					flightResults1.next();
+					ResultSet flightResults1 = null;//f_stmt1.executeQuery();
+					//flightResults1.next();
 					int i =0 ;
-					while (flightResults1.next() && i<10 && false) {
+					while (false && flightResults1.next() && i<10) {
 						System.out.println("\n"+(++i)+"\n");
 						int f_depart_airport = flightResults1.getInt("F_DEPART_AP_ID");
 						int f_arrive_airport = flightResults1.getInt("F_ARRIVE_AP_ID");
