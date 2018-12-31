@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SeatsClient {
@@ -235,22 +236,22 @@ public class SeatsClient {
 					ResultSet flightResults1 = f_stmt1.executeQuery();
 					flightResults1.next();
 					int i =0 ;
+					List<Long> edgeIds;
+					
 					while (flightResults1.next()) {
 						int f_depart_airport = flightResults1.getInt("F_DEPART_AP_ID");
 						int f_arrive_airport = flightResults1.getInt("F_ARRIVE_AP_ID");
 						int f_al_id =  flightResults1.getInt("F_AL_ID");
 						// System.out.println(String.format("f_depart_airport:%d    --   f_arrive_airport:%d", f_depart_airport,f_arrive_airport));
-						
 						PreparedStatement f_stmt2 = connect
 								.prepareStatement("SELECT AL_NAME, AL_IATTR00, AL_IATTR01 FROM AIRLINE WHERE AL_ID=?");
 						f_stmt2.setInt(1, f_al_id);
-						//ResultSet flightResults2 = f_stmt2.executeQuery();
-						//flightResults2.next();
-						//String al_name = flightResults2.getString("AL_NAME");
-						//System.out.println(">>>>>>"+al_name);
+						ResultSet flightResults2 = f_stmt2.executeQuery();
+						flightResults2.next();
+						String al_name = flightResults2.getString("AL_NAME");
 						Object row[] = new Object[13];
 						int r = 0;
-/*
+
 						row[r++] = flightResults1.getInt("F_ID"); // [00] F_ID
 						row[r++] = flightResults1.getInt("SEATS_LEFT"); // [01] SEATS_LEFT
 						row[r++] = flightResults2.getString("AL_NAME"); // [02] AL_NAME
@@ -294,7 +295,7 @@ public class SeatsClient {
 						ai_results3.getString("AP_CITY"); // [11] ARRIVE_AP_CITY row[r++] =
 						ai_results4.getString("CO_NAME"); // [12] ARRIVE_AP_COUNTRY
 						finalResults.add(row);
-*/					}
+					}
 				}
 	
   		}
