@@ -253,9 +253,9 @@ public class SeatsClient {
 						int r = 0;
 
 						row[r++] = flightResults1.getInt("F_ID"); // [00] F_ID
-						row[r++] = flightResults1.getInt("SEATS_LEFT"); // [01] SEATS_LEFT
-						row[r++] = flightResults2.getString("AL_NAME"); // [02] AL_NAME
-
+						row[r++] = flightResults1.getInt("F_SEATS_LEFT"); // [01] SEATS_LEFT
+						row[r++] = al_name;
+						
 						// DEPARTURE AIRPORT
 						PreparedStatement ai_stmt1 = connect.prepareStatement(
 								"SELECT AP_CODE, AP_NAME, AP_CITY, AP_LONGITUDE, AP_LATITUDE, AP_CO_ID "
