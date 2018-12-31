@@ -234,8 +234,10 @@ public class SeatsClient {
 					
 					ResultSet flightResults1 = f_stmt1.executeQuery();
 					flightResults1.next();
-/*
+
 					while (flightResults1.next()) {
+						System.out.println("KIR!");
+						/*
 						int f_depart_airport = flightResults1.getInt("F_DEPART_AP_ID");
 						int f_arrive_airport = flightResults1.getInt("F_ARRIVE_AP_ID");
 						PreparedStatement f_stmt2 = connect
@@ -290,8 +292,8 @@ public class SeatsClient {
 						ai_results3.getString("AP_CITY"); // [11] ARRIVE_AP_CITY row[r++] =
 						ai_results4.getString("CO_NAME"); // [12] ARRIVE_AP_COUNTRY
 						finalResults.add(row);
-					}
-*/				}
+*/					}
+				}
 	
   		}
  
