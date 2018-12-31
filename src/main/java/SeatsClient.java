@@ -227,7 +227,7 @@ public class SeatsClient {
 							+ " WHERE F_DEPART_AP_ID = ? "
 							+ " AND F_DEPART_TIME > ? "
 							+ " AND F_DEPART_TIME < ? "
-							+ "");
+							+ " ALLOW FILTERING");
 					// Set Parameters
 					f_stmt1.setLong(1, depart_aid);
 					f_stmt1.setTimestamp(2, start_date);
