@@ -285,10 +285,10 @@ public class SeatsClient {
 						ResultSet ai_results3 = ai_stmt3.executeQuery();
 						ai_results3.next();
 
-						int countryId2 = ai_results3.getInt("AP_CO_ID");
+						long countryId2 = ai_results3.getLong("AP_CO_ID");
 						PreparedStatement ai_stmt4 = connect.prepareStatement(
 								"SELECT CO_ID, CO_NAME, CO_CODE_2, CO_CODE_3 " + " FROM COUNTRY WHERE CO_ID = ?");
-						ai_stmt4.setInt(1, countryId2);
+						ai_stmt4.setLong(1, countryId2);
 						ResultSet ai_results4 = ai_stmt4.executeQuery();
 						ai_results4.next();
 						row[r++] = flightResults1.getDate(7); // [08] ARRIVE_TIME row[r++] =
