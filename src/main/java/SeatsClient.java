@@ -236,7 +236,7 @@ public class SeatsClient {
 					ResultSet flightResults1 = f_stmt1.executeQuery();
 					flightResults1.next();
 					int i =0 ;
-					while (flightResults1.next() && i<10) {
+					while (flightResults1.next() && i<1) {
 						i++;
 						System.out.println("\n"+(++i)+"\n");
 						int f_depart_airport = flightResults1.getInt("F_DEPART_AP_ID");
