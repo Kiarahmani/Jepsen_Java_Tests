@@ -225,18 +225,18 @@ public class SeatsClient {
 					PreparedStatement f_stmt1 = connect.prepareStatement("SELECT F_ID, F_AL_ID, F_SEATS_LEFT, F_DEPART_AP_ID, F_DEPART_TIME, F_ARRIVE_AP_ID, F_ARRIVE_TIME "
 							+ " FROM FLIGHT "
 							+ " WHERE F_DEPART_AP_ID = ? "
-							+ " AND F_DEPART_TIME >= ? "
-							+ " AND F_DEPART_TIME <= ? "
+							+ " AND F_DEPART_TIME > ? "
+							+ " AND F_DEPART_TIME < ? "
 							+ " ALLOW FILTERING");
 					// Set Parameters
 					f_stmt1.setLong(1, depart_aid);
 					f_stmt1.setTimestamp(2, start_date);
 					f_stmt1.setTimestamp(3, end_date);
 					
-					ResultSet flightResults1 = null;//f_stmt1.executeQuery();
-					//flightResults1.next();
+					ResultSet flightResults1 = f_stmt1.executeQuery();
+					flightResults1.next();
 					int i =0 ;
-					while (false && flightResults1.next() && i<10) {
+					while (flightResults1.next() && i<10) {
 						System.out.println("\n"+(++i)+"\n");
 						int f_depart_airport = flightResults1.getInt("F_DEPART_AP_ID");
 						int f_arrive_airport = flightResults1.getInt("F_ARRIVE_AP_ID");
