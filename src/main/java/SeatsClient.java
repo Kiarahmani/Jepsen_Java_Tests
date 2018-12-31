@@ -244,9 +244,9 @@ public class SeatsClient {
 						PreparedStatement f_stmt2 = connect
 								.prepareStatement("SELECT AL_NAME, AL_IATTR00, AL_IATTR01 FROM AIRLINE WHERE AL_ID=?");
 						f_stmt2.setInt(1, f_al_id);
-						ResultSet flightResults2 = f_stmt2.executeQuery();
-						flightResults2.next();
-						String al_name = flightResults2.getString("AL_NAME");
+						//ResultSet flightResults2 = f_stmt2.executeQuery();
+						//flightResults2.next();
+						//String al_name = flightResults2.getString("AL_NAME");
 						//System.out.println(">>>>>>"+al_name);
 						Object row[] = new Object[13];
 						int r = 0;
