@@ -48,7 +48,7 @@ public class SeatsUtils {
 		long offset = beginDate.getTime();
 		long end = Timestamp.valueOf("2019-02-14 04:04:19").getTime();
 		long diff = end - offset + 1;
-		//diff = 1;
+		diff = diff/10;
 		Timestamp rand = new Timestamp(offset + (long) (Math.random() * diff));
 		return rand;
 	}

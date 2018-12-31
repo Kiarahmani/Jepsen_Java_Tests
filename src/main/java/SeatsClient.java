@@ -276,7 +276,7 @@ public class SeatsClient {
 						row[r++] = ai_results1.getString("AP_NAME"); // [05] DEPART_AP_NAME
 						row[r++] = ai_results1.getString("AP_CITY"); // [06] DEPART_AP_CITY
 						row[r++] = ai_results2.getString("CO_NAME"); // [07] DEPART_AP_COUNTRY
-/*
+
 						// ARRIVAL AIRPORT
 						PreparedStatement ai_stmt3 = connect.prepareStatement(
 								"SELECT AP_CODE, AP_NAME, AP_CITY, AP_LONGITUDE, AP_LATITUDE, AP_CO_ID "
@@ -297,7 +297,7 @@ public class SeatsClient {
 						ai_results3.getString("AP_CITY"); // [11] ARRIVE_AP_CITY row[r++] =
 						ai_results4.getString("CO_NAME"); // [12] ARRIVE_AP_COUNTRY
 						finalResults.add(row);
-				*/	}
+					}
 				}
 	
   		}
