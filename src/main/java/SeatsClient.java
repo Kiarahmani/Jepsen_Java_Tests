@@ -391,7 +391,7 @@ public class SeatsClient {
 	 */
 
 	public static int newReservation(Connection connect, long r_id, long c_id, long f_id, int seatnum, float price,
-			int attrs[]) throws Exception {
+			long attrs[]) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
@@ -474,11 +474,11 @@ public class SeatsClient {
 				stmt5.setLong(6 + i, attrs[i]);
 			stmt5.executeUpdate();
 
-			//PreparedStatement stmt6 = connect
-			//		.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ? " + " WHERE F_ID = ? ");
-			//stmt6.setLong(1, seats_left - 1);
-			//stmt6.setLong(2, f_id);
-			//stmt6.executeUpdate();
+			PreparedStatement stmt6 = connect
+					.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ? " + " WHERE F_ID = ? ");
+			stmt6.setLong(1, seats_left - 1);
+			stmt6.setLong(2, f_id);
+			stmt6.executeUpdate();
 
 			// update customer
 
