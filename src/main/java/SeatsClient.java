@@ -454,14 +454,14 @@ public class SeatsClient {
 					"SELECT C_BASE_AP_ID, C_BALANCE, C_SATTR00, C_IATTR10, C_IATTR11 FROM CUSTOMER WHERE C_ID = ? ");
 			stmt4.setLong(1, c_id);
 			ResultSet rs5 = stmt4.executeQuery();
-			int oldAttr10 = rs5.getInt("C_IATTR10");
-			int oldAttr11 = rs5.getInt("C_IATTR11");
 			boolean found5 = rs5.next();
-
 			if (!found5) {
 				System.out.println(String.format("ERROR_6: Invalid customer id: %d / %s", c_id, c_id));
 				return 6;
 			}
+			int oldAttr10 = rs5.getInt("C_IATTR10");
+			int oldAttr11 = rs5.getInt("C_IATTR11");
+
 			/*
 			 * PreparedStatement stmt5 = connect.prepareStatement(
 			 * "INSERT INTO RESERVATION (R_ID, R_C_ID, R_F_ID, R_SEAT, R_PRICE, R_IATTR00, R_IATTR01, "
