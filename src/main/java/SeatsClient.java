@@ -500,7 +500,7 @@ public class SeatsClient {
 			stmt81.setLong(1, c_id);
 			stmt81.setLong(2, airline_id);
 			rs6.next();
-			int oldFFAttr10 = rs6.getInt("FF_IATTR10");
+			long oldFFAttr10 = rs6.getLong("FF_IATTR10");
 			System.out.println("\n\n\n\n"+oldFFAttr10+"\n\n\n\n");
 			/*
 			 * PreparedStatement stmt82 = connect.prepareStatement(
