@@ -346,24 +346,28 @@ public class SeatsClient {
 					.prepareStatement("SELECT R_ID, R_F_ID, R_SEAT FROM RESERVATION WHERE R_F_ID = ?");
 			s_stmt.setLong(1, f_id);
 			ResultSet s_results = s_stmt.executeQuery();
-			int iter=0;
+
 			while (s_results.next()) {
-				System.out.println("KOON!"+(++iter));
+				int r_id = s_results.getInt(1);
+				int seatnum = s_results.getInt(3);
+				assert (seatmap[seatnum] == -1) : "Duplicate seat reservation: R_ID=" + r_id;
+				seatmap[seatnum] = 1; 
 			}
-			
-			
+
 			/*
 			 * 
-			 * while (s_results.next()) { int r_id = s_results.getInt(1); int seatnum =
-			 * s_results.getInt(3); assert (seatmap[seatnum] == -1) :
-			 * "Duplicate seat reservation: R_ID=" + r_id; seatmap[seatnum] = 1; } int ctr =
-			 * 0; Object[][] returnResults = new Object[150][]; for (int i = 0; i <
-			 * seatmap.length; ++i) { if (seatmap[i] == -1) { // Charge more for the first
-			 * seats double price = seat_price * (i < 10 ? 2.0 : 1.0); Object[] row = new
-			 * Object[] { f_id, i, price }; returnResults[ctr++] = row; if (ctr ==
-			 * returnResults.length) break; } } // FOR // print the available saets for
-			 * (Object[] o1 : returnResults) { for (Object o2 : o1) System.out.println(o2);
-			 * System.out.println("===================="); }
+			 * 
+			 *  int ctr = 0; Object[][] returnResults = new
+			 * Object[150][]; for (int i = 0; i < seatmap.length; ++i) { if (seatmap[i] ==
+			 * -1) { // Charge more for the first seats double price = seat_price * (i < 10
+			 * ? 2.0 : 1.0); Object[] row = new Object[] { f_id, i, price };
+			 * returnResults[ctr++] = row; if (ctr == returnResults.length) break; } } //
+			 * FOR // print the available saets for (Object[] o1 : returnResults) { for
+			 * (Object o2 : o1) System.out.println(o2);
+			 * System.out.println("====================");
+			 * 
+			 * 
+			 * 
 			 */
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
