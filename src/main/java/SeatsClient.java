@@ -397,13 +397,16 @@ public class SeatsClient {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			System.out.println(String.format("r_id:%d -- c_id:%d -- f_id:%d -- seatnum:%d  -- price:%f", r_id, c_id,
 					f_id, seatnum, price));
+			// Flight Information
 			PreparedStatement stmt11 = connect
 					.prepareStatement("SELECT F_AL_ID, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
 			stmt11.setLong(1, f_id);
 			ResultSet rs1 = stmt11.executeQuery();
-			boolean found1 = rs1.next(); // Airline Information
+			boolean found1 = rs1.next(); 
+			long al_id = rs1.getLong("F_AL_ID");
+			// Airline Information
 			PreparedStatement stmt12 = connect.prepareStatement("SELECT * FROM AIRLINE WHERE AL_ID = ?");
-			stmt12.setLong(1, f_id);
+			stmt12.setLong(1, al_id);
 			ResultSet rs2 = stmt12.executeQuery();
 			boolean found2 = rs2.next();
 			if (!found1 || !found2) {
