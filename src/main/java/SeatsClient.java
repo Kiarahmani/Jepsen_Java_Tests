@@ -334,8 +334,8 @@ public class SeatsClient {
 			ResultSet f_results = f_stmt.executeQuery();
 
 			boolean adv = f_results.next();
-			if (!adv)
-			{	System.out.println("ERROR!");
+			if (!adv) {
+				System.out.println("ERROR!");
 				return 99999;
 			}
 			float base_price = f_results.getFloat("F_BASE_PRICE");
@@ -365,11 +365,11 @@ public class SeatsClient {
 						break;
 				}
 			}
-			//for (Object[] o1 : returnResults) {
-			//	for (Object o2 : o1)
-			//		System.out.println(o2);
-			//	System.out.println("====================");
-			//}
+			// for (Object[] o1 : returnResults) {
+			// for (Object o2 : o1)
+			// System.out.println(o2);
+			// System.out.println("====================");
+			// }
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
@@ -390,32 +390,37 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public static int newReservation(Connection conn, long r_id, long c_id, long f_id, int seatnum, float price, int attrs[])
-			throws Exception {
+	public static int newReservation(Connection connect, long r_id, long c_id, long f_id, int seatnum, float price,
+			int attrs[]) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-
+			// System.out.println(String.format("r_id:%d -- c_id:%d -- f_id:%d -- seatnum:%d
+			// -- price:%f", r_id,c_id,f_id, seatnum, price));
+			// System.out.println(attrs[0]);
+			PreparedStatement stmt11 = connect
+					.prepareStatement("SELECT F_AL_ID, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
+			stmt11.setLong(1, f_id);
+			ResultSet rs1 = stmt11.executeQuery();
+			boolean found1 = rs1.next(); // Airline Information 
+			PreparedStatement stmt12 = connect.prepareStatement("SELECT * FROM AIRLINE WHERE AL_ID = ?");
+			stmt12.setLong(1, f_id);
+			ResultSet rs2 = stmt12.executeQuery();
+			boolean found2 = rs2.next();
+			if (!found1 || !found2) {
+				System.out.println("\n\n\n\n\n\nInvalid flight");
+			}
 			
-			System.out.println("FUCKING THINGS UP");
-			System.out.println(String.format("r_id:%d  -- c_id:%d  --  f_id:%d  --  seatnum:%d  --  price:%f", r_id,c_id,f_id, seatnum, price));
-			System.out.println(attrs[0]);
 			
-
-
 			/*
-			 * System.out.println("connecting..."); connect =
-			 * DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID +
-			 * "/testks"); // Flight Information PreparedStatement stmt11 = connect
-			 * .prepareStatement("SELECT F_AL_ID, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
-			 * stmt11.setInt(1, f_id); ResultSet rs1 = stmt11.executeQuery(); boolean found1
-			 * = rs1.next(); // Airline Information PreparedStatement stmt12 =
-			 * connect.prepareStatement("SELECT * FROM AIRLINE WHERE AL_ID = ?");
-			 * stmt12.setInt(1, f_id); ResultSet rs2 = stmt12.executeQuery(); boolean found2
-			 * = rs2.next(); if (!found1 || !found2) { System.out.println("Invalid flight");
-			 * } int airline_id = rs1.getInt("F_AL_ID"); int seats_left =
-			 * rs1.getInt("F_SEATS_LEFT"); rs.close(); if (seats_left <= 0) {
-			 * System.out.println(" No more seats available for flight"); } // Check if Seat
+			int airline_id = rs1.getInt("F_AL_ID");
+			int seats_left = rs1.getInt("F_SEATS_LEFT");
+			rs.close();
+			if (seats_left <= 0) {
+				System.out.println(" No more seats available for flight");
+			} // Check if Seat
+
+			
 			 * is Available PreparedStatement stmt2 = connect
 			 * .prepareStatement("SELECT R_ID FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ?"
 			 * ); stmt2.setInt(1, f_id); stmt2.setInt(2, seatnum); ResultSet rs3 =
@@ -471,9 +476,9 @@ public class SeatsClient {
 			 * c_id); stmt82.setInt(7, airline_id); stmt82.executeUpdate();
 			 * 
 			 */
-			
+
 			return 0;
-} catch (Exception e) {
+		} catch (Exception e) {
 			throw e;
 		} finally {
 
