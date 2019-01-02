@@ -476,7 +476,7 @@ public class SeatsClient {
 
 			PreparedStatement stmt6 = connect
 					.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ? " + " WHERE F_ID = ? ");
-			stmt6.setInt(1, seats_left - 1);
+			stmt6.setLong(1, seats_left - 1);
 			stmt6.setLong(2, f_id);
 			stmt6.executeUpdate();
 
