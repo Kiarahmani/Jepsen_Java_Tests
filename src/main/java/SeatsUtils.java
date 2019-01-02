@@ -122,7 +122,7 @@ public class SeatsUtils {
 			initializeFLightIds();
 			initializeCustomerMap();
 			initializeReservations();
-			resCount = r_c_id.size();
+			//resCount = r_c_id.size();
 			waitForInit = false;
 		} else {
 			while (waitForInit)
