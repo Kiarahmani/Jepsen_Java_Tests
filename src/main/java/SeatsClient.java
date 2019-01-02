@@ -297,6 +297,7 @@ public class SeatsClient {
 						finalResults.add(row);
 					}
 				}
+				System.out.println("\n\n>>>"+finalResults.size());
 	
   		}
  
