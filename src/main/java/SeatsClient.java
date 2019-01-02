@@ -433,7 +433,7 @@ public class SeatsClient {
 			boolean found3 = rs3.next();
 			if (found3) {
 				System.out.println(String.format(" ERROR_4: Seat %d is already reserved on flight #%d", seatnum, f_id));
-				return 4;
+				return (_NO_ERROR_MODE)? 0:4;
 			}
 
 			// Check if the Customer already has a seat on this flight
