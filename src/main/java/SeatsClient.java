@@ -338,7 +338,7 @@ public class SeatsClient {
 		
 			  
 			  boolean adv = f_results.next(); 
-			  float base_price = f_results.getInt("F_BASE_PRICE"); 
+			  float base_price = f_results.getFloat("F_BASE_PRICE"); 
 			  int seats_left = f_results.getInt("F_SEATS_LEFT"); 
 			  int seats_total = f_results.getInt("F_SEATS_TOTAL"); 
 			  float seat_price = base_price + (base_price * (1 - (seats_left / seats_total))); 
