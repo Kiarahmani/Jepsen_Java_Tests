@@ -438,7 +438,7 @@ public class SeatsClient {
 
 			// Check if the Customer already has a seat on this flight
 			PreparedStatement stmt3 = connect
-					.prepareStatement("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? AND R_C_ID = ?");
+					.prepareStatement("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? AND R_C_ID = ? ALLOW FILTERING");
 			stmt3.setLong(1, f_id);
 			stmt3.setLong(2, c_id);
 			ResultSet rs4 = stmt3.executeQuery();
