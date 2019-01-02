@@ -390,14 +390,14 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public static int newReservation(Connection conn, int r_id, int c_id, int f_id, int seatnum, int price, int attrs[])
+	public static int newReservation(Connection conn, int r_id, int c_id, int f_id, int seatnum, float price, int attrs[])
 			throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			return 0;
 			
-			
+			System.out.println("FUCKING THINGS UP");
+			System.out.println(String.format("r_id:%d  -- c_id:%d  --  f_id:%d  --  seatnum:%d  --  price:%f", r_id,c_id,f_id, seatnum, price));
 			
 			/*
 			 * System.out.println("connecting..."); connect =
@@ -466,7 +466,10 @@ public class SeatsClient {
 			 * stmt82.setInt(4, attrs[6]); stmt82.setInt(5, attrs[7]); stmt82.setInt(6,
 			 * c_id); stmt82.setInt(7, airline_id); stmt82.executeUpdate();
 			 * 
-			 */} catch (Exception e) {
+			 */
+			
+			return 0;
+} catch (Exception e) {
 			throw e;
 		} finally {
 
