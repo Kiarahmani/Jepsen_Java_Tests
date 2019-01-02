@@ -338,10 +338,10 @@ public class SeatsClient {
 		
 			  
 			  boolean adv = f_results.next(); 
-			  int base_price = f_results.getInt("F_BASE_PRICE"); 
+			  float base_price = f_results.getInt("F_BASE_PRICE"); 
 			  int seats_left = f_results.getInt("F_SEATS_LEFT"); 
 			  int seats_total = f_results.getInt("F_SEATS_TOTAL"); 
-			  int seat_price = base_price + (base_price * (1 - (seats_left / seats_total))); 
+			  float seat_price = base_price + (base_price * (1 - (seats_left / seats_total))); 
 			  System.out.println(String.format("base_price:%d -- seats_left:%d -- seats_total:%d -- seat_price:%d", base_price,seats_left,seats_total,seat_price));
 			  
 			  PreparedStatement s_stmt = connect.prepareStatement("SELECT R_ID, R_F_ID, R_SEAT FROM RESERVATION WHERE R_F_ID = ?"); 
