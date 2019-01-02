@@ -483,7 +483,7 @@ public class SeatsClient {
 			// update customer
 			PreparedStatement stmt7 = connect.prepareStatement(
 					"UPDATE CUSTOMER SET C_IATTR10 = ?, C_IATTR11 = ?, C_IATTR12 = ?, C_IATTR13 = ?, C_IATTR14 = ?, C_IATTR15 = ?"
-							+ "  WHERE C_ID = ? ");
+							+ "  WHERE C_ID = ? AND C_ID_STR = ?");
 			stmt7.setLong(1, oldAttr10 + 1);
 			stmt7.setLong(2, oldAttr11 + 1);
 			stmt7.setLong(3, attrs[0]);
@@ -491,6 +491,7 @@ public class SeatsClient {
 			stmt7.setLong(5, attrs[2]);
 			stmt7.setLong(6, attrs[3]);
 			stmt7.setLong(7, c_id);
+			stmt7.setString(8, String.valueOf(c_id));
 			stmt7.executeUpdate(); // update frequent flyer PreparedStatement stmt81 =
 			/*
 			 * connect
