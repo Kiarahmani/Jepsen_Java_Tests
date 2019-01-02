@@ -58,10 +58,10 @@ public class SeatsUtils {
 		return nextLong(281474976710656L, 80501843339247631L);
 	}
 
-	public static long getNewResId() {
-		System.out.println("getting a new res id -- current size: "+resCount);
+	public static int getNewResId() {
+		//System.out.println("getting a new res id -- current size: "+resCount);
 		//resCount++;
-		return 281656L;
+		return 281656;
 	}
 	
 	//public static long getRandomResId() {
