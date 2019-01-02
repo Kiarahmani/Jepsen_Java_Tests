@@ -492,14 +492,17 @@ public class SeatsClient {
 			stmt7.setLong(6, attrs[3]);
 			stmt7.setLong(7, c_id);
 			stmt7.setString(8, String.valueOf(c_id));
-			stmt7.executeUpdate(); // update frequent flyer PreparedStatement stmt81 =
+			stmt7.executeUpdate();
+			// update frequent flyer
+			PreparedStatement stmt81 = connect
+					.prepareStatement("SELECT FF_IATTR10 FROM FREQUENT_FLYER WHERE FF_C_ID = ? AND FF_AL_ID = ?");
+			ResultSet rs6 = stmt81.executeQuery();
+			stmt81.setLong(1, c_id);
+			stmt81.setLong(2, airline_id);
+			rs6.next();
+			int oldFFAttr10 = rs6.getInt("FF_IATTR10");
+			System.out.println("\n\n\n\n"+oldFFAttr10+"\n\n\n\n");
 			/*
-			 * connect
-			 * .prepareStatement("SELECT FF_IATTR10 FROM FREQUENT_FLYER WHERE FF_C_ID = ? AND FF_AL_ID = ?"
-			 * ); ResultSet rs6 = stmt81.executeQuery(); stmt81.setInt(1, c_id);
-			 * stmt81.setInt(2, airline_id); rs6.next(); int oldFFAttr10 =
-			 * rs6.getInt("FF_IATTR10");
-			 * 
 			 * PreparedStatement stmt82 = connect.prepareStatement(
 			 * "UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?, FF_IATTR11 = ?, FF_IATTR12 = ?, FF_IATTR13 = ?, FF_IATTR14 = ? "
 			 * + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?"); stmt82.setInt(1,
