@@ -456,21 +456,28 @@ public class SeatsClient {
 			ResultSet rs5 = stmt4.executeQuery();
 			boolean found5 = rs5.next();
 			if (!found5) {
-				System.out.println(String.format("ERROR_6: Invalid customer id: %d / %s", c_id, c_id));
+				System.out.println(String.format("ERROR_6: Invalid customer id: %d ", c_id));
 				return 6;
 			}
 			int oldAttr10 = rs5.getInt("C_IATTR10");
 			int oldAttr11 = rs5.getInt("C_IATTR11");
 
+			PreparedStatement stmt5 = connect.prepareStatement(
+					"INSERT INTO RESERVATION (R_ID, R_C_ID, R_F_ID, R_SEAT, R_PRICE, R_IATTR00, R_IATTR01, "
+							+ "   R_IATTR02, R_IATTR03, R_IATTR04, R_IATTR05, R_IATTR06, R_IATTR07, R_IATTR08) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			stmt5.setLong(1, r_id);
+			stmt5.setLong(2, c_id);
+			stmt5.setLong(3, f_id);
+			stmt5.setInt(4, seatnum);
+			stmt5.setInt(5, 2);
+			stmt5.setInt(6, attrs[0]);
+			stmt5.setInt(7, attrs[1]);
+			stmt5.setInt(8, attrs[2]);
+			stmt5.setInt(9, attrs[3]);
+			stmt5.executeUpdate();
+
 			/*
-			 * PreparedStatement stmt5 = connect.prepareStatement(
-			 * "INSERT INTO RESERVATION (R_ID, R_C_ID, R_F_ID, R_SEAT, R_PRICE, R_IATTR00, R_IATTR01, "
-			 * +
-			 * "   R_IATTR02, R_IATTR03, R_IATTR04, R_IATTR05, R_IATTR06, R_IATTR07, R_IATTR08) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-			 * ); stmt5.setInt(1, r_id); stmt5.setInt(2, c_id); stmt5.setInt(3, f_id);
-			 * stmt5.setInt(4, seatnum); stmt5.setInt(5, 2); stmt5.setInt(6, attrs[0]);
-			 * stmt5.setInt(7, attrs[1]); stmt5.setInt(8, attrs[2]); stmt5.setInt(9,
-			 * attrs[3]); stmt5.executeUpdate(); // PreparedStatement stmt6 = connect
+			 * PreparedStatement stmt6 = connect
 			 * .prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ? " +
 			 * " WHERE F_ID = ? "); stmt6.setInt(1, seats_left - 1); stmt6.setInt(2, f_id);
 			 * stmt6.executeUpdate(); // update customer PreparedStatement stmt7 =

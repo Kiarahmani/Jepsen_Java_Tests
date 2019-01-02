@@ -49,7 +49,7 @@ public class SeatsUtils {
 		long offset = beginDate.getTime();
 		long end = Timestamp.valueOf("2019-02-14 04:04:19").getTime();
 		long diff = end - offset + 1;
-		diff = diff/10;
+		diff = diff / 10;
 		Timestamp rand = new Timestamp(offset + (long) (Math.random() * diff));
 		return rand;
 	}
@@ -59,19 +59,16 @@ public class SeatsUtils {
 	}
 
 	public static long getNewResId() {
-		System.out.println("getting a new res id -- current size: "+resCount);
+		System.out.println("getting a new res id -- current size: " + resCount);
 		resCount++;
 		return resCount;
 	}
-	
+
 	public static long getRandomResId() {
-		System.out.println("getting a random res id -- current size: "+resCount);
+		System.out.println("getting a random res id -- current size: " + resCount);
 		return ThreadLocalRandom.current().nextLong(resCount);
 	}
-	
-	
-	
-	
+
 	public static long getRandomFlightId() {
 		int index = ThreadLocalRandom.current().nextInt(1, flightIds.size() - 1);
 		return flightIds.get(index);
@@ -89,6 +86,13 @@ public class SeatsUtils {
 		return ThreadLocalRandom.current().nextInt(r_f_id.size());
 	}
 
+	public static int[] getNewAttrs() {
+		int[] result = new int[4];
+		for (int i = 0; i < 4; i++)
+			result[i] = ThreadLocalRandom.current().nextInt();
+		return result;
+	}
+
 	public static long nextLong(long minimum, long maximum) {
 		return ThreadLocalRandom.current().nextLong(minimum, maximum);
 	}
@@ -97,8 +101,6 @@ public class SeatsUtils {
 			16, // AIRPORT_ID
 	};
 
-	
-	
 	private static final long COMPOSITE_POWS[] = compositeBitsPreCompute(COMPOSITE_BITS);
 
 	protected static final long[] compositeBitsPreCompute(int offset_bits[]) {
