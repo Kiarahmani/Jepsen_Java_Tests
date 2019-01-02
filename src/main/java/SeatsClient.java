@@ -390,7 +390,7 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public static int newReservation(Connection conn, int r_id, int c_id, int f_id, int seatnum, float price, int attrs[])
+	public static int newReservation(Connection conn, long r_id, long c_id, long f_id, int seatnum, float price, int attrs[])
 			throws Exception {
 		try {
 

@@ -16,6 +16,7 @@ public class SeatsUtils {
 	private static List<Long> flightIds;
 	private static List<Long> r_f_id;
 	private static List<Long> r_c_id;
+	private static long resCount = -1;
 
 	static AtomicBoolean atomicInitialized = new AtomicBoolean(false);
 	static boolean waitForInit = true;
@@ -57,6 +58,18 @@ public class SeatsUtils {
 		return nextLong(281474976710656L, 80501843339247631L);
 	}
 
+	public static long getNewResId() {
+		System.out.println("getting a new res id -- current size: "+resCount);
+		resCount++;
+		return resCount;
+	}
+	
+	public static long getRandomResId() {
+		System.out.println("getting a random res id -- current size: "+resCount);
+		return ThreadLocalRandom.current().nextLong(resCount);
+	}
+	
+	
 	public static long getRandomFlightId() {
 		int index = ThreadLocalRandom.current().nextInt(1, flightIds.size() - 1);
 		return flightIds.get(index);
@@ -109,6 +122,7 @@ public class SeatsUtils {
 			initializeFLightIds();
 			initializeCustomerMap();
 			initializeReservations();
+			resCount = r_c_id.size();
 			waitForInit = false;
 		} else {
 			while (waitForInit)
