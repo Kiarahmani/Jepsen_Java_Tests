@@ -351,6 +351,8 @@ public class SeatsClient {
 				int r_id = s_results.getInt(1);
 				int seatnum = s_results.getInt(3);
 				assert (seatmap[seatnum] == -1) : "Duplicate seat reservation: R_ID=" + r_id;
+				if (seatmap[seatnum] != -1)
+					return 69;
 				seatmap[seatnum] = 1; 
 			}
 
