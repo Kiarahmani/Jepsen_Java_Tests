@@ -398,8 +398,8 @@ public class SeatsClient {
 
 			
 			System.out.println("FUCKING THINGS UP");
-			//System.out.println(String.format("r_id:%d  -- c_id:%d  --  f_id:%d  --  seatnum:%d  --  price:%f", r_id,c_id,f_id, seatnum, price));
-			//System.out.println(attrs[0]);
+			System.out.println(String.format("r_id:%d  -- c_id:%d  --  f_id:%d  --  seatnum:%d  --  price:%f", r_id,c_id,f_id, seatnum, price));
+			System.out.println(attrs[0]);
 			
 
 
