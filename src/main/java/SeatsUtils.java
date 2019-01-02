@@ -87,8 +87,8 @@ public class SeatsUtils {
 	}
 
 	public static int[] getNewAttrs() {
-		int[] result = new int[4];
-		for (int i = 0; i < 4; i++)
+		int[] result = new int[9];
+		for (int i = 0; i < 9; i++)
 			result[i] = ThreadLocalRandom.current().nextInt();
 		return result;
 	}

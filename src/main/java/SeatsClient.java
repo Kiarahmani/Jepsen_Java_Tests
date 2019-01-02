@@ -470,15 +470,8 @@ public class SeatsClient {
 			stmt5.setLong(3, f_id);
 			stmt5.setLong(4, seatnum);
 			stmt5.setFloat(5, 6969F);
-			stmt5.setLong(6, 1);
-			stmt5.setLong(7, 1);
-			stmt5.setLong(8, 1);
-			stmt5.setLong(9, 1);
-			stmt5.setLong(10, 1);
-			stmt5.setLong(11, 1);
-			stmt5.setLong(12, 1);
-			stmt5.setLong(13, 1);
-			stmt5.setLong(14, 1);
+			for(int i=0;i<9;i++)
+			stmt5.setLong(6+i, attrs[i]);
 			stmt5.executeUpdate();
 
 			/*
