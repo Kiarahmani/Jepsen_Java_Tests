@@ -397,8 +397,8 @@ public class SeatsClient {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			
 			System.out.println("FUCKING THINGS UP");
-			System.out.println(String.format("r_id:%d  -- c_id:%d  --  f_id:%d  --  seatnum:%d  --  price:%f", r_id,c_id,f_id, seatnum, price));
-			System.out.println(attrs[0]);
+			//System.out.println(String.format("r_id:%d  -- c_id:%d  --  f_id:%d  --  seatnum:%d  --  price:%f", r_id,c_id,f_id, seatnum, price));
+			//System.out.println(attrs[0]);
 			
 			/*
 			 * System.out.println("connecting..."); connect =
