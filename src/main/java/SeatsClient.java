@@ -468,7 +468,7 @@ public class SeatsClient {
 			stmt5.setLong(1, r_id);
 			stmt5.setLong(2, c_id);
 			stmt5.setLong(3, f_id);
-			stmt5.setInt(4, seatnum);
+			stmt5.setLong(4, seatnum);
 			stmt5.setInt(5, 2);
 			stmt5.setInt(6, attrs[0]);
 			stmt5.setInt(7, attrs[1]);
