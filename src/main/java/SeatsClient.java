@@ -332,16 +332,17 @@ public class SeatsClient {
 					"SELECT F_STATUS, F_BASE_PRICE, F_SEATS_TOTAL, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
 			f_stmt.setLong(1, f_id);
 			ResultSet f_results = f_stmt.executeQuery();
-			// System.out.println(">>>>>>"+f_results.next() +" ---> "+f_id);
 
 			boolean adv = f_results.next();
+			if (!adv)
+			{	System.out.println("ERROR!");
+				return 99999;
+			}
 			float base_price = f_results.getFloat("F_BASE_PRICE");
 			int seats_left = f_results.getInt("F_SEATS_LEFT");
 			int seats_total = f_results.getInt("F_SEATS_TOTAL");
 			float seat_price = base_price + (base_price * (1 - (seats_left / seats_total)));
-			// System.out.println(String.format("base_price:%f -- seats_left:%d --
-			// seats_total:%d -- seat_price:%f",
-			// base_price,seats_left,seats_total,seat_price));
+
 			PreparedStatement s_stmt = connect
 					.prepareStatement("SELECT R_ID, R_F_ID, R_SEAT FROM RESERVATION WHERE R_F_ID = ?");
 			s_stmt.setLong(1, f_id);
