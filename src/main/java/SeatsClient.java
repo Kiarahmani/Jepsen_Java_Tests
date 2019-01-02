@@ -333,8 +333,8 @@ public class SeatsClient {
 			  
 			  PreparedStatement f_stmt =connect.prepareStatement("SELECT F_STATUS, F_BASE_PRICE, F_SEATS_TOTAL, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?"); 
 			  f_stmt.setLong(1, f_id); 
-			  //ResultSet f_results = f_stmt.executeQuery();
-			  //System.out.println(">>>>>>"+f_results.next() +"   ---> "+f_id);
+			  ResultSet f_results = f_stmt.executeQuery();
+			  System.out.println(">>>>>>"+f_results.next() +"   ---> "+f_id);
 			  /*
 			  
 			  boolean adv = f_results.next(); int base_price =
