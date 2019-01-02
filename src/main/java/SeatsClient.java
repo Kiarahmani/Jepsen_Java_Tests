@@ -465,22 +465,26 @@ public class SeatsClient {
 			PreparedStatement stmt5 = connect.prepareStatement(
 					"INSERT INTO RESERVATION (R_ID, R_C_ID, R_F_ID, R_SEAT, R_PRICE, R_IATTR00, R_IATTR01, "
 							+ "   R_IATTR02, R_IATTR03, R_IATTR04, R_IATTR05, R_IATTR06, R_IATTR07, R_IATTR08) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-			System.out.println("\n\n\n\n\n"+r_id+"\n\n\n\n\n");
+			System.out.println("\n\n\n\n\n" + r_id + "\n\n\n\n\n");
 			stmt5.setLong(1, r_id);
 			stmt5.setLong(2, c_id);
 			stmt5.setLong(3, f_id);
 			stmt5.setLong(4, seatnum);
 			stmt5.setFloat(5, 6969F);
-			for(int i=0;i<9;i++)
-			stmt5.setLong(6+i, attrs[i]);
+			for (int i = 0; i < 9; i++)
+				stmt5.setLong(6 + i, attrs[i]);
 			stmt5.executeUpdate();
 
+			PreparedStatement stmt6 = connect
+					.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ? " + " WHERE F_ID = ? ");
+			stmt6.setInt(1, seats_left - 1);
+			stmt6.setLong(2, f_id);
+			stmt6.executeUpdate();
+
+			// update customer
+
 			/*
-			 * PreparedStatement stmt6 = connect
-			 * .prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ? " +
-			 * " WHERE F_ID = ? "); stmt6.setInt(1, seats_left - 1); stmt6.setInt(2, f_id);
-			 * stmt6.executeUpdate(); // update customer PreparedStatement stmt7 =
-			 * connect.prepareStatement(
+			 * PreparedStatement stmt7 = connect.prepareStatement(
 			 * "UPDATE CUSTOMER SET C_IATTR10 = ?, C_IATTR11 = ?, C_IATTR12 = ?, C_IATTR13 = ?, C_IATTR14 = ?, C_IATTR15 = ?"
 			 * + "  WHERE C_ID = ? ");
 			 * 

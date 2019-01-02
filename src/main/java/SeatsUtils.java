@@ -86,10 +86,10 @@ public class SeatsUtils {
 		return ThreadLocalRandom.current().nextInt(r_f_id.size());
 	}
 
-	public static int[] getNewAttrs() {
-		int[] result = new int[9];
+	public static long[] getNewAttrs() {
+		long[] result = new long[9];
 		for (int i = 0; i < 9; i++)
-			result[i] = ThreadLocalRandom.current().nextInt();
+			result[i] = ThreadLocalRandom.current().nextLong();
 		return result;
 	}
 
