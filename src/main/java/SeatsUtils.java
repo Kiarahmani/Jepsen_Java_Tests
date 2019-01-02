@@ -59,9 +59,9 @@ public class SeatsUtils {
 	}
 
 	public static int getNewResId() {
-		//System.out.println("getting a new res id -- current size: "+resCount);
-		//resCount++;
-		return 281656;
+		System.out.println("getting a new res id -- current size: "+resCount);
+		resCount++;
+		return resCount;
 	}
 	
 	//public static long getRandomResId() {
