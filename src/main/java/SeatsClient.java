@@ -402,15 +402,20 @@ public class SeatsClient {
 					.prepareStatement("SELECT F_AL_ID, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
 			stmt11.setLong(1, f_id);
 			ResultSet rs1 = stmt11.executeQuery();
-			boolean found1 = rs1.next(); 
+			boolean found1 = rs1.next();
+			if (!found1) {
+				System.out.println("ERROR_1: Invalid F_ID");
+				return 1;
+			}
 			long al_id = rs1.getLong("F_AL_ID");
 			// Airline Information
 			PreparedStatement stmt12 = connect.prepareStatement("SELECT * FROM AIRLINE WHERE AL_ID = ?");
 			stmt12.setLong(1, al_id);
 			ResultSet rs2 = stmt12.executeQuery();
 			boolean found2 = rs2.next();
-			if (!found1 || !found2) {
-				System.out.println("\n\n\n\n\n\nInvalid flight" + found1 + "  " + found2);
+			if (!found2) {
+				System.out.println("ERROR_2: Invalid Airline");
+				return 2;
 			}
 
 			/*
