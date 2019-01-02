@@ -436,15 +436,20 @@ public class SeatsClient {
 				return 4;
 			}
 
+			// Check if the Customer already has a seat on this flight
+			PreparedStatement stmt3 = connect
+					.prepareStatement("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? AND R_C_ID = ?");
+			stmt3.setLong(1, f_id);
+			stmt3.setLong(2, c_id);
+			ResultSet rs4 = stmt3.executeQuery();
+			boolean found4 = rs4.next();
+			if (found4) {
+				System.out.println(
+						String.format("ERROR_5: Customer %d already owns on a reservations on flight #%d", c_id, f_id));
+				return 5;
+			}
+
 			/*
-			 * // Check if the Customer already has a seat on this flight PreparedStatement
-			 * stmt3 = connect .prepareStatement("SELECT R_ID " +
-			 * "  FROM RESERVATION WHERE R_F_ID = ? AND R_C_ID = ?"); stmt3.setInt(1, f_id);
-			 * stmt3.setInt(2, c_id); ResultSet rs4 = stmt3.executeQuery(); boolean found4 =
-			 * rs4.next(); if (found4) throw new Exception(
-			 * String.format(" Customer %d already owns on a reservations on flight #%d",
-			 * c_id, f_id));
-			 * 
 			 * // Get Customer Information PreparedStatement stmt4 =
 			 * connect.prepareStatement(
 			 * "SELECT C_BASE_AP_ID, C_BALANCE, C_SATTR00, C_IATTR10, C_IATTR11 FROM CUSTOMER WHERE C_ID = ? "

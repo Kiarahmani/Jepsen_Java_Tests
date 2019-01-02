@@ -72,8 +72,6 @@ public class SeatsUtils {
 	
 	
 	
-	
-	
 	public static long getRandomFlightId() {
 		int index = ThreadLocalRandom.current().nextInt(1, flightIds.size() - 1);
 		return flightIds.get(index);
@@ -99,6 +97,8 @@ public class SeatsUtils {
 			16, // AIRPORT_ID
 	};
 
+	
+	
 	private static final long COMPOSITE_POWS[] = compositeBitsPreCompute(COMPOSITE_BITS);
 
 	protected static final long[] compositeBitsPreCompute(int offset_bits[]) {
