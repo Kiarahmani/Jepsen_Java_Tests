@@ -465,7 +465,6 @@ public class SeatsClient {
 			PreparedStatement stmt5 = connect.prepareStatement(
 					"INSERT INTO RESERVATION (R_ID, R_C_ID, R_F_ID, R_SEAT, R_PRICE, R_IATTR00, R_IATTR01, "
 							+ "   R_IATTR02, R_IATTR03, R_IATTR04, R_IATTR05, R_IATTR06, R_IATTR07, R_IATTR08) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-			System.out.println("\n\n\n\n\n" + r_id + "\n\n\n\n\n");
 			stmt5.setLong(1, r_id);
 			stmt5.setLong(2, c_id);
 			stmt5.setLong(3, f_id);
