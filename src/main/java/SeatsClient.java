@@ -481,16 +481,18 @@ public class SeatsClient {
 			stmt6.executeUpdate();
 
 			// update customer
-
+			PreparedStatement stmt7 = connect.prepareStatement(
+					"UPDATE CUSTOMER SET C_IATTR10 = ?, C_IATTR11 = ?, C_IATTR12 = ?, C_IATTR13 = ?, C_IATTR14 = ?, C_IATTR15 = ?"
+							+ "  WHERE C_ID = ? ");
+			stmt7.setLong(1, oldAttr10 + 1);
+			stmt7.setLong(2, oldAttr11 + 1);
+			stmt7.setLong(3, attrs[0]);
+			stmt7.setLong(4, attrs[1]);
+			stmt7.setLong(5, attrs[2]);
+			stmt7.setLong(6, attrs[3]);
+			stmt7.setLong(7, c_id);
+			stmt7.executeUpdate(); // update frequent flyer PreparedStatement stmt81 =
 			/*
-			 * PreparedStatement stmt7 = connect.prepareStatement(
-			 * "UPDATE CUSTOMER SET C_IATTR10 = ?, C_IATTR11 = ?, C_IATTR12 = ?, C_IATTR13 = ?, C_IATTR14 = ?, C_IATTR15 = ?"
-			 * + "  WHERE C_ID = ? ");
-			 * 
-			 * stmt7.setInt(1, oldAttr10 + 1); stmt7.setInt(2, oldAttr11 + 1);
-			 * stmt7.setInt(3, attrs[0]); stmt7.setInt(4, attrs[1]); stmt7.setInt(5,
-			 * attrs[2]); stmt7.setInt(6, attrs[3]); stmt7.setInt(7, c_id);
-			 * stmt7.executeUpdate(); // update frequent flyer PreparedStatement stmt81 =
 			 * connect
 			 * .prepareStatement("SELECT FF_IATTR10 FROM FREQUENT_FLYER WHERE FF_C_ID = ? AND FF_AL_ID = ?"
 			 * ); ResultSet rs6 = stmt81.executeQuery(); stmt81.setInt(1, c_id);
