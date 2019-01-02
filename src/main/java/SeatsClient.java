@@ -428,7 +428,7 @@ public class SeatsClient {
 			PreparedStatement stmt2 = connect
 					.prepareStatement("SELECT R_ID FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ? ALLOW FILTERING");
 			stmt2.setLong(1, f_id);
-			stmt2.setInt(2, seatnum);
+			stmt2.setLong(2, seatnum);
 			ResultSet rs3 = stmt2.executeQuery();
 			boolean found3 = rs3.next();
 			if (found3) {
