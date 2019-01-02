@@ -396,6 +396,9 @@ public class SeatsClient {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			return 0;
+			
+			
+			
 			/*
 			 * System.out.println("connecting..."); connect =
 			 * DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID +
