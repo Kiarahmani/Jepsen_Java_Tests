@@ -395,32 +395,27 @@ public class SeatsClient {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			// System.out.println(String.format("r_id:%d -- c_id:%d -- f_id:%d -- seatnum:%d
-			// -- price:%f", r_id,c_id,f_id, seatnum, price));
-			// System.out.println(attrs[0]);
+			System.out.println(String.format("r_id:%d -- c_id:%d -- f_id:%d -- seatnum:%d  -- price:%f", r_id, c_id,
+					f_id, seatnum, price));
 			PreparedStatement stmt11 = connect
 					.prepareStatement("SELECT F_AL_ID, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
 			stmt11.setLong(1, f_id);
 			ResultSet rs1 = stmt11.executeQuery();
-			boolean found1 = rs1.next(); // Airline Information 
+			boolean found1 = rs1.next(); // Airline Information
 			PreparedStatement stmt12 = connect.prepareStatement("SELECT * FROM AIRLINE WHERE AL_ID = ?");
 			stmt12.setLong(1, f_id);
 			ResultSet rs2 = stmt12.executeQuery();
 			boolean found2 = rs2.next();
 			if (!found1 || !found2) {
-				System.out.println("\n\n\n\n\n\nInvalid flight");
+				System.out.println("\n\n\n\n\n\nInvalid flight" + found1 + "  " + found2);
 			}
-			
-			
-			/*
-			int airline_id = rs1.getInt("F_AL_ID");
-			int seats_left = rs1.getInt("F_SEATS_LEFT");
-			rs.close();
-			if (seats_left <= 0) {
-				System.out.println(" No more seats available for flight");
-			} // Check if Seat
 
-			
+			/*
+			 * int airline_id = rs1.getInt("F_AL_ID"); int seats_left =
+			 * rs1.getInt("F_SEATS_LEFT"); rs.close(); if (seats_left <= 0) {
+			 * System.out.println(" No more seats available for flight"); } // Check if Seat
+			 * 
+			 * 
 			 * is Available PreparedStatement stmt2 = connect
 			 * .prepareStatement("SELECT R_ID FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ?"
 			 * ); stmt2.setInt(1, f_id); stmt2.setInt(2, seatnum); ResultSet rs3 =
