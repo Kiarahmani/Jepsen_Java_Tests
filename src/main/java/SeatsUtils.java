@@ -16,7 +16,7 @@ public class SeatsUtils {
 	private static List<Long> flightIds;
 	private static List<Long> r_f_id;
 	private static List<Long> r_c_id;
-	private static long resCount = -1;
+	//private static long resCount = -1;
 
 	static AtomicBoolean atomicInitialized = new AtomicBoolean(false);
 	static boolean waitForInit = true;
