@@ -474,8 +474,8 @@ public class SeatsClient {
 				stmt5.setLong(6 + i, attrs[i]);
 			stmt5.executeUpdate();
 
-			PreparedStatement stmt6 = connect
-					.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ? " + " WHERE F_ID = ? ");
+			//PreparedStatement stmt6 = connect
+			//		.prepareStatement("UPDATE FLIGHT SET F_SEATS_LEFT = ? " + " WHERE F_ID = ? ");
 			//stmt6.setLong(1, seats_left - 1);
 			//stmt6.setLong(2, f_id);
 			//stmt6.executeUpdate();
