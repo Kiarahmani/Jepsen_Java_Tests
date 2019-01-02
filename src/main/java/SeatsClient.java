@@ -190,8 +190,8 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public static int findFlights(Connection connect, long depart_aid, long arrive_aid, Timestamp start_date, Timestamp end_date,
-			float distance) throws Exception {
+	public static int findFlights(Connection connect, long depart_aid, long arrive_aid, Timestamp start_date,
+			Timestamp end_date, float distance) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
@@ -199,48 +199,46 @@ public class SeatsClient {
 			arrive_aids.add(arrive_aid);
 			final List<Object[]> finalResults = new ArrayList<Object[]>();
 			if (distance > 0) {
-				//System.out.println("depart_aid: "+depart_aid);
-				//System.out.println("arrive_aid: "+arrive_aid);
-				//System.out.println("start_date: "+start_date);
-				//System.out.println("end_date  : "+end_date);
-				//System.out.println("distance  : "+distance);
-				
-				
+				// System.out.println("depart_aid: "+depart_aid);
+				// System.out.println("arrive_aid: "+arrive_aid);
+				// System.out.println("start_date: "+start_date);
+				// System.out.println("end_date : "+end_date);
+				// System.out.println("distance : "+distance);
+
 				// First get the nearby airports for the departure and arrival cities
-				PreparedStatement nearby_stmt = connect
-						.prepareStatement("SELECT * " + "  FROM AIRPORT_DISTANCE WHERE d_ap_id0 = ? AND d_distance <= ? ALLOW FILTERING");
+				PreparedStatement nearby_stmt = connect.prepareStatement(
+						"SELECT * " + "  FROM AIRPORT_DISTANCE WHERE d_ap_id0 = ? AND d_distance <= ? ALLOW FILTERING");
 				nearby_stmt.setLong(1, depart_aid);
 				nearby_stmt.setFloat(2, distance);
 				ResultSet nearby_results = nearby_stmt.executeQuery();
-				
+
 				while (nearby_results.next()) {
 					long aid = nearby_results.getLong(1);
 					int aid_distance = nearby_results.getInt(2);
 					arrive_aids.add(aid);
 				} // WHILE
-				
+
 				nearby_results.close();
 				int num_nearby = arrive_aids.size();
 				if (num_nearby > 0) {
-					PreparedStatement f_stmt1 = connect.prepareStatement("SELECT F_ID, F_AL_ID, F_SEATS_LEFT, F_DEPART_AP_ID, F_DEPART_TIME, F_ARRIVE_AP_ID, F_ARRIVE_TIME "
-							+ " FROM FLIGHT "
-							+ " WHERE F_DEPART_AP_ID = ? "
-							+ " AND F_DEPART_TIME > ? "
-							+ " AND F_DEPART_TIME < ? "
-							+ " ALLOW FILTERING");
+					PreparedStatement f_stmt1 = connect.prepareStatement(
+							"SELECT F_ID, F_AL_ID, F_SEATS_LEFT, F_DEPART_AP_ID, F_DEPART_TIME, F_ARRIVE_AP_ID, F_ARRIVE_TIME "
+									+ " FROM FLIGHT " + " WHERE F_DEPART_AP_ID = ? " + " AND F_DEPART_TIME > ? "
+									+ " AND F_DEPART_TIME < ? " + " ALLOW FILTERING");
 					// Set Parameters
 					f_stmt1.setLong(1, depart_aid);
 					f_stmt1.setTimestamp(2, start_date);
 					f_stmt1.setTimestamp(3, end_date);
-					
+
 					ResultSet flightResults1 = f_stmt1.executeQuery();
 					flightResults1.next();
-					int i =0 ;
-					while (flightResults1.next() && i<10) {
+					int i = 0;
+					while (flightResults1.next() && i < 10) {
 						int f_depart_airport = flightResults1.getInt("F_DEPART_AP_ID");
 						int f_arrive_airport = flightResults1.getInt("F_ARRIVE_AP_ID");
-						int f_al_id =  flightResults1.getInt("F_AL_ID");
-						// System.out.println(String.format("f_depart_airport:%d    --   f_arrive_airport:%d", f_depart_airport,f_arrive_airport));
+						int f_al_id = flightResults1.getInt("F_AL_ID");
+						// System.out.println(String.format("f_depart_airport:%d --
+						// f_arrive_airport:%d", f_depart_airport,f_arrive_airport));
 						PreparedStatement f_stmt2 = connect
 								.prepareStatement("SELECT AL_NAME, AL_IATTR00, AL_IATTR01 FROM AIRLINE WHERE AL_ID=?");
 						f_stmt2.setInt(1, f_al_id);
@@ -253,7 +251,7 @@ public class SeatsClient {
 						row[r++] = flightResults1.getInt("F_ID"); // [00] F_ID
 						row[r++] = flightResults1.getInt("F_SEATS_LEFT"); // [01] SEATS_LEFT
 						row[r++] = al_name;
-						
+
 						// DEPARTURE AIRPORT
 						PreparedStatement ai_stmt1 = connect.prepareStatement(
 								"SELECT AP_CODE, AP_NAME, AP_CITY, AP_LONGITUDE, AP_LATITUDE, AP_CO_ID "
@@ -262,8 +260,7 @@ public class SeatsClient {
 						ResultSet ai_results1 = ai_stmt1.executeQuery();
 						ai_results1.next();
 						long countryId = ai_results1.getLong("AP_CO_ID");
-						
-						
+
 						PreparedStatement ai_stmt2 = connect.prepareStatement(
 								"SELECT CO_ID, CO_NAME, CO_CODE_2, CO_CODE_3 " + " FROM COUNTRY WHERE CO_ID = ?");
 						ai_stmt2.setLong(1, countryId);
@@ -297,10 +294,9 @@ public class SeatsClient {
 						finalResults.add(row);
 					}
 				}
-				System.out.println("\n\n>>>"+finalResults.size());
-	
-  		}
- 
+
+			}
+
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
@@ -324,7 +320,8 @@ public class SeatsClient {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			return 0;
+			System.out.println(">>>>>> DOING GARBAGE");
+
 			/*
 			 * System.out.println("connecting..."); connect =
 			 * DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID +
@@ -358,7 +355,13 @@ public class SeatsClient {
 			 * (Object[] o1 : returnResults) { for (Object o2 : o1) System.out.println(o2);
 			 * System.out.println("===================="); }
 			 * 
-			 */} catch (Exception e) {
+			 */
+
+			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+			// TXN SUCCESSFUL!
+			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+			return 0;
+		} catch (Exception e) {
 			throw e;
 		} finally {
 
