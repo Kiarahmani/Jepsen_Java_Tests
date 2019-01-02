@@ -407,30 +407,36 @@ public class SeatsClient {
 				System.out.println("ERROR_1: Invalid F_ID");
 				return 1;
 			}
-			long al_id = rs1.getLong("F_AL_ID");
+			long airline_id = rs1.getLong("F_AL_ID");
+			int seats_left = rs1.getInt("F_SEATS_LEFT");
+
 			// Airline Information
 			PreparedStatement stmt12 = connect.prepareStatement("SELECT * FROM AIRLINE WHERE AL_ID = ?");
-			stmt12.setLong(1, al_id);
+			stmt12.setLong(1, airline_id);
 			ResultSet rs2 = stmt12.executeQuery();
 			boolean found2 = rs2.next();
 			if (!found2) {
 				System.out.println("ERROR_2: Invalid Airline");
 				return 2;
 			}
+			rs1.close();
+			rs2.close();
+			if (seats_left <= 0) {
+				System.out.println("ERROR_3: No more seats available for flight");
+				return 3;
+			} // Check if Seat is Available
+			PreparedStatement stmt2 = connect
+					.prepareStatement("SELECT R_ID FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ?");
+			stmt2.setLong(1, f_id);
+			stmt2.setInt(2, seatnum);
+			ResultSet rs3 = stmt2.executeQuery();
+			boolean found3 = rs3.next();
+			if (found3) {
+				System.out.println(String.format(" ERROR_4: Seat %d is already reserved on flight #%d", seatnum, f_id));
+				return 4;
+			}
 
 			/*
-			 * int airline_id = rs1.getInt("F_AL_ID"); int seats_left =
-			 * rs1.getInt("F_SEATS_LEFT"); rs.close(); if (seats_left <= 0) {
-			 * System.out.println(" No more seats available for flight"); } // Check if Seat
-			 * 
-			 * 
-			 * is Available PreparedStatement stmt2 = connect
-			 * .prepareStatement("SELECT R_ID FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ?"
-			 * ); stmt2.setInt(1, f_id); stmt2.setInt(2, seatnum); ResultSet rs3 =
-			 * stmt2.executeQuery(); boolean found3 = rs3.next(); if (found3) throw new
-			 * Exception(String.format(" Seat %d is already reserved on flight #%d",
-			 * seatnum, f_id));
-			 * 
 			 * // Check if the Customer already has a seat on this flight PreparedStatement
 			 * stmt3 = connect .prepareStatement("SELECT R_ID " +
 			 * "  FROM RESERVATION WHERE R_F_ID = ? AND R_C_ID = ?"); stmt3.setInt(1, f_id);
