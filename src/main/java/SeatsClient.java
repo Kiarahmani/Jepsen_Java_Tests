@@ -408,7 +408,7 @@ public class SeatsClient {
 				return 1;
 			}
 			long airline_id = rs1.getLong("F_AL_ID");
-			int seats_left = rs1.getInt("F_SEATS_LEFT");
+			long seats_left = rs1.getLong("F_SEATS_LEFT");
 
 			// Airline Information
 			PreparedStatement stmt12 = connect.prepareStatement("SELECT * FROM AIRLINE WHERE AL_ID = ?");
