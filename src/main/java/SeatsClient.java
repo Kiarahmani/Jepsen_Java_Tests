@@ -364,13 +364,11 @@ public class SeatsClient {
 						break;
 				}
 			}
-			for (Object[] o1 : returnResults) {
-				for (Object o2 : o1)
-					System.out.println(o2);
-				System.out.println("====================");
-			}
-
-
+			//for (Object[] o1 : returnResults) {
+			//	for (Object o2 : o1)
+			//		System.out.println(o2);
+			//	System.out.println("====================");
+			//}
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
