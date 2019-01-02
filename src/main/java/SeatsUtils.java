@@ -16,7 +16,7 @@ public class SeatsUtils {
 	private static List<Long> flightIds;
 	private static List<Long> r_f_id;
 	private static List<Long> r_c_id;
-	//private static long resCount = -1;
+	private static long resCount = -1;
 
 	static AtomicBoolean atomicInitialized = new AtomicBoolean(false);
 	static boolean waitForInit = true;
@@ -68,6 +68,10 @@ public class SeatsUtils {
 	//	System.out.println("getting a random res id -- current size: "+resCount);
 	//	return ThreadLocalRandom.current().nextLong(resCount);
 	//}
+	
+	
+	
+	
 	
 	
 	public static long getRandomFlightId() {
