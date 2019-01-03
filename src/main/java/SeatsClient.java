@@ -599,11 +599,12 @@ public class SeatsClient {
 				} // WHILE
 				ff_results.close();
 
-				PreparedStatement stmt6 = connect
-						.prepareStatement("UPDATE CUSTOMER SET C_IATTR00 = ?, C_IATTR01 = ? WHERE C_ID = ?");
+				PreparedStatement stmt6 = connect.prepareStatement(
+						"UPDATE CUSTOMER SET C_IATTR00 = ?, C_IATTR01 = ? WHERE C_ID = ? AND C_ID_STR = ?");
 				stmt6.setLong(1, attr0);
 				stmt6.setLong(2, attr1);
 				stmt6.setLong(3, c_id);
+				stmt6.setString(4, String.valueOf(c_id));
 				stmt6.executeUpdate();
 			}
 
