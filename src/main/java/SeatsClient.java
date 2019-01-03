@@ -557,7 +557,8 @@ public class SeatsClient {
 			ResultSet rs2 = stmt2.executeQuery();
 			if (rs2.next() == false) {
 				rs2.close();
-				throw new Exception(String.format("No Customer information record found for id"));
+				System.out.println(String.format("ERROR_2: No Customer information record found for id"));
+				return 2;
 			}
 			assert (c_id == rs2.getInt(1));
 			int base_airport = rs2.getInt("C_BASE_AP_ID");
