@@ -517,7 +517,9 @@ public class SeatsClient {
 			stmt82.setLong(6, c_id);
 			stmt82.setLong(7, airline_id);
 			stmt82.executeUpdate();
-
+			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+			// TXN SUCCESSFUL!
+			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			return 0;
 		} catch (Exception e) {
 			throw e;
@@ -593,19 +595,21 @@ public class SeatsClient {
 					stmt5.setLong(2, attr1);
 					stmt5.setLong(3, c_id);
 					stmt5.setLong(4, ff_al_id);
-					System.out.println(ff_al_id);
 					stmt5.executeUpdate();
-				} // WHILE 
+				} // WHILE
 				ff_results.close();
 
-				/*
-				 * PreparedStatement stmt6 = connect
-				 * .prepareStatement("UPDATE CUSTOMER SET C_IATTR00 = ?, C_IATTR01 = ? WHERE C_ID = ?"
-				 * ); stmt6.setInt(1, attr0); stmt6.setInt(2, attr1); stmt6.setInt(3, c_id);
-				 */
-				// stmt6.executeUpdate();
+				PreparedStatement stmt6 = connect
+						.prepareStatement("UPDATE CUSTOMER SET C_IATTR00 = ?, C_IATTR01 = ? WHERE C_ID = ?");
+				stmt6.setLong(1, attr0);
+				stmt6.setLong(2, attr1);
+				stmt6.setLong(3, c_id);
+				stmt6.executeUpdate();
 			}
 
+			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+			// TXN SUCCESSFUL!
+			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			return 0;
 		} catch (Exception e) {
 			throw e;
@@ -627,17 +631,17 @@ public class SeatsClient {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			return 0;
-			/*
-			 * System.out.println("connecting..."); connect =
-			 * DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID +
-			 * "/testks"); PreparedStatement stmt1 = connect
-			 * .prepareStatement(("SELECT R_ID " +
-			 * "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ?")); stmt1.setInt(1,
-			 * f_id); stmt1.setInt(2, seatnum); ResultSet results1 = stmt1.executeQuery();
-			 * boolean found1 = results1.next(); results1.close(); if (found1) throw new
-			 * Exception(String.format(" Seat is already reserved on flight"));
-			 * 
-			 * PreparedStatement stmt2 = connect .prepareStatement("SELECT R_ID " +
+			
+			  System.out.println("connecting..."); connect =
+			  DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID +
+			  "/testks"); PreparedStatement stmt1 = connect
+			  .prepareStatement(("SELECT R_ID " +
+			  "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ?")); stmt1.setInt(1,
+			  f_id); stmt1.setInt(2, seatnum); ResultSet results1 = stmt1.executeQuery();
+			  boolean found1 = results1.next(); results1.close(); if (found1) throw new
+			  Exception(String.format(" Seat is already reserved on flight"));
+			  
+			 /* PreparedStatement stmt2 = connect .prepareStatement("SELECT R_ID " +
 			 * "  FROM RESERVATION WHERE R_F_ID = ? AND R_C_ID = ?"); stmt2.setInt(1, f_id);
 			 * stmt2.setInt(2, c_id); ResultSet results2 = stmt2.executeQuery(); boolean
 			 * found2 = results2.next(); results2.close(); if (found2 == false) throw new
