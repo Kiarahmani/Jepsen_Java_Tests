@@ -536,7 +536,7 @@ public class SeatsClient {
 	public static int updateCustomer(Connection connect, long c_id, String c_id_str, long update_ff, long attr0,
 			long attr1) throws Exception {
 		try {
-
+			System.out.println(String.format("c_id:%d   ---  c_id_str:%s", c_id, c_id_str));
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			if (c_id == -1) {
 				PreparedStatement stmt1 = connect.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ");
