@@ -652,7 +652,7 @@ public class SeatsClient {
 			if (!found2) {
 				System.out.println(String.format(
 						"ERROR_2: Customer %d does not have an existing reservation on flight #%d", c_id, f_id));
-				return 2;
+				return (_NO_ERROR_MODE) ? 0 : 2;
 			}
 
 			/*
