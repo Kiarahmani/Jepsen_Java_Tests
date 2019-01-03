@@ -497,6 +497,8 @@ public class SeatsClient {
 			PreparedStatement stmt81 = connect
 					.prepareStatement("SELECT FF_IATTR10 FROM FREQUENT_FLYER WHERE FF_C_ID = ? AND FF_AL_ID = ?");
 			ResultSet rs6 = stmt81.executeQuery();
+			System.out.println("c_id"+c_id);
+			System.out.println("airline_id"+airline_id);
 			stmt81.setLong(1, c_id);
 			stmt81.setLong(2, airline_id);
 			rs6.next();
