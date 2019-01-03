@@ -557,7 +557,7 @@ public class SeatsClient {
 			ResultSet rs2 = stmt2.executeQuery();
 			if (rs2.next() == false) {
 				rs2.close();
-				System.out.println(String.format("ERROR_2: No Customer information record found for id"));
+				System.out.println(String.format("ERROR_2: No Customer information record found for id: %d", c_id));
 				return 2;
 			}
 			assert (c_id == rs2.getInt(1));
@@ -569,8 +569,7 @@ public class SeatsClient {
 			stmt31.setInt(1, base_airport);
 			ResultSet airport_results = stmt31.executeQuery();
 			boolean adv = airport_results.next();
-			if(!adv)
-			{
+			if (!adv) {
 				System.out.println("ERROR_3: base airport_id is invalid");
 				return 3;
 			}
