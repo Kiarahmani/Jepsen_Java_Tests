@@ -533,22 +533,28 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public static int updateCustomer(Connection conn, int c_id, int cidGiven, String c_id_str, int update_ff,
-			int shouldUpdateFF, int attr0, int attr1) throws Exception {
+	public static int updateCustomer(Connection connect, long c_id, String c_id_str, long update_ff, long attr0,
+			long attr1) throws Exception {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			return 0;
+			if (c_id == -1) {
+				PreparedStatement stmt1 = connect.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ");
+				stmt1.setString(1, c_id_str);
+				ResultSet rs1 = stmt1.executeQuery();
+				if (rs1.next()) {
+					c_id = rs1.getInt("C_ID");
+					rs1.close();
+				} else {
+					rs1.close();
+					System.out.println((String.format("ERROR_1 : No Customer information record found for string")));
+					return 1;	
+				}
+				
+			}
+
 			/*
-			 * System.out.println("connecting..."); connect =
-			 * DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID +
-			 * "/testks"); if (cidGiven == 0) { PreparedStatement stmt1 =
-			 * connect.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ");
-			 * stmt1.setString(1, c_id_str); System.out.println("q1"); ResultSet rs1 =
-			 * stmt1.executeQuery(); if (rs1.next()) { c_id = rs1.getInt(1); } else {
-			 * rs1.close(); throw new
-			 * Exception(String.format("No Customer information record found for string"));
-			 * } rs1.close(); } PreparedStatement stmt2 =
+			 * PreparedStatement stmt2 =
 			 * connect.prepareStatement("SELECT * FROM CUSTOMER WHERE C_ID = ? ");
 			 * stmt2.setInt(1, c_id); System.out.println("q2"); ResultSet rs2 =
 			 * stmt2.executeQuery(); if (rs2.next() == false) { rs2.close(); throw new
@@ -583,7 +589,9 @@ public class SeatsClient {
 			 * ); stmt6.setInt(1, attr0); stmt6.setInt(2, attr1); stmt6.setInt(3, c_id);
 			 * System.out.println("u2"); stmt6.executeUpdate(); }
 			 * 
-			 */ } catch (Exception e) {
+			 */
+			return 0;
+		} catch (Exception e) {
 			throw e;
 		} finally {
 
