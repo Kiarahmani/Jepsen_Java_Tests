@@ -501,19 +501,22 @@ public class SeatsClient {
 			ResultSet rs6 = stmt81.executeQuery();
 			boolean adv = rs6.next();
 			if (!adv) {
-				return 9;
+				return (_NO_ERROR_MODE) ? 0 : 9;
 			}
 			long oldFFAttr10 = rs6.getLong("FF_IATTR10");
-			System.out.println("\n\n\n\n"+oldFFAttr10+"\n\n\n\n");
-			/*
-			 * PreparedStatement stmt82 = connect.prepareStatement(
-			 * "UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?, FF_IATTR11 = ?, FF_IATTR12 = ?, FF_IATTR13 = ?, FF_IATTR14 = ? "
-			 * + " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?"); stmt82.setInt(1,
-			 * oldFFAttr10 + 1); stmt82.setInt(2, attrs[4]); stmt82.setInt(3, attrs[5]);
-			 * stmt82.setInt(4, attrs[6]); stmt82.setInt(5, attrs[7]); stmt82.setInt(6,
-			 * c_id); stmt82.setInt(7, airline_id); stmt82.executeUpdate();
-			 * 
-			 */
+			System.out.println("\n\n\n\n" + oldFFAttr10 + "\n\n\n\n");
+
+			PreparedStatement stmt82 = connect.prepareStatement(
+					"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?, FF_IATTR11 = ?, FF_IATTR12 = ?, FF_IATTR13 = ?, FF_IATTR14 = ? "
+							+ " WHERE FF_C_ID = ? " + "   AND FF_AL_ID = ?");
+			stmt82.setLong(1, oldFFAttr10 + 1);
+			stmt82.setLong(2, attrs[4]);
+			stmt82.setLong(3, attrs[5]);
+			stmt82.setLong(4, attrs[6]);
+			stmt82.setLong(5, attrs[7]);
+			stmt82.setLong(6, c_id);
+			stmt82.setLong(7, airline_id);
+			stmt82.executeUpdate();
 
 			return 0;
 		} catch (Exception e) {
