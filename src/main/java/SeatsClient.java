@@ -543,7 +543,7 @@ public class SeatsClient {
 				stmt1.setString(1, c_id_str);
 				ResultSet rs1 = stmt1.executeQuery();
 				if (rs1.next()) {
-					c_id = rs1.getInt("C_ID");
+					c_id = rs1.getLong("C_ID");
 					rs1.close();
 				} else {
 					rs1.close();
