@@ -550,7 +550,7 @@ public class SeatsClient {
 					System.out.println((String.format("ERROR_1 : No Customer information record found for string")));
 					return 1;
 				}
-
+				System.out.println("\n\n\n\n UPDATED C_ID: "+c_id+"\n\n\n");
 			}
 			PreparedStatement stmt2 = connect.prepareStatement("SELECT * FROM CUSTOMER WHERE C_ID = ? ");
 			stmt2.setLong(1, c_id);
