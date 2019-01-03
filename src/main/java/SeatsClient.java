@@ -625,23 +625,23 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public static int updateReservation(Connection conn, int r_id, int f_id, int c_id, int seatnum, int attr_idx,
-			int attr_val) throws Exception {
+	public static int updateReservation(Connection connect, long r_id, long f_id, long c_id, long seatnum,
+			long attr_idx, long attr_val) throws Exception {
 		try {
-
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			return 0;
-			
-			  System.out.println("connecting..."); connect =
-			  DriverManager.getConnection("jdbc:cassandra://localhost" + ":1904" + insID +
-			  "/testks"); PreparedStatement stmt1 = connect
-			  .prepareStatement(("SELECT R_ID " +
-			  "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ?")); stmt1.setInt(1,
-			  f_id); stmt1.setInt(2, seatnum); ResultSet results1 = stmt1.executeQuery();
-			  boolean found1 = results1.next(); results1.close(); if (found1) throw new
-			  Exception(String.format(" Seat is already reserved on flight"));
-			  
-			 /* PreparedStatement stmt2 = connect .prepareStatement("SELECT R_ID " +
+			PreparedStatement stmt1 = connect
+					.prepareStatement(("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ?"));
+			stmt1.setLong(1, f_id);
+			stmt1.setLong(2, seatnum);
+			ResultSet results1 = stmt1.executeQuery();
+			boolean found1 = results1.next();
+			results1.close();
+			if (found1) {
+				System.out.println(String.format("ERROR_1: Seat %d is already reserved on flight %d", c_id, f_id));
+				return 1;
+			}
+			/*
+			 * PreparedStatement stmt2 = connect .prepareStatement("SELECT R_ID " +
 			 * "  FROM RESERVATION WHERE R_F_ID = ? AND R_C_ID = ?"); stmt2.setInt(1, f_id);
 			 * stmt2.setInt(2, c_id); ResultSet results2 = stmt2.executeQuery(); boolean
 			 * found2 = results2.next(); results2.close(); if (found2 == false) throw new
@@ -656,7 +656,8 @@ public class SeatsClient {
 			 * f_id); int updated = stmt3.executeUpdate();
 			 * 
 			 * }
-			 */ } catch (Exception e) {
+			 */ return 0;
+		} catch (Exception e) {
 			throw e;
 		} finally {
 
