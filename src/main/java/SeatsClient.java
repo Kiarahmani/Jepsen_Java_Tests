@@ -631,7 +631,7 @@ public class SeatsClient {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt1 = connect
-					.prepareStatement(("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ?"));
+					.prepareStatement(("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ? ALLOW FILTERING"));
 			stmt1.setLong(1, f_id);
 			stmt1.setLong(2, seatnum);
 			ResultSet results1 = stmt1.executeQuery();
