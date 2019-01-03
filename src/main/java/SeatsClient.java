@@ -548,20 +548,28 @@ public class SeatsClient {
 				} else {
 					rs1.close();
 					System.out.println((String.format("ERROR_1 : No Customer information record found for string")));
-					return 1;	
+					return 1;
 				}
-				
+
 			}
+			System.out.println("\n\n\n\n\n\n\n");
+			System.out.println(c_id);
+			PreparedStatement stmt2 = connect.prepareStatement("SELECT * FROM CUSTOMER WHERE C_ID = ? ");
+			stmt2.setLong(1, c_id);
+			System.out.println("q2");
+			ResultSet rs2 = stmt2.executeQuery();
+			if (rs2.next() == false) {
+				rs2.close();
+				throw new Exception(String.format("No Customer information record found for id"));
+			}
+			assert (c_id == rs2.getInt(1));
+			int base_airport = rs2.getInt("C_BASE_AP_ID");
+			System.out.println( base_airport);
+			rs2.close();
+			
+			System.out.println("\n\n\n\n\n\n\n");
 
 			/*
-			 * PreparedStatement stmt2 =
-			 * connect.prepareStatement("SELECT * FROM CUSTOMER WHERE C_ID = ? ");
-			 * stmt2.setInt(1, c_id); System.out.println("q2"); ResultSet rs2 =
-			 * stmt2.executeQuery(); if (rs2.next() == false) { rs2.close(); throw new
-			 * Exception(String.format("No Customer information record found for id")); }
-			 * assert (c_id == rs2.getInt(1)); int base_airport =
-			 * rs2.getInt("C_BASE_AP_ID"); rs2.close();
-			 * 
 			 * // Get their airport information PreparedStatement stmt31 =
 			 * connect.prepareStatement("SELECT * " + "  FROM AIRPORT WHERE AP_ID = ?");
 			 * stmt31.setInt(1, base_airport); System.out.println("q3"); ResultSet
