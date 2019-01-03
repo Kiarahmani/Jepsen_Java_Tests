@@ -630,8 +630,8 @@ public class SeatsClient {
 			long attr_idx, long attr_val) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			PreparedStatement stmt1 = connect
-					.prepareStatement(("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ? ALLOW FILTERING"));
+			PreparedStatement stmt1 = connect.prepareStatement(
+					("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ? ALLOW FILTERING"));
 			stmt1.setLong(1, f_id);
 			stmt1.setLong(2, seatnum);
 			ResultSet results1 = stmt1.executeQuery();
@@ -639,18 +639,25 @@ public class SeatsClient {
 			results1.close();
 			if (found1) {
 				System.out.println(String.format("ERROR_1: Seat %d is already reserved on flight %d", seatnum, f_id));
-				return 1;
+				return (_NO_ERROR_MODE) ? 0 : 1;
 			}
+
+			PreparedStatement stmt2 = connect.prepareStatement(
+					"SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? AND R_C_ID = ?  ALLOW FILTERING");
+			stmt2.setLong(1, f_id);
+			stmt2.setLong(2, c_id);
+			ResultSet results2 = stmt2.executeQuery();
+			boolean found2 = results2.next();
+			results2.close();
+			if (!found2) {
+				System.out.println(String.format(
+						"ERROR_2: Customer %d does not have an existing reservation on flight #%d", c_id, f_id));
+				return 2;
+			}
+
 			/*
-			 * PreparedStatement stmt2 = connect .prepareStatement("SELECT R_ID " +
-			 * "  FROM RESERVATION WHERE R_F_ID = ? AND R_C_ID = ?"); stmt2.setInt(1, f_id);
-			 * stmt2.setInt(2, c_id); ResultSet results2 = stmt2.executeQuery(); boolean
-			 * found2 = results2.next(); results2.close(); if (found2 == false) throw new
-			 * Exception( String.
-			 * format(" Customer %d does not have an existing reservation on flight #%d",
-			 * c_id, f_id)); if (!found1 && found2) { // minor simplification compared to
-			 * original SEATS String BASE_SQL =
-			 * "UPDATE RESERVATION SET R_SEAT = ?, R_IATTR00 = ? " +
+			 * if (!found1 && found2) { // minor simplification compared to original SEATS
+			 * String BASE_SQL = "UPDATE RESERVATION SET R_SEAT = ?, R_IATTR00 = ? " +
 			 * " WHERE R_ID = ? AND R_C_ID = ? AND R_F_ID = ?"; PreparedStatement stmt3 =
 			 * connect.prepareStatement(BASE_SQL); stmt3.setInt(1, seatnum); stmt3.setInt(2,
 			 * attr_val); stmt3.setInt(3, r_id); stmt3.setInt(4, c_id); stmt3.setInt(5,
