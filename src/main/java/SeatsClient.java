@@ -638,7 +638,7 @@ public class SeatsClient {
 			boolean found1 = results1.next();
 			results1.close();
 			if (found1) {
-				System.out.println(String.format("ERROR_1: Seat %d is already reserved on flight %d", c_id, f_id));
+				System.out.println(String.format("ERROR_1: Seat %d is already reserved on flight %d", seatnum, f_id));
 				return 1;
 			}
 			/*
