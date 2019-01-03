@@ -504,7 +504,6 @@ public class SeatsClient {
 				return (_NO_ERROR_MODE) ? 0 : 9;
 			}
 			long oldFFAttr10 = rs6.getLong("FF_IATTR10");
-			System.out.println("\n\n\n\n" + oldFFAttr10 + "\n\n\n\n");
 
 			PreparedStatement stmt82 = connect.prepareStatement(
 					"UPDATE FREQUENT_FLYER SET FF_IATTR10 = ?, FF_IATTR11 = ?, FF_IATTR12 = ?, FF_IATTR13 = ?, FF_IATTR14 = ? "
@@ -655,16 +654,21 @@ public class SeatsClient {
 				return (_NO_ERROR_MODE) ? 0 : 2;
 			}
 
-			/*
-			 * if (!found1 && found2) { // minor simplification compared to original SEATS
-			 * String BASE_SQL = "UPDATE RESERVATION SET R_SEAT = ?, R_IATTR00 = ? " +
-			 * " WHERE R_ID = ? AND R_C_ID = ? AND R_F_ID = ?"; PreparedStatement stmt3 =
-			 * connect.prepareStatement(BASE_SQL); stmt3.setInt(1, seatnum); stmt3.setInt(2,
-			 * attr_val); stmt3.setInt(3, r_id); stmt3.setInt(4, c_id); stmt3.setInt(5,
-			 * f_id); int updated = stmt3.executeUpdate();
-			 * 
-			 * }
-			 */ return 0;
+			if (!found1 && found2) { // minor simplification compared to original SEATS
+				String BASE_SQL = "UPDATE RESERVATION SET R_SEAT = ?, R_IATTR00 = ? "
+						+ " WHERE R_ID = ? AND R_C_ID = ? AND R_F_ID = ?";
+				PreparedStatement stmt3 = connect.prepareStatement(BASE_SQL);
+				stmt3.setLong(1, seatnum);
+				stmt3.setLong(2, attr_val);
+				stmt3.setLong(3, r_id);
+				stmt3.setLong(4, c_id);
+				stmt3.setLong(5, f_id);
+				stmt3.executeUpdate();
+			}
+			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+			// TXN SUCCESSFUL!
+			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+			return 0;
 		} catch (Exception e) {
 			throw e;
 		} finally {
