@@ -552,11 +552,8 @@ public class SeatsClient {
 				}
 
 			}
-			System.out.println("\n\n\n\n\n\n\n");
-			System.out.println(c_id);
 			PreparedStatement stmt2 = connect.prepareStatement("SELECT * FROM CUSTOMER WHERE C_ID = ? ");
 			stmt2.setLong(1, c_id);
-			System.out.println("q2");
 			ResultSet rs2 = stmt2.executeQuery();
 			if (rs2.next() == false) {
 				rs2.close();
@@ -564,22 +561,27 @@ public class SeatsClient {
 			}
 			assert (c_id == rs2.getInt(1));
 			int base_airport = rs2.getInt("C_BASE_AP_ID");
-			System.out.println( base_airport);
 			rs2.close();
-			
-			System.out.println("\n\n\n\n\n\n\n");
+
+			// Get their airport information
+			PreparedStatement stmt31 = connect.prepareStatement("SELECT * " + "  FROM AIRPORT WHERE AP_ID = ?");
+			stmt31.setInt(1, base_airport);
+			ResultSet airport_results = stmt31.executeQuery();
+			boolean adv = airport_results.next();
+			if(!adv)
+			{
+				System.out.println("ERROR_3: base airport_id is invalid");
+				return 3;
+			}
+
+			PreparedStatement stmt32 = connect.prepareStatement("SELECT * " + "  FROM COUNTRY WHERE CO_ID = ?");
+			stmt32.setInt(1, airport_results.getInt("AP_CO_ID"));
+			ResultSet country_results = stmt32.executeQuery();
+			adv = country_results.next() && adv;
+			airport_results.close();
+			assert (adv);
 
 			/*
-			 * // Get their airport information PreparedStatement stmt31 =
-			 * connect.prepareStatement("SELECT * " + "  FROM AIRPORT WHERE AP_ID = ?");
-			 * stmt31.setInt(1, base_airport); System.out.println("q3"); ResultSet
-			 * airport_results = stmt31.executeQuery(); boolean adv =
-			 * airport_results.next(); PreparedStatement stmt32 =
-			 * connect.prepareStatement("SELECT * " + "  FROM COUNTRY WHERE CO_ID = ?");
-			 * stmt32.setInt(1, airport_results.getInt("AP_CO_ID")); ResultSet
-			 * country_results = stmt32.executeQuery(); adv = country_results.next() && adv;
-			 * airport_results.close(); assert (adv);
-			 * 
 			 * if (shouldUpdateFF == 1) { PreparedStatement stmt4 =
 			 * connect.prepareStatement("SELECT * FROM FREQUENT_FLYER WHERE FF_C_ID = ?");
 			 * stmt4.setInt(1, c_id); System.out.println("q4"); ResultSet ff_results =
