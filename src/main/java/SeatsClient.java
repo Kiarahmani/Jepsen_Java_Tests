@@ -499,7 +499,10 @@ public class SeatsClient {
 			stmt81.setLong(1, c_id);
 			stmt81.setLong(2, airline_id);
 			ResultSet rs6 = stmt81.executeQuery();
-			rs6.next();
+			boolean adv = rs6.next();
+			if (!adv) {
+				return 9;
+			}
 			long oldFFAttr10 = rs6.getLong("FF_IATTR10");
 			System.out.println("\n\n\n\n"+oldFFAttr10+"\n\n\n\n");
 			/*
