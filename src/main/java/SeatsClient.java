@@ -583,16 +583,22 @@ public class SeatsClient {
 			if (update_ff != -1) {
 				PreparedStatement stmt4 = connect.prepareStatement("SELECT * FROM FREQUENT_FLYER WHERE FF_C_ID = ?");
 				stmt4.setLong(1, c_id);
-				System.out.println("q4");
 				ResultSet ff_results = stmt4.executeQuery();
+
+				while (ff_results.next()) {
+					int ff_al_id = ff_results.getInt("FF_AL_ID");
+					PreparedStatement stmt5 = connect.prepareStatement(
+							"UPDATE FREQUENT_FLYER SET FF_IATTR00 = ?, FF_IATTR01 = ?  WHERE FF_C_ID = ? AND FF_AL_ID = ? ");
+					stmt5.setLong(1, attr0);
+					stmt5.setLong(2, attr1);
+					stmt5.setLong(3, c_id);
+					stmt5.setLong(4, ff_al_id);
+					System.out.println(ff_al_id);
+					stmt5.executeUpdate();
+				} // WHILE 
+				ff_results.close();
+
 				/*
-				 * while (ff_results.next()) { int ff_al_id = ff_results.getInt("FF_AL_ID");
-				 * PreparedStatement stmt5 = connect.prepareStatement(
-				 * "UPDATE FREQUENT_FLYER SET FF_IATTR00 = ?, FF_IATTR01 = ?  WHERE FF_C_ID = ? AND FF_AL_ID = ? "
-				 * ); stmt5.setInt(1, attr0); stmt5.setInt(2, attr1); stmt5.setInt(3, c_id);
-				 * stmt5.setInt(4, ff_al_id); System.out.println(ff_al_id);
-				 * stmt5.executeUpdate(); } // WHILE ff_results.close();
-				 * 
 				 * PreparedStatement stmt6 = connect
 				 * .prepareStatement("UPDATE CUSTOMER SET C_IATTR00 = ?, C_IATTR01 = ? WHERE C_ID = ?"
 				 * ); stmt6.setInt(1, attr0); stmt6.setInt(2, attr1); stmt6.setInt(3, c_id);
