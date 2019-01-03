@@ -575,7 +575,7 @@ public class SeatsClient {
 			}
 
 			PreparedStatement stmt32 = connect.prepareStatement("SELECT * " + "  FROM COUNTRY WHERE CO_ID = ?");
-			stmt32.setInt(1, airport_results.getInt("AP_CO_ID"));
+			stmt32.setLong(1, airport_results.getInt("AP_CO_ID"));
 			ResultSet country_results = stmt32.executeQuery();
 			adv = country_results.next() && adv;
 			airport_results.close();
