@@ -29,7 +29,7 @@ public class SeatsClient {
 			e.printStackTrace();
 		}
 	}
-
+ 
 	/*
 	 * 
 	 * (1) DELETE RESERVATION
