@@ -15,9 +15,11 @@ public class SeatsClient {
 	public static Connection getConnection(String localAddr) {
 		Connection connect = null;
 		try {
-			
+			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			connect = DriverManager.getConnection("jdbc:cassandra://" + "localhost" + ":9042/seats");
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return connect;
