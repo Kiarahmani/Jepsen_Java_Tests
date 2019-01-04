@@ -1,8 +1,246 @@
-COPY airport(AP_ID,  AP_CODE ,  AP_NAME ,  AP_CITY ,  AP_POSTAL_CODE,  AP_CO_ID ,  AP_LONGITUDE ,  AP_LATITUDE ,  AP_GMT_OFFSET ,  AP_WAC ,  AP_IATTR00,  AP_IATTR01 ,  AP_IATTR02,  AP_IATTR03 ,  AP_IATTR04,  AP_IATTR05 ,  AP_IATTR06,   AP_IATTR07,  AP_IATTR08,  AP_IATTR09,   AP_IATTR10 ,  AP_IATTR11 ,   AP_IATTR12 ,   AP_IATTR13,  AP_IATTR14,   AP_IATTR15) from '/home/ubuntu/seats/airport.csv' WITH DELIMITER = ',' AND HEADER = true  AND NULL = 'N';
-COPY country  (CO_ID,CO_NAME,CO_CODE_2,CO_CODE_3) from '/home/ubuntu/seats/country.csv' WITH DELIMITER = ',' AND HEADER = true  AND NULL = 'N';
-COPY airport_distance (D_AP_ID0,D_AP_ID1,D_DISTANCE) from '/home/ubuntu/seats/airport_distance.csv' WITH DELIMITER = ',' AND HEADER = true  AND NULL = 'N';
-COPY airline (AL_ID , AL_IATA_CODE , AL_ICAO_CODE, AL_CALL_SIGN, AL_NAME , AL_CO_ID, AL_IATTR00 , AL_IATTR01, AL_IATTR02, AL_IATTR03, AL_IATTR04, AL_IATTR05, AL_IATTR06, AL_IATTR07, AL_IATTR08, AL_IATTR09, AL_IATTR10, AL_IATTR11, AL_IATTR12, AL_IATTR13, AL_IATTR14, AL_IATTR15 ) from '/home/ubuntu/seats/airline.csv' WITH DELIMITER = ',' AND HEADER = true  AND NULL = 'N';
-COPY customer (C_ID, C_ID_STR, C_BASE_AP_ID, C_BALANCE, C_SATTR00, C_SATTR01, C_SATTR02, C_SATTR03, C_SATTR04, C_SATTR05, C_SATTR06, C_SATTR07, C_SATTR08, C_SATTR09, C_SATTR10, C_SATTR11, C_SATTR12, C_SATTR13, C_SATTR14, C_SATTR15, C_SATTR16, C_SATTR17, C_SATTR18, C_SATTR19, C_IATTR00, C_IATTR01, C_IATTR02, C_IATTR03, C_IATTR04, C_IATTR05, C_IATTR06, C_IATTR07, C_IATTR08, C_IATTR09, C_IATTR10, C_IATTR11, C_IATTR12, C_IATTR13, C_IATTR14, C_IATTR15, C_IATTR16, C_IATTR17, C_IATTR18, C_IATTR19) from '/home/ubuntu/seats/customer.csv' WITH DELIMITER = ',' AND HEADER = true  AND NULL = 'N';
-COPY flight  (F_ID, F_AL_ID, F_DEPART_AP_ID, F_DEPART_TIME, F_ARRIVE_AP_ID, F_ARRIVE_TIME, F_STATUS, F_BASE_PRICE, F_SEATS_TOTAL, F_SEATS_LEFT, F_IATTR00, F_IATTR01, F_IATTR02, F_IATTR03, F_IATTR04, F_IATTR05, F_IATTR06, F_IATTR07, F_IATTR08, F_IATTR09, F_IATTR10, F_IATTR11, F_IATTR12, F_IATTR13, F_IATTR14, F_IATTR15, F_IATTR16, F_IATTR17, F_IATTR18, F_IATTR19, F_IATTR20, F_IATTR21, F_IATTR22, F_IATTR23, F_IATTR24, F_IATTR25,  F_IATTR26, F_IATTR27, F_IATTR28, F_IATTR29) from '/home/ubuntu/seats/flight.csv' WITH DELIMITER = ',' AND HEADER = true  AND NULL = 'N';
-COPY frequent_flyer  (FF_C_ID, FF_AL_ID, FF_C_ID_STR, FF_SATTR00, FF_SATTR01, FF_SATTR02, FF_SATTR03, FF_IATTR00, FF_IATTR01, FF_IATTR02, FF_IATTR03, FF_IATTR04, FF_IATTR05, FF_IATTR06, FF_IATTR07, FF_IATTR08, FF_IATTR09, FF_IATTR10, FF_IATTR11, FF_IATTR12, FF_IATTR13,  FF_IATTR14, FF_IATTR15) from '/home/ubuntu/seats/frequent_flyer.csv' WITH DELIMITER = ',' AND HEADER = true  AND NULL = 'N';
-COPY reservation  (R_ID, R_C_ID,  R_F_ID, R_SEAT, R_PRICE, R_IATTR00, R_IATTR01, R_IATTR02, R_IATTR03, R_IATTR04, R_IATTR05, R_IATTR06, R_IATTR07, R_IATTR08 ) from '/home/ubuntu/seats/reservation.csv' WITH DELIMITER = ',' AND HEADER = true  AND NULL = 'N';
+drop KEYSPACE IF EXISTS seats;
+
+create KEYSPACE seats WITH replication = {'class': 'NetworkTopologyStrategy', 'dc_n1':1,'dc_n2':1,'dc_n3':1, 'dc_n4':1};
+
+create TABLE seats.COUNTRY (
+	CO_ID bigint PRIMARY KEY, 
+	CO_NAME text, 
+	CO_CODE_2 text, 
+	CO_CODE_3 text);
+
+create TABLE seats.AIRPORT (
+	AP_ID int PRIMARY KEY, 
+	AP_CODE text, 
+	AP_NAME text, 
+	AP_CITY text, 
+	AP_POSTAL_CODE text, 
+	AP_CO_ID bigint, 
+	AP_LONGITUDE float, 
+	AP_LATITUDE float,
+	AP_GMT_OFFSET float, 
+	AP_WAC bigint, 
+	AP_IATTR00 bigint, 
+	AP_IATTR01 bigint, 
+	AP_IATTR02 bigint, 
+	AP_IATTR03 bigint, 
+	AP_IATTR04 bigint, 
+	AP_IATTR05 bigint, 
+	AP_IATTR06 bigint, 
+	AP_IATTR07 bigint, 
+	AP_IATTR08 bigint, 
+	AP_IATTR09 bigint, 
+	AP_IATTR10 bigint, 
+	AP_IATTR11 bigint, 
+	AP_IATTR12 bigint, 
+	AP_IATTR13 bigint,
+	AP_IATTR14 bigint, 
+	AP_IATTR15 bigint);
+
+
+create TABLE seats.AIRPORT_DISTANCE (
+	D_AP_ID0 bigint, 
+	D_AP_ID1 bigint,
+	D_DISTANCE float, 
+	PRIMARY KEY (D_AP_ID0, D_AP_ID1));
+
+create TABLE seats.AIRLINE ( 
+	AL_ID int PRIMARY KEY,
+    AL_IATA_CODE text,
+    AL_ICAO_CODE text,
+    AL_CALL_SIGN text,
+    AL_NAME text,
+    AL_CO_ID bigint,
+    AL_IATTR00 bigint,
+    AL_IATTR01 bigint,
+    AL_IATTR02 bigint,
+    AL_IATTR03 bigint,
+    AL_IATTR04 bigint,
+    AL_IATTR05 bigint,
+    AL_IATTR06 bigint,
+    AL_IATTR07 bigint,
+    AL_IATTR08 bigint,
+    AL_IATTR09 bigint,
+    AL_IATTR10 bigint,
+    AL_IATTR11 bigint,
+    AL_IATTR12 bigint,
+    AL_IATTR13 bigint,
+    AL_IATTR14 bigint,
+    AL_IATTR15 bigint);
+    
+    
+
+create TABLE seats.CUSTOMER ( 
+	C_ID           bigint,
+    C_ID_STR       text,
+    C_BASE_AP_ID   bigint,
+    C_BALANCE      float,
+    C_SATTR00      text,
+    C_SATTR01      text,
+    C_SATTR02      text,
+    C_SATTR03      text,
+    C_SATTR04      text,
+    C_SATTR05      text,
+    C_SATTR06      text,
+    C_SATTR07      text,
+    C_SATTR08      text,
+    C_SATTR09      text,
+    C_SATTR10      text,
+    C_SATTR11      text,
+    C_SATTR12      text,
+    C_SATTR13      text,
+    C_SATTR14      text,
+    C_SATTR15      text,
+    C_SATTR16      text,
+    C_SATTR17      text,
+    C_SATTR18      text,
+    C_SATTR19      text,
+    C_IATTR00      bigint,
+    C_IATTR01      bigint,
+    C_IATTR02      bigint,
+    C_IATTR03      bigint,
+    C_IATTR04      bigint,
+    C_IATTR05      bigint,
+    C_IATTR06      bigint,
+    C_IATTR07      bigint,
+    C_IATTR08      bigint,
+    C_IATTR09      bigint,
+    C_IATTR10      bigint,
+    C_IATTR11      bigint,
+    C_IATTR12      bigint,
+    C_IATTR13      bigint,
+    C_IATTR14      bigint,
+    C_IATTR15      bigint,
+    C_IATTR16      bigint,
+    C_IATTR17      bigint,
+    C_IATTR18      bigint,
+    C_IATTR19      bigint,
+    PRIMARY KEY (C_ID, C_ID_STR)
+);
+
+CREATE INDEX testIDX on seats.customer (c_id_str);
+
+
+create TABLE seats.FREQUENT_FLYER ( 
+    FF_C_ID        bigint,
+    FF_AL_ID       bigint,
+    FF_C_ID_STR    text,
+    FF_SATTR00     text,
+    FF_SATTR01     text,
+    FF_SATTR02     text,
+    FF_SATTR03     text,
+    FF_IATTR00     bigint,
+    FF_IATTR01     bigint,
+    FF_IATTR02     bigint,
+    FF_IATTR03     bigint,
+    FF_IATTR04     bigint,
+    FF_IATTR05     bigint,
+    FF_IATTR06     bigint,
+    FF_IATTR07     bigint,
+    FF_IATTR08     bigint,
+    FF_IATTR09     bigint,
+    FF_IATTR10     bigint,
+    FF_IATTR11     bigint,
+    FF_IATTR12     bigint,
+    FF_IATTR13     bigint,
+    FF_IATTR14     bigint,
+    FF_IATTR15     bigint,
+    PRIMARY KEY (FF_C_ID, FF_AL_ID)
+);
+
+
+create TABLE seats.FLIGHT ( 
+    F_ID            bigint,
+    F_AL_ID         bigint,
+    F_DEPART_AP_ID  bigint,
+    F_DEPART_TIME   timestamp, 
+    F_ARRIVE_AP_ID  bigint,
+    F_ARRIVE_TIME   timestamp,
+    F_STATUS        bigint,
+    F_BASE_PRICE    float,
+    F_SEATS_TOTAL   bigint,
+    F_SEATS_LEFT    bigint,
+    F_IATTR00       bigint,
+    F_IATTR01       bigint,
+    F_IATTR02       bigint,
+    F_IATTR03       bigint,
+    F_IATTR04       bigint,
+    F_IATTR05       bigint,
+    F_IATTR06       bigint,
+    F_IATTR07       bigint,
+    F_IATTR08       bigint,
+    F_IATTR09       bigint,
+    F_IATTR10       bigint,
+    F_IATTR11       bigint,
+    F_IATTR12       bigint,
+    F_IATTR13       bigint,
+    F_IATTR14       bigint,
+    F_IATTR15       bigint,
+    F_IATTR16       bigint,
+    F_IATTR17       bigint,
+    F_IATTR18       bigint,
+    F_IATTR19       bigint,
+    F_IATTR20       bigint,
+    F_IATTR21       bigint,
+    F_IATTR22       bigint,
+    F_IATTR23       bigint,
+    F_IATTR24       bigint,
+    F_IATTR25       bigint,
+    F_IATTR26       bigint,
+    F_IATTR27       bigint,
+    F_IATTR28       bigint,
+    F_IATTR29       bigint,
+    PRIMARY KEY (F_ID));
+    
+CREATE INDEX f_dep_IDX ON seats.flight (f_depart_ap_id) ;
+ CREATE INDEX f_dep_IDX_Time ON seats.flight (F_DEPART_TIME) ;
+
+create TABLE seats.RESERVATION ( 
+	R_ID           bigint,
+    R_C_ID          bigint,
+    R_F_ID          bigint,
+    R_SEAT          bigint,
+    R_PRICE         float,
+    R_IATTR00       bigint,
+    R_IATTR01       bigint,
+    R_IATTR02       bigint,
+    R_IATTR03       bigint,
+    R_IATTR04       bigint,
+    R_IATTR05       bigint,
+    R_IATTR06       bigint,
+    R_IATTR07       bigint,
+    R_IATTR08       bigint,
+    PRIMARY KEY (R_ID, R_C_ID, R_F_ID)
+);	
+
+CREATE INDEX resCustIDX on seats.reservation (R_C_ID);
+CREATE INDEX resCFlghtIDX on seats.reservation (R_F_ID);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
