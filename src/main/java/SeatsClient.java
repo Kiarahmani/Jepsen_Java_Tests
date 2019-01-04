@@ -246,7 +246,9 @@ public class SeatsClient {
 								.prepareStatement("SELECT AL_NAME, AL_IATTR00, AL_IATTR01 FROM AIRLINE WHERE AL_ID=?");
 						f_stmt2.setInt(1, f_al_id);
 						ResultSet flightResults2 = f_stmt2.executeQuery();
-						flightResults2.next();
+						boolean adv = flightResults2.next();
+						if (!adv)
+							return 0;
 						String al_name = flightResults2.getString("AL_NAME");
 						Object row[] = new Object[13];
 						int r = 0;
