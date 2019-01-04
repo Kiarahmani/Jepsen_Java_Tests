@@ -145,7 +145,7 @@ public class SeatsUtils {
 		flightIds = new ArrayList<Long>();
 		Scanner s = null;
 		try {
-			s = new Scanner(new File("/root/seats/flight.id"));
+			s = new Scanner(new File("/home/ubuntu/seats/flight.id"));
 			while (s.hasNext()) {
 				flightIds.add(Long.parseLong(s.next()));
 			}
@@ -162,8 +162,8 @@ public class SeatsUtils {
 		r_f_id = new ArrayList<Long>();
 		Scanner s1 = null, s2 = null;
 		try {
-			s1 = new Scanner(new File("/root/seats/r_c.id"));
-			s2 = new Scanner(new File("/root/seats/r_f.id"));
+			s1 = new Scanner(new File("/home/ubuntu/seats/r_c.id"));
+			s2 = new Scanner(new File("/home/ubuntu/seats/r_f.id"));
 			while (s1.hasNext() && s2.hasNext()) {
 				r_c_id.add(Long.parseLong(s1.next()));
 				r_f_id.add(Long.parseLong(s2.next()));
