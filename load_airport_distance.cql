@@ -1,0 +1,1 @@
+COPY seats.airport_distance (D_AP_ID0,D_AP_ID1,D_DISTANCE) from '/home/ubuntu/seats/airport_distance.csv' WITH DELIMITER = ',' AND HEADER = true  AND NULL = 'N';

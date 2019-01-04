@@ -1,0 +1,1 @@
+COPY seats.country  (CO_ID,CO_NAME,CO_CODE_2,CO_CODE_3) from '/home/ubuntu/seats/country.csv' WITH DELIMITER = ',' AND HEADER = true  AND NULL = 'N';
