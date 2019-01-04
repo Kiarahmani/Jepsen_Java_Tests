@@ -15,7 +15,7 @@ public class SeatsClient {
 	public static Connection getConnection(String localAddr) {
 		Connection connect = null;
 		try {
-			connect = DriverManager.getConnection("jdbc:cassandra://" + "127.0.0.1" + ":9042/seats");
+			connect = DriverManager.getConnection("jdbc:cassandra://" + "localhost" + ":9042/seats");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
