@@ -16,9 +16,9 @@ public class SeatsClient {
 		Connection connect = null;
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			System.out.println("\n\n>> CONNECTING TO CASSANDRA ON: "+localAddr);
+			System.out.println("\n\n>> CONNECTING TO CASSANDRA ON: " + localAddr);
 			System.out.println("\n\n");
-			connect = DriverManager.getConnection("jdbc:cassandra://" +localAddr+ ":9042/seats");
+			connect = DriverManager.getConnection("jdbc:cassandra://" + localAddr + ":9042/seats");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -34,7 +34,33 @@ public class SeatsClient {
 			e.printStackTrace();
 		}
 	}
- 
+
+	public static int testTxn(Connection conn,long c_id) throws Exception {
+		try {
+			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			PreparedStatement stmt = conn.prepareStatement("SELECT C_BASE_AP_ID FROM CUSTOMER WHERE C_ID = ? ");
+			stmt.setLong(1, c_id);
+			ResultSet rs = stmt.executeQuery();
+			long oldBal = 0;
+			if (rs.next())
+				 oldBal = rs.getLong("C_BASE_AP_ID");
+			else
+				return 1;
+			stmt = conn.prepareStatement("UPDATE CUSTOMER SET C_BASE_AP_ID = ?  WHERE C_ID = ? ");
+			stmt.setLong(1, oldBal+10);
+			stmt.setLong(2, c_id);
+			stmt.executeUpdate();
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+			
+	
+	
+	
+	
 	/*
 	 * 
 	 * (1) DELETE RESERVATION
