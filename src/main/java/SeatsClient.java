@@ -38,17 +38,19 @@ public class SeatsClient {
 	public static int testTxn(Connection conn,long c_id) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			PreparedStatement stmt = conn.prepareStatement("SELECT C_BASE_AP_ID FROM CUSTOMER WHERE C_ID = ? ");
+			PreparedStatement stmt = conn.prepareStatement("SELECT C_BASE_AP_ID FROM CUSTOMER WHERE C_ID = ? AND C_ID_STR = ?");
 			stmt.setLong(1, c_id);
+			stmt.setString(2, String.valueOf(c_id));
 			ResultSet rs = stmt.executeQuery();
 			long oldBal = 0;
 			if (rs.next())
 				 oldBal = rs.getLong("C_BASE_AP_ID");
 			else
 				return 1;
-			stmt = conn.prepareStatement("UPDATE CUSTOMER SET C_BASE_AP_ID = ?  WHERE C_ID = ? ");
+			stmt = conn.prepareStatement("UPDATE CUSTOMER SET C_BASE_AP_ID = ?  WHERE C_ID = ? AND C_ID_STR = ?");
 			stmt.setLong(1, oldBal+10);
 			stmt.setLong(2, c_id);
+			stmt.setString(3, String.valueOf(c_id));
 			stmt.executeUpdate();
 			
 		}catch (SQLException e) {
