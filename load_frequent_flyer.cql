@@ -1,1 +1,27 @@
+create TABLE seats.FREQUENT_FLYER ( 
+    FF_C_ID        bigint,
+    FF_AL_ID       bigint,
+    FF_C_ID_STR    text,
+    FF_SATTR00     text,
+    FF_SATTR01     text,
+    FF_SATTR02     text,
+    FF_SATTR03     text,
+    FF_IATTR00     bigint,
+    FF_IATTR01     bigint,
+    FF_IATTR02     bigint,
+    FF_IATTR03     bigint,
+    FF_IATTR04     bigint,
+    FF_IATTR05     bigint,
+    FF_IATTR06     bigint,
+    FF_IATTR07     bigint,
+    FF_IATTR08     bigint,
+    FF_IATTR09     bigint,
+    FF_IATTR10     bigint,
+    FF_IATTR11     bigint,
+    FF_IATTR12     bigint,
+    FF_IATTR13     bigint,
+    FF_IATTR14     bigint,
+    FF_IATTR15     bigint,
+    PRIMARY KEY (FF_C_ID, FF_AL_ID)
+);
 COPY seats.frequent_flyer  (FF_C_ID, FF_AL_ID, FF_C_ID_STR, FF_SATTR00, FF_SATTR01, FF_SATTR02, FF_SATTR03, FF_IATTR00, FF_IATTR01, FF_IATTR02, FF_IATTR03, FF_IATTR04, FF_IATTR05, FF_IATTR06, FF_IATTR07, FF_IATTR08, FF_IATTR09, FF_IATTR10, FF_IATTR11, FF_IATTR12, FF_IATTR13,  FF_IATTR14, FF_IATTR15) from '/home/ubuntu/seats/frequent_flyer.csv' WITH DELIMITER = ',' AND HEADER = true  AND NULL = 'N';
