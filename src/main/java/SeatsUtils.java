@@ -145,7 +145,7 @@ public class SeatsUtils {
 		flightIds = new ArrayList<Long>();
 		Scanner s = null;
 		try {
-			s = new Scanner(new File("/home/ubuntu/snapshots/seats/flight.id"));
+			s = new Scanner(new File("/root/snapshots/seats/flight.id"));
 			while (s.hasNext()) {
 				flightIds.add(Long.parseLong(s.next()));
 			}
