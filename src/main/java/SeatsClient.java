@@ -375,8 +375,8 @@ public class SeatsClient {
 			ResultSet f_results = f_stmt.executeQuery();
 
 			boolean adv = f_results.next();
-			if (!adv) {
-				System.out.println("ERROR!");
+			if (adv == false) {
+				System.out.println("ERROR!"+f_id);
 				return 1;
 			}
 			float base_price = f_results.getFloat("F_BASE_PRICE");
