@@ -379,9 +379,13 @@ public class SeatsClient {
 				System.out.println("ERROR!"+f_id);
 				return 1;
 			}
+			
+			
 			float base_price = f_results.getFloat("F_BASE_PRICE");
 			long seats_left = f_results.getLong("F_SEATS_LEFT");
 			long seats_total = f_results.getLong("F_SEATS_TOTAL");
+			if (seats_total==0)
+				return 1;
 			float seat_price = base_price + (base_price * (1 - (seats_left / seats_total)));
 
 			PreparedStatement s_stmt = connect
