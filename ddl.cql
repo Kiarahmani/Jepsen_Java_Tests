@@ -1,6 +1,6 @@
 drop KEYSPACE IF EXISTS seats;
 
-create KEYSPACE seats WITH replication = {'class': 'NetworkTopologyStrategy', 'dc_n1':1,'dc_n2':1,'dc_n3':1};
+create KEYSPACE seats WITH replication = {'class': 'NetworkTopologyStrategy', 'dc_n1':1};
 
 create TABLE seats.COUNTRY (
 	CO_ID bigint PRIMARY KEY, 
@@ -192,7 +192,7 @@ create TABLE seats.FLIGHT (
     PRIMARY KEY (F_ID));
     
 CREATE INDEX f_dep_IDX ON seats.flight (f_depart_ap_id) ;
- CREATE INDEX f_dep_IDX_Time ON seats.flight (F_DEPART_TIME) ;
+CREATE INDEX f_dep_IDX_Time ON seats.flight (F_DEPART_TIME) ;
 
 create TABLE seats.RESERVATION ( 
 	R_ID           bigint,
