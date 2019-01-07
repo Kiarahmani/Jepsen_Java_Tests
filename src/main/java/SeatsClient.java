@@ -69,7 +69,7 @@ public class SeatsClient {
 	 * 
 	 */
 	
-	/*
+
 	
 	
 	public static int deleteReservation(Connection conn, long f_id, Long c_id, String c_id_str, String ff_c_id_str,
@@ -221,14 +221,14 @@ public class SeatsClient {
 		}
 	}
 
-*/
+
 
 	/*
 	 * 
 	 * (2) FIND FLIGHTS
 	 * 
 	 */
-/*
+
 	public static int findFlights(Connection connect, long depart_aid, long arrive_aid, Timestamp start_date,
 			Timestamp end_date, float distance) throws Exception {
 		try {
@@ -350,13 +350,13 @@ public class SeatsClient {
 		}
 
 	}
-*/
+
 	/*
 	 * 
 	 * (3) FIND OPEN SEATS
 	 * 
 	 */
-/*
+
 	public static int findOpenSeats(Connection connect, long f_id) throws Exception {
 		try {
 
@@ -424,13 +424,13 @@ public class SeatsClient {
 		}
 
 	}
-*/
+
 	/*
 	 * 
 	 * (4) NEW RESERVATION
 	 * 
 	 */
-/*
+
 	public static int newReservation(Connection connect, long r_id, long c_id, long f_id, int seatnum, float price,
 			long attrs[]) throws Exception {
 		try {
@@ -568,13 +568,13 @@ public class SeatsClient {
 		}
 
 	}
-*/
+
 	/*
 	 * 
 	 * (5) UPDATE CUSTOMER
 	 * 
 	 */
-/*
+
 	public static int updateCustomer(Connection connect, long c_id, String c_id_str, long update_ff, long attr0,
 			long attr1) throws Exception {
 		try {
@@ -659,13 +659,13 @@ public class SeatsClient {
 		}
 
 	}
-*/
+
 	/*
 	 * 
 	 * (6) UPDATE RESERVATION
 	 * 
 	 */
-/*
+
 	public static int updateReservation(Connection connect, long r_id, long f_id, long c_id, long seatnum,
 			long attr_idx, long attr_val) throws Exception {
 		try {
@@ -717,5 +717,4 @@ public class SeatsClient {
 		}
 
 	}
-*/
 }
