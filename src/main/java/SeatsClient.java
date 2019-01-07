@@ -34,7 +34,7 @@ public class SeatsClient {
 			e.printStackTrace();
 		}
 	}
-
+/*
 	public static int testTxn(Connection conn,long c_id) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
@@ -59,7 +59,7 @@ public class SeatsClient {
 		return 0;
 	}
 			
-	
+	*/
 	 
 	
 	
