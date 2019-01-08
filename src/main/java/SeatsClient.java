@@ -16,8 +16,7 @@ public class SeatsClient {
 		Connection connect = null;
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			System.out.println("\n\n>> CONNECTING TO CASSANDRA ON: " + localAddr);
-			System.out.println("\n\n");
+			System.out.println("SeatsClient.java: Connecting to Cassandra on: " + localAddr);
 			connect = DriverManager.getConnection("jdbc:cassandra://" + localAddr + ":9042/seats?consistency=ONE");
 		} catch (SQLException e) {
 			e.printStackTrace();
