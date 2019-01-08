@@ -78,7 +78,7 @@ public class SeatsClient {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
 			PreparedStatement stmt = null;
-
+			System.out.println(conn.getMetaData());
 			// If we weren't given the customer id, then look it up
 			if (c_id == -1) {
 				// Use the customer's id as a string
