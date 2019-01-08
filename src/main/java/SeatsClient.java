@@ -14,13 +14,14 @@ public class SeatsClient {
 
 	private static boolean _NO_ERROR_MODE = true;
 
-	public static Connection getConnection(String localAddr) {
-		Connection connect = null;
+	public static CassandraConnection getConnection(String localAddr) {
+		CassandraConnection connect = null;
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			System.out.println("SeatsClient.java: Connecting to Cassandra on: " + localAddr);
 			//&loadbalancing=TokenAwarePolicy(DCAwareRoundRobinPolicy('dc_n1'))
-			connect = DriverManager.getConnection("jdbc:cassandra://172.31.2.123:9042/seats?debug=true");
+			connect = (CassandraConnection) DriverManager.getConnection("jdbc:cassandra://172.31.2.123:9042/seats?debug=true");
+			System.out.println("XXX"+connect.getClusterMetadata());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
