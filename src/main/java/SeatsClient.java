@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
+
 public class SeatsClient {
 
 	private static boolean _NO_ERROR_MODE = true;
@@ -72,13 +74,13 @@ public class SeatsClient {
 
 	
 	
-	public static int deleteReservation(Connection conn, long f_id, Long c_id, String c_id_str, String ff_c_id_str,
+	public static int deleteReservation(CassandraConnection conn, long f_id, Long c_id, String c_id_str, String ff_c_id_str,
 			Long ff_al_id) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 
 			PreparedStatement stmt = null;
-			System.out.println(conn.getMetaData());
+			System.out.println(conn.getClusterMetadata());
 			// If we weren't given the customer id, then look it up
 			if (c_id == -1) {
 				// Use the customer's id as a string
