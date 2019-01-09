@@ -61,7 +61,7 @@ public class SeatsClient {
 	public static int deleteReservation(CassandraConnection conn, long f_id, Long c_id, String c_id_str,
 			String ff_c_id_str, Long ff_al_id) throws Exception {
 		try {
-			//Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+		/*	//Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt = null;
 			// System.out.println(conn.getClusterMetadata());
 			// If we weren't given the customer id, then look it up
@@ -199,7 +199,7 @@ public class SeatsClient {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-			return 0;
+		*/	return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
