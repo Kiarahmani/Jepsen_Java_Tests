@@ -32,7 +32,10 @@ public class SeatsClient {
 	}
 
 	public static CassandraConnection getConnection(String localAddr) {
-		return connectionPool.iterator().next();
+		CassandraConnection connect = null;
+		connect = connectionPool.iterator().next();
+		System.out.println("GET CONNECTION: "+connect.getClusterMetadata());
+		return connect;
 	}
 
 	public static void closeConnection(Connection connection) {
