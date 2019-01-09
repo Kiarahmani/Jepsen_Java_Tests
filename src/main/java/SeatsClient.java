@@ -14,6 +14,7 @@ public class SeatsClient {
 
 	private static boolean _NO_ERROR_MODE = true;
 	private static boolean _SHOW_CQL_MESSAGES = false;
+	private static RoundRobin<CassandraConnection> connectionPool;
 
 	public static CassandraConnection getConnection(String localAddr) {
 		CassandraConnection connect = null;
@@ -30,10 +31,6 @@ public class SeatsClient {
 			e.printStackTrace();
 		}
 		return connect;
-	}
- 
-	public static String getSomething(String localAddr) {
-		return "kir";
 	}
 
 	public static void closeConnection(Connection connection) {
