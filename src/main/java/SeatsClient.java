@@ -16,9 +16,9 @@ public class SeatsClient {
 	private static boolean _SHOW_CQL_MESSAGES = false;
 	private static RoundRobin<CassandraConnection> connectionPool;
 
-	public static void prepareConnections(Object n) {
+	public static void prepareConnections(int n) {
 		System.out.println("\n\n\n");
-		System.out.println(n.getClass());
+		System.out.println(n);
 		System.out.println("\n\n\n");
 		connectionPool = new RoundRobin<CassandraConnection>();
 		try {
