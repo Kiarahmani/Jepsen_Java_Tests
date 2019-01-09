@@ -30,6 +30,7 @@ public class SeatsClient {
 							//+ "\"))"
 							);
 					connectionPool.add(connect);
+					System.out.println("connection added: "+connect);
 				}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
