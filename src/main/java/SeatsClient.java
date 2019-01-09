@@ -21,7 +21,7 @@ public class SeatsClient {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			CassandraConnection connect = (CassandraConnection) DriverManager
-					.getConnection("jdbc:cassandra://" + "172.31.12.154" + ":9042/seats?"
+					.getConnection("jdbc:cassandra://" + "n1" + ":9042/seats?"
 							+"consistency=ONE&retry=FallthroughRetryPolicy");
 			connectionPool.add(connect);
 		} catch (ClassNotFoundException e) {
