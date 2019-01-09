@@ -23,7 +23,7 @@ public class SeatsClient {
 			// &loadbalancing=TokenAwarePolicy(DCAwareRoundRobinPolicy('dc_n1'))
 			connect = (CassandraConnection) DriverManager.getConnection(
 					"jdbc:cassandra://172.31.1.189:9042/seats?debug=" + String.valueOf(_SHOW_CQL_MESSAGES)
-							+ "&consistency=ONE&retry=FallthroughRetryPolicy");
+							+ "&consistency=ONE");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
