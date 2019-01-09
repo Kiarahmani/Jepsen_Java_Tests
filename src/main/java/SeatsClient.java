@@ -66,7 +66,7 @@ public class SeatsClient {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt = null;
-			System.out.println(conn.getClusterMetadata());
+			//System.out.println(conn.getClusterMetadata());
 			// If we weren't given the customer id, then look it up
 			if (c_id == -1) {
 				// Use the customer's id as a string
@@ -425,8 +425,8 @@ public class SeatsClient {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			System.out.println(String.format("r_id:%d -- c_id:%d -- f_id:%d -- seatnum:%d  -- price:%f", r_id, c_id,
-					f_id, seatnum, price));
+			//System.out.println(String.format("r_id:%d -- c_id:%d -- f_id:%d -- seatnum:%d  -- price:%f", r_id, c_id,
+			//		f_id, seatnum, price));
 			// Flight Information
 			PreparedStatement stmt11 = connect
 					.prepareStatement("SELECT F_AL_ID, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
@@ -567,7 +567,7 @@ public class SeatsClient {
 	public static int updateCustomer(Connection connect, long c_id, String c_id_str, long update_ff, long attr0,
 			long attr1) throws Exception {
 		try {
-			System.out.println(String.format("c_id:%d   ---  c_id_str:%s", c_id, c_id_str));
+			//System.out.println(String.format("c_id:%d   ---  c_id_str:%s", c_id, c_id_str));
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			if (c_id == -1) {
 				PreparedStatement stmt1 = connect.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ");
