@@ -352,9 +352,9 @@ public class SeatsClient {
 					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 					-1, -1, -1, -1, -1, -1, -1 };
 
-			PreparedStatement f_stmt = connect.prepareStatement(
-					"SELECT F_STATUS, F_BASE_PRICE, F_SEATS_TOTAL, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
-			f_stmt.setLong(1, f_id);
+			//PreparedStatement f_stmt = connect.prepareStatement(
+			//		"SELECT F_STATUS, F_BASE_PRICE, F_SEATS_TOTAL, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
+			//f_stmt.setLong(1, f_id);
 			//ResultSet f_results = f_stmt.executeQuery();
 
 			//boolean adv = f_results.next();
@@ -370,9 +370,9 @@ public class SeatsClient {
 			//	return 1;
 			//float seat_price = base_price + (base_price * (1 - (seats_left / seats_total)));
 
-			PreparedStatement s_stmt = connect
-					.prepareStatement("SELECT R_ID, R_F_ID, R_SEAT FROM RESERVATION WHERE R_F_ID = ?");
-			s_stmt.setLong(1, f_id);
+			//PreparedStatement s_stmt = connect
+			//		.prepareStatement("SELECT R_ID, R_F_ID, R_SEAT FROM RESERVATION WHERE R_F_ID = ?");
+			//s_stmt.setLong(1, f_id);
 			//ResultSet s_results = s_stmt.executeQuery();
 
 			//while (s_results.next()) {
