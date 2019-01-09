@@ -23,7 +23,7 @@ public class SeatsClient {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			for (int i = 1; i <= n; i++)
-				for (int j = 0; j < (c / 500) + 1; j++) {
+				for (int j = 0; j < _NUMBER_OF_CONNECTIONS_PER_NODE; j++) {
 					CassandraConnection connect = (CassandraConnection) DriverManager.getConnection("jdbc:cassandra://"
 							+ "n" + String.valueOf(i) + ":9042/seats?" + "consistency=ONE&retry=FallthroughRetryPolicy"
 							+ "&loadbalancing=TokenAwarePolicy(DCAwareRoundRobinPolicy(\"dc_n " + String.valueOf(i)
