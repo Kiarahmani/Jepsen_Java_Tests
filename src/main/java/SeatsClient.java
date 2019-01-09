@@ -17,6 +17,9 @@ public class SeatsClient {
 	private static RoundRobin<CassandraConnection> connectionPool;
 
 	public static void prepareConnections(Object n) {
+		System.out.println("\n\n\n");
+		System.out.println(n.getClass());
+		System.out.println("\n\n\n");
 		connectionPool = new RoundRobin<CassandraConnection>();
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
