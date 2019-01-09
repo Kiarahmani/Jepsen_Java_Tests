@@ -15,6 +15,7 @@ public class SeatsClient {
 	private static boolean _NO_ERROR_MODE = true;
 	private static boolean _SHOW_CQL_MESSAGES = false;
 	private static RoundRobin<CassandraConnection> connectionPool;
+	private static  CassandraConnection kir;
 
 	public static void prepareConnections() {
 		connectionPool = new RoundRobin<CassandraConnection>();
@@ -24,6 +25,7 @@ public class SeatsClient {
 					.getConnection("jdbc:cassandra://" + "172.31.12.154" + ":9042/seats?debug="
 							+ String.valueOf(_SHOW_CQL_MESSAGES) + "&consistency=ONE&retry=FallthroughRetryPolicy");
 			connectionPool.add(connect);
+			kir = connect;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -35,7 +37,7 @@ public class SeatsClient {
 		CassandraConnection connect = null;
 		connect = connectionPool.iterator().next();
 		System.out.println("GET CONNECTION: "+connect.getClusterMetadata());
-		return connect;
+		return kir;
 	}
 
 	public static void closeConnection(Connection connection) {
