@@ -24,6 +24,7 @@ public class RoundRobin<T> implements Iterable<T> {
 			}
 
 			public T next() {
+				System.out.println("~~>"+index);
 				T res = coll.get(index);
 				index = (index + 1) % coll.size();
 				return res;
