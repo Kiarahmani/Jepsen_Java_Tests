@@ -21,15 +21,19 @@ public class SeatsClient {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			System.out.println("SeatsClient.java: Connecting to Cassandra on: " + localAddr);
 			// &loadbalancing=TokenAwarePolicy(DCAwareRoundRobinPolicy('dc_n1'))
-			connect = (CassandraConnection) DriverManager.getConnection(
-					"jdbc:cassandra://"+localAddr+":9042/seats?debug=" + String.valueOf(_SHOW_CQL_MESSAGES)
-							+ "&consistency=ONE&retry=FallthroughRetryPolicy");
+			connect = (CassandraConnection) DriverManager
+					.getConnection("jdbc:cassandra://" + localAddr + ":9042/seats?debug="
+							+ String.valueOf(_SHOW_CQL_MESSAGES) + "&consistency=ONE&retry=FallthroughRetryPolicy");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return connect;
+	}
+
+	public static String getSomething(String localAddr) {
+		return "kir";
 	}
 
 	public static void closeConnection(Connection connection) {
@@ -39,21 +43,6 @@ public class SeatsClient {
 			e.printStackTrace();
 		}
 	}
-	/*
-	 * public static int testTxn(Connection conn,long c_id) throws Exception { try {
-	 * Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-	 * PreparedStatement stmt = conn.
-	 * prepareStatement("SELECT C_BASE_AP_ID FROM CUSTOMER WHERE C_ID = ? AND C_ID_STR = ?"
-	 * ); stmt.setLong(1, c_id); stmt.setString(2, String.valueOf(c_id)); ResultSet
-	 * rs = stmt.executeQuery(); long oldBal = 0; if (rs.next()) oldBal =
-	 * rs.getLong("C_BASE_AP_ID"); else return 1; stmt = conn.
-	 * prepareStatement("UPDATE CUSTOMER SET C_BASE_AP_ID = ?  WHERE C_ID = ? AND C_ID_STR = ?"
-	 * ); stmt.setLong(1, oldBal+10); stmt.setLong(2, c_id); stmt.setString(3,
-	 * String.valueOf(c_id)); stmt.executeUpdate();
-	 * 
-	 * }catch (SQLException e) { e.printStackTrace(); } return 0; }
-	 * 
-	 */
 
 	/*
 	 * 
@@ -66,7 +55,7 @@ public class SeatsClient {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt = null;
-			//System.out.println(conn.getClusterMetadata());
+			// System.out.println(conn.getClusterMetadata());
 			// If we weren't given the customer id, then look it up
 			if (c_id == -1) {
 				// Use the customer's id as a string
@@ -425,8 +414,9 @@ public class SeatsClient {
 		try {
 
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			//System.out.println(String.format("r_id:%d -- c_id:%d -- f_id:%d -- seatnum:%d  -- price:%f", r_id, c_id,
-			//		f_id, seatnum, price));
+			// System.out.println(String.format("r_id:%d -- c_id:%d -- f_id:%d -- seatnum:%d
+			// -- price:%f", r_id, c_id,
+			// f_id, seatnum, price));
 			// Flight Information
 			PreparedStatement stmt11 = connect
 					.prepareStatement("SELECT F_AL_ID, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
@@ -567,7 +557,7 @@ public class SeatsClient {
 	public static int updateCustomer(Connection connect, long c_id, String c_id_str, long update_ff, long attr0,
 			long attr1) throws Exception {
 		try {
-			//System.out.println(String.format("c_id:%d   ---  c_id_str:%s", c_id, c_id_str));
+			// System.out.println(String.format("c_id:%d --- c_id_str:%s", c_id, c_id_str));
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			if (c_id == -1) {
 				PreparedStatement stmt1 = connect.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ");
