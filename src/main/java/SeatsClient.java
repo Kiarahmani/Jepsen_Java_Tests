@@ -14,6 +14,7 @@ public class SeatsClient {
 
 	private static boolean _NO_ERROR_MODE = true;
 	private static boolean _SHOW_CQL_MESSAGES = false;
+	private static int _NUMBER_OF_CONNECTIONS_PER_NODE = 5;
 	private static RoundRobin<CassandraConnection> connectionPool;
 
 	public static void prepareConnections(int n) {
@@ -23,10 +24,13 @@ public class SeatsClient {
 		connectionPool = new RoundRobin<CassandraConnection>();
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			CassandraConnection connect = (CassandraConnection) DriverManager
-					.getConnection("jdbc:cassandra://" + "n1" + ":9042/seats?"
-							+"consistency=ONE&retry=FallthroughRetryPolicy");
-			connectionPool.add(connect);
+			for (int i = 1; i <= n; i++)
+				for (int j = 0; j < _NUMBER_OF_CONNECTIONS_PER_NODE; j++) {
+					CassandraConnection connect = (CassandraConnection) DriverManager
+							.getConnection("jdbc:cassandra://" + "n" + String.valueOf(i) + ":9042/seats?"
+									+ "consistency=ONE&retry=FallthroughRetryPolicy");
+					connectionPool.add(connect);
+				}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -37,7 +41,7 @@ public class SeatsClient {
 	public static CassandraConnection getConnection(String localAddr) {
 		CassandraConnection connect = null;
 		connect = connectionPool.iterator().next();
-		System.out.println("GET CONNECTION: "+connect.getClusterMetadata());
+		System.out.println("GET CONNECTION: " + connect.getClusterMetadata());
 		return connect;
 	}
 
