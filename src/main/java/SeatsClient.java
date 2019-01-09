@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
@@ -15,10 +16,10 @@ public class SeatsClient {
 	private static boolean _NO_ERROR_MODE = true;
 	private static boolean _SHOW_CQL_MESSAGES = false;
 	private static int _NUMBER_OF_CONNECTIONS_PER_NODE = 100;
-	private static RoundRobin<CassandraConnection> connectionPool;
+	private static RoundRobin<CassandraConnection> connectionPool = new RoundRobin<CassandraConnection>();
+	private static Iterator<CassandraConnection> connections = connectionPool.iterator();
 
 	public static void prepareConnections(int n) {
-		connectionPool = new RoundRobin<CassandraConnection>();
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			for (int i = 1; i <= n; i++)
@@ -37,7 +38,7 @@ public class SeatsClient {
 
 	public static CassandraConnection getConnection(String localAddr) {
 		CassandraConnection connect = null;
-		connect = connectionPool.iterator().next();
+		connect = connections.next();
 		System.out.println("GET CONNECTION: " + connect.getClusterMetadata());
 		return connect;
 	}
