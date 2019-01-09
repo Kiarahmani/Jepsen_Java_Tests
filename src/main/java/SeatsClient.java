@@ -13,7 +13,7 @@ import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 public class SeatsClient {
 
 	private static boolean _NO_ERROR_MODE = true;
-	private static boolean _SHOW_CQL_MESSAGES = true;
+	private static boolean _SHOW_CQL_MESSAGES = false;
 
 	public static CassandraConnection getConnection(String localAddr) {
 		CassandraConnection connect = null;
