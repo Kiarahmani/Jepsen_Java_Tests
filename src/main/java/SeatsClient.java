@@ -16,7 +16,7 @@ public class SeatsClient {
 	private static boolean _SHOW_CQL_MESSAGES = false;
 	private static RoundRobin<CassandraConnection> connectionPool;
 
-	public static void prepareConnections() {
+	public static void prepareConnections(Object n) {
 		connectionPool = new RoundRobin<CassandraConnection>();
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
