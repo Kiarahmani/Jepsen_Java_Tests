@@ -26,8 +26,7 @@ public class SeatsClient {
 				for (int j = 0; j < _NUMBER_OF_CONNECTIONS_PER_NODE; j++) {
 					CassandraConnection connect = (CassandraConnection) DriverManager.getConnection("jdbc:cassandra://"
 							+ "n" + String.valueOf(i) + ":9042/seats?" + "consistency=ONE&retry=FallthroughRetryPolicy"
-							+ "&loadbalancing=RoundRobinPolicy()"
-							);
+							+ "&loadbalancing=RoundRobinPolicy()");
 					connectionPool.add(connect);
 				}
 		} catch (ClassNotFoundException e) {
@@ -61,7 +60,7 @@ public class SeatsClient {
 	public static int deleteReservation(CassandraConnection conn, long f_id, Long c_id, String c_id_str,
 			String ff_c_id_str, Long ff_al_id) throws Exception {
 		try {
-			//Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			// Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt = null;
 			// System.out.println(conn.getClusterMetadata());
 			// If we weren't given the customer id, then look it up
@@ -216,7 +215,7 @@ public class SeatsClient {
 			Timestamp end_date, float distance) throws Exception {
 		try {
 
-			//Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			// Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			final List<Long> arrive_aids = new ArrayList<Long>();
 			arrive_aids.add(arrive_aid);
 			final List<Object[]> finalResults = new ArrayList<Object[]>();
@@ -256,7 +255,6 @@ public class SeatsClient {
 					flightResults1.next();
 					int i = 0;
 					while (flightResults1.next() && i < 5) {
-						i++;
 						int f_depart_airport = flightResults1.getInt("F_DEPART_AP_ID");
 						int f_arrive_airport = flightResults1.getInt("F_ARRIVE_AP_ID");
 						int f_al_id = flightResults1.getInt("F_AL_ID");
@@ -317,6 +315,7 @@ public class SeatsClient {
 						ai_results3.getString("AP_CITY"); // [11] ARRIVE_AP_CITY row[r++] =
 						ai_results4.getString("CO_NAME"); // [12] ARRIVE_AP_COUNTRY
 						finalResults.add(row);
+						i++;
 					}
 				}
 
@@ -344,7 +343,7 @@ public class SeatsClient {
 	public static int findOpenSeats(Connection connect, long f_id) throws Exception {
 		try {
 
-			//Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			// Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			final long seatmap[] = new long[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -422,7 +421,7 @@ public class SeatsClient {
 			long attrs[]) throws Exception {
 		try {
 
-			//Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			// Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			// System.out.println(String.format("r_id:%d -- c_id:%d -- f_id:%d -- seatnum:%d
 			// -- price:%f", r_id, c_id,
 			// f_id, seatnum, price));
@@ -567,7 +566,7 @@ public class SeatsClient {
 			long attr1) throws Exception {
 		try {
 			// System.out.println(String.format("c_id:%d --- c_id_str:%s", c_id, c_id_str));
-			//Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			// Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			if (c_id == -1) {
 				PreparedStatement stmt1 = connect.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ");
 				stmt1.setString(1, c_id_str);
@@ -657,7 +656,7 @@ public class SeatsClient {
 	public static int updateReservation(Connection connect, long r_id, long f_id, long c_id, long seatnum,
 			long attr_idx, long attr_val) throws Exception {
 		try {
-			//Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			// Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt1 = connect.prepareStatement(
 					("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ? ALLOW FILTERING"));
 			stmt1.setLong(1, f_id);
