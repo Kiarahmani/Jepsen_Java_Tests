@@ -343,7 +343,7 @@ public class SeatsClient {
 	public static int findOpenSeats(Connection connect, long f_id) throws Exception {
 		try {
 
-			/*Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			//Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			final long seatmap[] = new long[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -400,7 +400,7 @@ public class SeatsClient {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-	*/		return 0;
+			return 0;
 		} catch (
 
 		Exception e) {
