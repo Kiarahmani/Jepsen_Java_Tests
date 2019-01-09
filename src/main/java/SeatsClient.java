@@ -31,7 +31,7 @@ public class SeatsClient {
 		}
 		return connect;
 	}
-
+ 
 	public static String getSomething(String localAddr) {
 		return "kir";
 	}
