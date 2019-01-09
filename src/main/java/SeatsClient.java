@@ -656,7 +656,7 @@ public class SeatsClient {
 	public static int updateReservation(Connection connect, long r_id, long f_id, long c_id, long seatnum,
 			long attr_idx, long attr_val) throws Exception {
 		try {
-			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+		/*	Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt1 = connect.prepareStatement(
 					("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ? ALLOW FILTERING"));
 			stmt1.setLong(1, f_id);
@@ -696,7 +696,7 @@ public class SeatsClient {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-			return 0;
+	*/		return 0;
 		} catch (Exception e) {
 			throw e;
 		} finally {
