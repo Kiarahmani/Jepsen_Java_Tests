@@ -362,7 +362,7 @@ public class SeatsClient {
 				System.out.println("ERROR!" + f_id);
 				return 1;
 			}
-/*
+
 			float base_price = f_results.getFloat("F_BASE_PRICE");
 			long seats_left = f_results.getLong("F_SEATS_LEFT");
 			long seats_total = f_results.getLong("F_SEATS_TOTAL");
@@ -400,7 +400,7 @@ public class SeatsClient {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-	*/		return 0;
+			return 0;
 		} catch (
 
 		Exception e) {
