@@ -18,9 +18,6 @@ public class SeatsClient {
 	private static RoundRobin<CassandraConnection> connectionPool;
 
 	public static void prepareConnections(int n) {
-		System.out.println("\n\n\n");
-		System.out.println(n);
-		System.out.println("\n\n\n");
 		connectionPool = new RoundRobin<CassandraConnection>();
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
@@ -30,6 +27,11 @@ public class SeatsClient {
 							.getConnection("jdbc:cassandra://" + "n" + String.valueOf(i) + ":9042/seats?"
 									+ "consistency=ONE&retry=FallthroughRetryPolicy");
 					connectionPool.add(connect);
+					System.out.println("\n\n===================");
+					System.out.println("(" + i + "," + j + ")");
+					System.out.println(connect);
+
+					System.out.println("===================\n\n");
 				}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
