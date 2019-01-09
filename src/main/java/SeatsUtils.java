@@ -59,13 +59,13 @@ public class SeatsUtils {
 	}
 
 	public static long getNewResId() {
-		System.out.println("getting a new res id -- current size: " + resCount);
+		//System.out.println("getting a new res id -- current size: " + resCount);
 		resCount++;
 		return resCount;
 	}
 
 	public static long getRandomResId() {
-		System.out.println("getting a random res id -- current size: " + resCount);
+		//System.out.println("getting a random res id -- current size: " + resCount);
 		return ThreadLocalRandom.current().nextLong(resCount);
 	}
 
