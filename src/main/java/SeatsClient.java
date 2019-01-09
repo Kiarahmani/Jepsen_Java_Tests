@@ -19,6 +19,9 @@ public class SeatsClient {
 	private static Iterator<CassandraConnection> connections = connectionPool.iterator();
 
 	public static void prepareConnections(int n, int c) {
+		System.out.println("\n\n\n\n\n");
+		System.out.println(">>>>"+c);
+		System.out.println("\n\n\n\n\n");
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			for (int i = 1; i <= n; i++)
