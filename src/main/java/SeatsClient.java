@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,7 +14,7 @@ public class SeatsClient {
 
 	private static boolean _NO_ERROR_MODE = true;
 	private static boolean _SHOW_CQL_MESSAGES = false;
-	private static int _NUMBER_OF_CONNECTIONS_PER_NODE = 30;
+	private static int _NUMBER_OF_CONNECTIONS_PER_NODE = 300;
 	private static RoundRobin<CassandraConnection> connectionPool = new RoundRobin<CassandraConnection>();
 	private static Iterator<CassandraConnection> connections = connectionPool.iterator();
 
