@@ -16,21 +16,23 @@ public class SeatsClient {
 	private static boolean _SHOW_CQL_MESSAGES = false;
 	private static RoundRobin<CassandraConnection> connectionPool;
 
-	public static CassandraConnection getConnection(String localAddr) {
-		CassandraConnection connect = null;
+	public static void prepareConnections() {
+		connectionPool = new RoundRobin<CassandraConnection>();
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			System.out.println("SeatsClient.java: Connecting to Cassandra on: " + localAddr);
-			// &loadbalancing=TokenAwarePolicy(DCAwareRoundRobinPolicy('dc_n1'))
-			connect = (CassandraConnection) DriverManager
-					.getConnection("jdbc:cassandra://" + localAddr + ":9042/seats?debug="
+			CassandraConnection connect = (CassandraConnection) DriverManager
+					.getConnection("jdbc:cassandra://" + "172.31.12.154" + ":9042/seats?debug="
 							+ String.valueOf(_SHOW_CQL_MESSAGES) + "&consistency=ONE&retry=FallthroughRetryPolicy");
-		} catch (SQLException e) {
-			e.printStackTrace();
+			connectionPool.add(connect);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return connect;
+	}
+
+	public static CassandraConnection getConnection(String localAddr) {
+		return connectionPool.iterator().next();
 	}
 
 	public static void closeConnection(Connection connection) {
