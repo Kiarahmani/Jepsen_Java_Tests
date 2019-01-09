@@ -13,14 +13,17 @@ import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 public class SeatsClient {
 
 	private static boolean _NO_ERROR_MODE = true;
+	private static boolean _SHOW_CQL_MESSAGES = true;
 
 	public static CassandraConnection getConnection(String localAddr) {
 		CassandraConnection connect = null;
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			System.out.println("SeatsClient.java: Connecting to Cassandra on: " + localAddr);
-			//&loadbalancing=TokenAwarePolicy(DCAwareRoundRobinPolicy('dc_n1'))
-			connect = (CassandraConnection) DriverManager.getConnection("jdbc:cassandra://172.31.1.189:9042/seats?debug=true&consistency=ONE&loadbalancing=TokenAwarePolicy(DCAwareRoundRobinPolicy(\"dc_n4\"))&retry=FallthroughRetryPolicy");
+			// &loadbalancing=TokenAwarePolicy(DCAwareRoundRobinPolicy('dc_n1'))
+			connect = (CassandraConnection) DriverManager.getConnection(
+					"jdbc:cassandra://172.31.1.189:9042/seats?debug=" + String.valueOf(_SHOW_CQL_MESSAGES)
+							+ "&consistency=ONE&retry=FallthroughRetryPolicy");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -36,46 +39,30 @@ public class SeatsClient {
 			e.printStackTrace();
 		}
 	}
-/*
-	public static int testTxn(Connection conn,long c_id) throws Exception {
-		try {
-			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			PreparedStatement stmt = conn.prepareStatement("SELECT C_BASE_AP_ID FROM CUSTOMER WHERE C_ID = ? AND C_ID_STR = ?");
-			stmt.setLong(1, c_id);
-			stmt.setString(2, String.valueOf(c_id));
-			ResultSet rs = stmt.executeQuery();
-			long oldBal = 0;
-			if (rs.next())
-				 oldBal = rs.getLong("C_BASE_AP_ID");
-			else
-				return 1;
-			stmt = conn.prepareStatement("UPDATE CUSTOMER SET C_BASE_AP_ID = ?  WHERE C_ID = ? AND C_ID_STR = ?");
-			stmt.setLong(1, oldBal+10);
-			stmt.setLong(2, c_id);
-			stmt.setString(3, String.valueOf(c_id));
-			stmt.executeUpdate();
-			
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-			
-	*/
-	 
-	
-	
+	/*
+	 * public static int testTxn(Connection conn,long c_id) throws Exception { try {
+	 * Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+	 * PreparedStatement stmt = conn.
+	 * prepareStatement("SELECT C_BASE_AP_ID FROM CUSTOMER WHERE C_ID = ? AND C_ID_STR = ?"
+	 * ); stmt.setLong(1, c_id); stmt.setString(2, String.valueOf(c_id)); ResultSet
+	 * rs = stmt.executeQuery(); long oldBal = 0; if (rs.next()) oldBal =
+	 * rs.getLong("C_BASE_AP_ID"); else return 1; stmt = conn.
+	 * prepareStatement("UPDATE CUSTOMER SET C_BASE_AP_ID = ?  WHERE C_ID = ? AND C_ID_STR = ?"
+	 * ); stmt.setLong(1, oldBal+10); stmt.setLong(2, c_id); stmt.setString(3,
+	 * String.valueOf(c_id)); stmt.executeUpdate();
+	 * 
+	 * }catch (SQLException e) { e.printStackTrace(); } return 0; }
+	 * 
+	 */
+
 	/*
 	 * 
 	 * (1) DELETE RESERVATION
 	 * 
 	 */
-	
 
-	
-	
-	public static int deleteReservation(CassandraConnection conn, long f_id, Long c_id, String c_id_str, String ff_c_id_str,
-			Long ff_al_id) throws Exception {
+	public static int deleteReservation(CassandraConnection conn, long f_id, Long c_id, String c_id_str,
+			String ff_c_id_str, Long ff_al_id) throws Exception {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt = null;
@@ -221,8 +208,6 @@ public class SeatsClient {
 			return -1;
 		}
 	}
-
-
 
 	/*
 	 * 
@@ -377,15 +362,14 @@ public class SeatsClient {
 
 			boolean adv = f_results.next();
 			if (adv == false) {
-				System.out.println("ERROR!"+f_id);
+				System.out.println("ERROR!" + f_id);
 				return 1;
 			}
-			
-			
+
 			float base_price = f_results.getFloat("F_BASE_PRICE");
 			long seats_left = f_results.getLong("F_SEATS_LEFT");
 			long seats_total = f_results.getLong("F_SEATS_TOTAL");
-			if (seats_total==0)
+			if (seats_total == 0)
 				return 1;
 			float seat_price = base_price + (base_price * (1 - (seats_left / seats_total)));
 
