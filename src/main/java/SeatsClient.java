@@ -344,54 +344,54 @@ public class SeatsClient {
 		try {
 
 			//Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-		//	final long seatmap[] = new long[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-			//		-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-			//		-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-			//		-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-			//		-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-			//		-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-			//		-1, -1, -1, -1, -1, -1, -1 };
+			final long seatmap[] = new long[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+					-1, -1, -1, -1, -1, -1, -1 };
 
-			//PreparedStatement f_stmt = connect.prepareStatement(
-			//		"SELECT F_STATUS, F_BASE_PRICE, F_SEATS_TOTAL, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
-			//f_stmt.setLong(1, f_id);
-			//ResultSet f_results = f_stmt.executeQuery();
+			PreparedStatement f_stmt = connect.prepareStatement(
+					"SELECT F_STATUS, F_BASE_PRICE, F_SEATS_TOTAL, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
+			f_stmt.setLong(1, f_id);
+			ResultSet f_results = f_stmt.executeQuery();
 
-			//boolean adv = f_results.next();
-			//if (adv == false) {
-			//	System.out.println("ERROR!" + f_id);
-			//	return 1;
-			//}
+			boolean adv = f_results.next();
+			if (adv == false) {
+				System.out.println("ERROR!" + f_id);
+				return 1;
+			}
+/*
+			float base_price = f_results.getFloat("F_BASE_PRICE");
+			long seats_left = f_results.getLong("F_SEATS_LEFT");
+			long seats_total = f_results.getLong("F_SEATS_TOTAL");
+			if (seats_total == 0)
+				return 1;
+			float seat_price = base_price + (base_price * (1 - (seats_left / seats_total)));
 
-			//float base_price = f_results.getFloat("F_BASE_PRICE");
-			//long seats_left = f_results.getLong("F_SEATS_LEFT");
-			//long seats_total = f_results.getLong("F_SEATS_TOTAL");
-			//if (seats_total == 0)
-			//	return 1;
-			//float seat_price = base_price + (base_price * (1 - (seats_left / seats_total)));
+			PreparedStatement s_stmt = connect
+					.prepareStatement("SELECT R_ID, R_F_ID, R_SEAT FROM RESERVATION WHERE R_F_ID = ?");
+			s_stmt.setLong(1, f_id);
+			ResultSet s_results = s_stmt.executeQuery();
 
-			//PreparedStatement s_stmt = connect
-			//		.prepareStatement("SELECT R_ID, R_F_ID, R_SEAT FROM RESERVATION WHERE R_F_ID = ?");
-			//s_stmt.setLong(1, f_id);
-			//ResultSet s_results = s_stmt.executeQuery();
-
-			//while (s_results.next()) {
-			//	int r_id = s_results.getInt(1);
-			//	int seatnum = s_results.getInt(3);
-			//	assert (seatmap[seatnum] == -1) : "Duplicate seat reservation: R_ID=" + r_id;
-			//	seatmap[seatnum] = 1;
-			//}
-		//	int ctr = 0;
-		//	Object[][] returnResults = new Object[150][];
-		//	for (int i = 0; i < seatmap.length; ++i) {
-		//		if (seatmap[i] == -1) { // Charge more for the first seats
-		//			//double price = seat_price * (i < 10 ? 2.0 : 1.0);
-					//Object[] row = new Object[] { f_id, i, price };
-		//			//returnResults[ctr++] = row;
-		//			if (ctr == returnResults.length)
-		//				break;
-		//		}
-		//	}
+			while (s_results.next()) {
+				int r_id = s_results.getInt(1);
+				int seatnum = s_results.getInt(3);
+				assert (seatmap[seatnum] == -1) : "Duplicate seat reservation: R_ID=" + r_id;
+				seatmap[seatnum] = 1;
+			}
+			int ctr = 0;
+			Object[][] returnResults = new Object[150][];
+			for (int i = 0; i < seatmap.length; ++i) {
+				if (seatmap[i] == -1) { // Charge more for the first seats
+					double price = seat_price * (i < 10 ? 2.0 : 1.0);
+					Object[] row = new Object[] { f_id, i, price };
+					returnResults[ctr++] = row;
+					if (ctr == returnResults.length)
+						break;
+				}
+			}
 			// for (Object[] o1 : returnResults) {
 			// for (Object o2 : o1)
 			// System.out.println(o2);
@@ -400,7 +400,7 @@ public class SeatsClient {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-			return 0;
+	*/		return 0;
 		} catch (
 
 		Exception e) {
