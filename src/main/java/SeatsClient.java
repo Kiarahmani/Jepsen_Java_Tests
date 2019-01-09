@@ -20,8 +20,7 @@ public class SeatsClient {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			System.out.println("SeatsClient.java: Connecting to Cassandra on: " + localAddr);
 			//&loadbalancing=TokenAwarePolicy(DCAwareRoundRobinPolicy('dc_n1'))
-			connect = (CassandraConnection) DriverManager.getConnection("jdbc:cassandra://172.31.1.189:9042/seats?debug=true&loadbalancing=RoundRobinPolicy()");
-			System.out.println("XXX"+connect.getClusterMetadata().getClusterName());
+			connect = (CassandraConnection) DriverManager.getConnection("jdbc:cassandra://172.31.1.189:9042/seats?debug=true&consistency=ONE&loadbalancing=RoundRobinPolicy()");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
