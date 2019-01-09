@@ -14,7 +14,7 @@ public class SeatsClient {
 
 	private static boolean _NO_ERROR_MODE = true;
 	private static boolean _SHOW_CQL_MESSAGES = false;
-	private static int _NUMBER_OF_CONNECTIONS_PER_NODE = 15;
+	private static int _NUMBER_OF_CONNECTIONS_PER_NODE = 100;
 	private static RoundRobin<CassandraConnection> connectionPool;
 
 	public static void prepareConnections(int n) {
