@@ -61,7 +61,7 @@ public class SeatsClient {
 	public static int deleteReservation(CassandraConnection conn, long f_id, Long c_id, String c_id_str,
 			String ff_c_id_str, Long ff_al_id) throws Exception {
 		try {
-		/*	Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt = null;
 			// System.out.println(conn.getClusterMetadata());
 			// If we weren't given the customer id, then look it up
@@ -199,7 +199,7 @@ public class SeatsClient {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-		*/	return 0;
+			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
@@ -215,7 +215,7 @@ public class SeatsClient {
 	public static int findFlights(Connection connect, long depart_aid, long arrive_aid, Timestamp start_date,
 			Timestamp end_date, float distance) throws Exception {
 		try {
-/*
+
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			final List<Long> arrive_aids = new ArrayList<Long>();
 			arrive_aids.add(arrive_aid);
@@ -324,7 +324,7 @@ public class SeatsClient {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-			*/return 0;
+			return 0;
 
 		} catch (Exception e) {
 			throw e;
@@ -343,7 +343,7 @@ public class SeatsClient {
 	public static int findOpenSeats(Connection connect, long f_id) throws Exception {
 		try {
 
-			//Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			final long seatmap[] = new long[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 					-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -363,31 +363,31 @@ public class SeatsClient {
 				return 1;
 			}
 
-			//float base_price = f_results.getFloat("F_BASE_PRICE");
-			//long seats_left = f_results.getLong("F_SEATS_LEFT");
-			//long seats_total = f_results.getLong("F_SEATS_TOTAL");
-			//if (seats_total == 0)
-			//	return 1;
-			//float seat_price = base_price + (base_price * (1 - (seats_left / seats_total)));
+			float base_price = f_results.getFloat("F_BASE_PRICE");
+			long seats_left = f_results.getLong("F_SEATS_LEFT");
+			long seats_total = f_results.getLong("F_SEATS_TOTAL");
+			if (seats_total == 0)
+				return 1;
+			float seat_price = base_price + (base_price * (1 - (seats_left / seats_total)));
 
-			//PreparedStatement s_stmt = connect
-			//		.prepareStatement("SELECT R_ID, R_F_ID, R_SEAT FROM RESERVATION WHERE R_F_ID = ?");
-			//s_stmt.setLong(1, f_id);
-			//ResultSet s_results = s_stmt.executeQuery();
+			PreparedStatement s_stmt = connect
+					.prepareStatement("SELECT R_ID, R_F_ID, R_SEAT FROM RESERVATION WHERE R_F_ID = ?");
+			s_stmt.setLong(1, f_id);
+			ResultSet s_results = s_stmt.executeQuery();
 
-			//while (s_results.next()) {
-			//	int r_id = s_results.getInt(1);
-			//	int seatnum = s_results.getInt(3);
-			//	assert (seatmap[seatnum] == -1) : "Duplicate seat reservation: R_ID=" + r_id;
-			//	seatmap[seatnum] = 1;
-			//}
+			while (s_results.next()) {
+				int r_id = s_results.getInt(1);
+				int seatnum = s_results.getInt(3);
+				assert (seatmap[seatnum] == -1) : "Duplicate seat reservation: R_ID=" + r_id;
+				seatmap[seatnum] = 1;
+			}
 			int ctr = 0;
 			Object[][] returnResults = new Object[150][];
 			for (int i = 0; i < seatmap.length; ++i) {
 				if (seatmap[i] == -1) { // Charge more for the first seats
-					//double price = seat_price * (i < 10 ? 2.0 : 1.0);
-				//	Object[] row = new Object[] { f_id, i, price };
-					//returnResults[ctr++] = row;
+					double price = seat_price * (i < 10 ? 2.0 : 1.0);
+					Object[] row = new Object[] { f_id, i, price };
+					returnResults[ctr++] = row;
 					if (ctr == returnResults.length)
 						break;
 				}
@@ -420,7 +420,7 @@ public class SeatsClient {
 	public static int newReservation(Connection connect, long r_id, long c_id, long f_id, int seatnum, float price,
 			long attrs[]) throws Exception {
 		try {
-/*
+
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			// System.out.println(String.format("r_id:%d -- c_id:%d -- f_id:%d -- seatnum:%d
 			// -- price:%f", r_id, c_id,
@@ -547,7 +547,7 @@ public class SeatsClient {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-	*/		return 0;
+			return 0;
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -565,7 +565,7 @@ public class SeatsClient {
 	public static int updateCustomer(Connection connect, long c_id, String c_id_str, long update_ff, long attr0,
 			long attr1) throws Exception {
 		try {
-		/*	// System.out.println(String.format("c_id:%d --- c_id_str:%s", c_id, c_id_str));
+			// System.out.println(String.format("c_id:%d --- c_id_str:%s", c_id, c_id_str));
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			if (c_id == -1) {
 				PreparedStatement stmt1 = connect.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ");
@@ -638,7 +638,7 @@ public class SeatsClient {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-	*/		return 0;
+			return 0;
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -656,7 +656,7 @@ public class SeatsClient {
 	public static int updateReservation(Connection connect, long r_id, long f_id, long c_id, long seatnum,
 			long attr_idx, long attr_val) throws Exception {
 		try {
-		/*	Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
+			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt1 = connect.prepareStatement(
 					("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ? ALLOW FILTERING"));
 			stmt1.setLong(1, f_id);
@@ -696,7 +696,7 @@ public class SeatsClient {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-	*/		return 0;
+			return 0;
 		} catch (Exception e) {
 			throw e;
 		} finally {
