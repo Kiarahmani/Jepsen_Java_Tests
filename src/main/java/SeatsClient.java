@@ -27,11 +27,6 @@ public class SeatsClient {
 							.getConnection("jdbc:cassandra://" + "n" + String.valueOf(i) + ":9042/seats?"
 									+ "consistency=ONE&retry=FallthroughRetryPolicy");
 					connectionPool.add(connect);
-					System.out.println("\n\n===================");
-					System.out.println("(" + i + "," + j + ")");
-					System.out.println(connect);
-
-					System.out.println("===================\n\n");
 				}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
