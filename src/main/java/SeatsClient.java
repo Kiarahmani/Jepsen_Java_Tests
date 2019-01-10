@@ -35,7 +35,7 @@ public class SeatsClient {
 			e.printStackTrace();
 		}
 	}
-
+ 
 	public static CassandraConnection getConnection(String localAddr) {
 		CassandraConnection connect = null;
 		connect = connections.next();
