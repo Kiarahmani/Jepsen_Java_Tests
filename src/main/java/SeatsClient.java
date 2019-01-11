@@ -35,7 +35,7 @@ public class SeatsClient {
 			e.printStackTrace();
 		}
 	}
- 
+
 	public static CassandraConnection getConnection(String localAddr) {
 		CassandraConnection connect = null;
 		connect = connections.next();
@@ -60,9 +60,7 @@ public class SeatsClient {
 	public static int deleteReservation(CassandraConnection conn, long f_id, Long c_id, String c_id_str,
 			String ff_c_id_str, Long ff_al_id) throws Exception {
 		try {
-			// Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt = null;
-			// System.out.println(conn.getClusterMetadata());
 			// If we weren't given the customer id, then look it up
 			if (c_id == -1) {
 				// Use the customer's id as a string
@@ -74,11 +72,10 @@ public class SeatsClient {
 					c_id = results.getLong("C_ID");
 				} else {
 					results.close();
-					return 1;
-					// throw new Exception(
-					// String.format("No Customer record was found [c_id_str=%s, ff_c_id_str=%s,
-					// ff_al_id=%s]",
-					// c_id_str, ff_c_id_str, ff_al_id));
+					System.out.println(String.format(
+							"ERROR_11: No Customer record was found [c_id_str=%s, ff_c_id_str=%s, ff_al_id=%s]",
+							c_id_str, ff_c_id_str, ff_al_id));
+					return (_NO_ERROR_MODE) ? 0 : 11;
 				}
 				results.close();
 			}
@@ -94,8 +91,8 @@ public class SeatsClient {
 			ResultSet results2 = stmt.executeQuery();
 			if (results2.next() == false) {
 				results2.close();
-				System.out.println("ERROR_2: c_id " + c_id + " does not exist");
-				return 2;
+				System.out.println("ERROR_12: c_id " + c_id + " does not exist");
+				return (_NO_ERROR_MODE) ? 0 : 12;
 			}
 
 			float oldBal = results2.getFloat("C_BALANCE");
@@ -110,8 +107,8 @@ public class SeatsClient {
 			boolean flight_exists = results3.next();
 			if (!flight_exists) {
 				results3.close();
-				System.out.println("ERROR_3: f_id " + f_id + " does not exist");
-				return 3;
+				System.out.println("ERROR_13: f_id " + f_id + " does not exist");
+				return (_NO_ERROR_MODE) ? 0 : 13;
 			}
 			int seats_left = results3.getInt("F_SEATS_LEFT");
 
@@ -123,8 +120,8 @@ public class SeatsClient {
 			ResultSet results4 = stmt.executeQuery();
 			boolean reservation_exists = results4.next();
 			if (!reservation_exists) {
-				System.out.println("ERROR_4: reservation does not exist:" + "r_f_id:" + f_id + "    r_c_id:" + c_id);
-				return (_NO_ERROR_MODE) ? 0 : 4;
+				System.out.println("ERROR_14: reservation does not exist:" + "r_f_id:" + f_id + "    r_c_id:" + c_id);
+				return (_NO_ERROR_MODE) ? 0 : 14;
 			}
 
 			int r_id = results4.getInt("R_ID");
@@ -139,9 +136,9 @@ public class SeatsClient {
 			stmt.setLong(3, f_id);
 			updated = stmt.executeUpdate();
 			if (updated != 0) {
-				System.out.println(String.format("ERROR_5: delete did NOT succeed: r_id: %d   c_id: %d    f_id: %d",
+				System.out.println(String.format("ERROR_15: delete did NOT succeed: r_id: %d   c_id: %d    f_id: %d",
 						r_id, c_id, f_id));
-				return 5;
+				return (_NO_ERROR_MODE) ? 0 : 15;
 			}
 
 			// Update Available Seats on Flight
@@ -150,8 +147,8 @@ public class SeatsClient {
 			stmt.setLong(2, f_id);
 			updated = stmt.executeUpdate();
 			if (updated != 0) {
-				System.out.println(String.format("ERROR_6: update flight did NOT succeed: f_id: %d", f_id));
-				return 6;
+				System.out.println(String.format("ERROR_16: update flight did NOT succeed: f_id: %d", f_id));
+				return (_NO_ERROR_MODE) ? 0 : 16;
 			}
 
 			// Update Customer's Balance
@@ -165,8 +162,8 @@ public class SeatsClient {
 			stmt.setString(6, String.valueOf(c_id));
 			updated = stmt.executeUpdate();
 			if (updated != 0) {
-				System.out.println(String.format("ERROR_7: update customer balance did NOT succeed: c_id: %d", c_id));
-				return 7;
+				System.out.println(String.format("ERROR_17: update customer balance did NOT succeed: c_id: %d", c_id));
+				return (_NO_ERROR_MODE) ? 0 : 17;
 			}
 
 			// Update Customer's Frequent Flyer Information (Optional)
@@ -178,9 +175,9 @@ public class SeatsClient {
 				ResultSet results5 = stmt.executeQuery();
 				boolean ff_exists = results5.next();
 				if (!ff_exists) {
-					System.out.println(String.format("ERROR_8: Frequent Flyer does NOT exist: c_id: %d   ff_al_id: %d",
+					System.out.println(String.format("ERROR_18: Frequent Flyer does NOT exist: c_id: %d   ff_al_id: %d",
 							c_id, ff_al_id));
-					return (_NO_ERROR_MODE) ? 0 : 8;
+					return (_NO_ERROR_MODE) ? 0 : 18;
 				}
 				long olAttr10 = results5.getLong("FF_IATTR10");
 				stmt = conn.prepareStatement(
@@ -191,8 +188,8 @@ public class SeatsClient {
 				updated = stmt.executeUpdate();
 				if (updated != 0) {
 					System.out.println(String.format(
-							"ERROR_9: Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]", c_id, ff_al_id));
-					return 9;
+							"ERROR_19: Failed to update FrequentFlyer info [c_id=%d, ff_al_id=%d]", c_id, ff_al_id));
+					return (_NO_ERROR_MODE) ? 0 : 19;
 				}
 			}
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
@@ -215,17 +212,10 @@ public class SeatsClient {
 			Timestamp end_date, float distance) throws Exception {
 		try {
 
-			// Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			final List<Long> arrive_aids = new ArrayList<Long>();
 			arrive_aids.add(arrive_aid);
 			final List<Object[]> finalResults = new ArrayList<Object[]>();
 			if (distance > 0) {
-				// System.out.println("depart_aid: "+depart_aid);
-				// System.out.println("arrive_aid: "+arrive_aid);
-				// System.out.println("start_date: "+start_date);
-				// System.out.println("end_date : "+end_date);
-				// System.out.println("distance : "+distance);
-
 				// First get the nearby airports for the departure and arrival cities
 				PreparedStatement nearby_stmt = connect.prepareStatement(
 						"SELECT * " + "  FROM AIRPORT_DISTANCE WHERE d_ap_id0 = ? AND d_distance <= ? ALLOW FILTERING");
@@ -235,7 +225,7 @@ public class SeatsClient {
 
 				while (nearby_results.next()) {
 					long aid = nearby_results.getLong(1);
-					int aid_distance = nearby_results.getInt(2);
+					nearby_results.getInt(2);
 					arrive_aids.add(aid);
 				} // WHILE
 
@@ -258,15 +248,16 @@ public class SeatsClient {
 						int f_depart_airport = flightResults1.getInt("F_DEPART_AP_ID");
 						int f_arrive_airport = flightResults1.getInt("F_ARRIVE_AP_ID");
 						int f_al_id = flightResults1.getInt("F_AL_ID");
-						// System.out.println(String.format("f_depart_airport:%d --
-						// f_arrive_airport:%d", f_depart_airport,f_arrive_airport));
 						PreparedStatement f_stmt2 = connect
 								.prepareStatement("SELECT AL_NAME, AL_IATTR00, AL_IATTR01 FROM AIRLINE WHERE AL_ID=?");
 						f_stmt2.setInt(1, f_al_id);
 						ResultSet flightResults2 = f_stmt2.executeQuery();
 						boolean adv = flightResults2.next();
-						if (!adv)
-							return 0;
+						if (!adv) {
+							System.out
+									.println(String.format("ERROR_21: airline with al_id=%d does not exist", f_al_id));
+							return (_NO_ERROR_MODE) ? 0 : 21;
+						}
 						String al_name = flightResults2.getString("AL_NAME");
 						Object row[] = new Object[13];
 						int r = 0;
@@ -281,9 +272,13 @@ public class SeatsClient {
 										+ " FROM AIRPORT WHERE AP_ID = ? ");
 						ai_stmt1.setInt(1, f_depart_airport);
 						ResultSet ai_results1 = ai_stmt1.executeQuery();
-						ai_results1.next();
+						adv = ai_results1.next();
+						if (!adv) {
+							System.out.println(String.format("ERROR_22: departure airport with AP_ID=%d does not exist",
+									f_depart_airport));
+							return (_NO_ERROR_MODE) ? 0 : 22;
+						}
 						long countryId = ai_results1.getLong("AP_CO_ID");
-
 						PreparedStatement ai_stmt2 = connect.prepareStatement(
 								"SELECT CO_ID, CO_NAME, CO_CODE_2, CO_CODE_3 " + " FROM COUNTRY WHERE CO_ID = ?");
 						ai_stmt2.setLong(1, countryId);
@@ -301,8 +296,12 @@ public class SeatsClient {
 										+ " FROM AIRPORT WHERE AP_ID = ? ");
 						ai_stmt3.setInt(1, f_arrive_airport);
 						ResultSet ai_results3 = ai_stmt3.executeQuery();
-						ai_results3.next();
-
+						adv = ai_results3.next();
+						if (!adv) {
+							System.out.println(String.format("ERROR_23: arrival airport with AP_ID=%d does not exist",
+									f_arrive_airport));
+							return (_NO_ERROR_MODE) ? 0 : 23;
+						}
 						long countryId2 = ai_results3.getLong("AP_CO_ID");
 						PreparedStatement ai_stmt4 = connect.prepareStatement(
 								"SELECT CO_ID, CO_NAME, CO_CODE_2, CO_CODE_3 " + " FROM COUNTRY WHERE CO_ID = ?");
@@ -318,9 +317,7 @@ public class SeatsClient {
 						i++;
 					}
 				}
-
 			}
-
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
@@ -358,18 +355,19 @@ public class SeatsClient {
 			ResultSet f_results = f_stmt.executeQuery();
 
 			boolean adv = f_results.next();
-			if (adv == false) {
-				System.out.println("ERROR!" + f_id);
-				return 1;
+			if (!adv) {
+				System.out.println(String.format("ERROR_31: given f_id (%d) does not exist", f_id));
+				return (_NO_ERROR_MODE) ? 0 : 31;
 			}
 
 			float base_price = f_results.getFloat("F_BASE_PRICE");
 			long seats_left = f_results.getLong("F_SEATS_LEFT");
 			long seats_total = f_results.getLong("F_SEATS_TOTAL");
-			if (seats_total == 0)
-				return 1;
+			if (seats_total == 0) {
+				System.out.println("total seats is zero!");
+				return -1;
+			}
 			float seat_price = base_price + (base_price * (1 - (seats_left / seats_total)));
-
 			PreparedStatement s_stmt = connect
 					.prepareStatement("SELECT R_ID, R_F_ID, R_SEAT FROM RESERVATION WHERE R_F_ID = ?");
 			s_stmt.setLong(1, f_id);
@@ -378,7 +376,10 @@ public class SeatsClient {
 			while (s_results.next()) {
 				int r_id = s_results.getInt(1);
 				int seatnum = s_results.getInt(3);
-				assert (seatmap[seatnum] == -1) : "Duplicate seat reservation: R_ID=" + r_id;
+				if (seatmap[seatnum] != -1) {
+					System.out.println("ERROR_32: Duplicate seat reservation: R_ID=" + r_id + " seatnum: " + seatnum);
+					return (_NO_ERROR_MODE) ? 0 : 32;
+				}
 				seatmap[seatnum] = 1;
 			}
 			int ctr = 0;
@@ -420,11 +421,6 @@ public class SeatsClient {
 	public static int newReservation(Connection connect, long r_id, long c_id, long f_id, int seatnum, float price,
 			long attrs[]) throws Exception {
 		try {
-
-			// Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
-			// System.out.println(String.format("r_id:%d -- c_id:%d -- f_id:%d -- seatnum:%d
-			// -- price:%f", r_id, c_id,
-			// f_id, seatnum, price));
 			// Flight Information
 			PreparedStatement stmt11 = connect
 					.prepareStatement("SELECT F_AL_ID, F_SEATS_LEFT FROM FLIGHT WHERE F_ID = ?");
@@ -432,8 +428,8 @@ public class SeatsClient {
 			ResultSet rs1 = stmt11.executeQuery();
 			boolean found1 = rs1.next();
 			if (!found1) {
-				System.out.println("ERROR_1: Invalid F_ID");
-				return 1;
+				System.out.println("ERROR_41: Invalid F_ID:" + f_id);
+				return (_NO_ERROR_MODE) ? 0 : 41;
 			}
 			long airline_id = rs1.getLong("F_AL_ID");
 			long seats_left = rs1.getLong("F_SEATS_LEFT");
@@ -444,14 +440,14 @@ public class SeatsClient {
 			ResultSet rs2 = stmt12.executeQuery();
 			boolean found2 = rs2.next();
 			if (!found2) {
-				System.out.println("ERROR_2: Invalid Airline");
-				return 2;
+				System.out.println("ERROR_42: Invalid Airline:" + airline_id);
+				return (_NO_ERROR_MODE) ? 0 : 42;
 			}
 			rs1.close();
 			rs2.close();
 			if (seats_left <= 0) {
-				System.out.println("ERROR_3: No more seats available for flight");
-				return 3;
+				System.out.println("ERROR_43: No more seats available for flight:" + f_id);
+				return (_NO_ERROR_MODE) ? 0 : 43;
 			} // Check if Seat is Available
 			PreparedStatement stmt2 = connect
 					.prepareStatement("SELECT R_ID FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ? ALLOW FILTERING");
@@ -460,8 +456,9 @@ public class SeatsClient {
 			ResultSet rs3 = stmt2.executeQuery();
 			boolean found3 = rs3.next();
 			if (found3) {
-				System.out.println(String.format(" ERROR_4: Seat %d is already reserved on flight #%d", seatnum, f_id));
-				return (_NO_ERROR_MODE) ? 0 : 4;
+				System.out
+						.println(String.format(" ERROR_44: Seat %d is already reserved on flight #%d", seatnum, f_id));
+				return (_NO_ERROR_MODE) ? 0 : 44;
 			}
 
 			// Check if the Customer already has a seat on this flight
@@ -472,9 +469,9 @@ public class SeatsClient {
 			ResultSet rs4 = stmt3.executeQuery();
 			boolean found4 = rs4.next();
 			if (found4) {
-				System.out.println(
-						String.format("ERROR_5: Customer %d already owns on a reservations on flight #%d", c_id, f_id));
-				return 5;
+				System.out.println(String.format("ERROR_45: Customer %d already owns on a reservations on flight #%d",
+						c_id, f_id));
+				return (_NO_ERROR_MODE) ? 0 : 45;
 			}
 
 			// Get Customer Information PreparedStatement stmt4 =
@@ -484,8 +481,8 @@ public class SeatsClient {
 			ResultSet rs5 = stmt4.executeQuery();
 			boolean found5 = rs5.next();
 			if (!found5) {
-				System.out.println(String.format("ERROR_6: Invalid customer id: %d ", c_id));
-				return 6;
+				System.out.println(String.format("ERROR_46: Invalid customer id: %d ", c_id));
+				return (_NO_ERROR_MODE) ? 0 : 46;
 			}
 			int oldAttr10 = rs5.getInt("C_IATTR10");
 			int oldAttr11 = rs5.getInt("C_IATTR11");
@@ -529,7 +526,8 @@ public class SeatsClient {
 			ResultSet rs6 = stmt81.executeQuery();
 			boolean adv = rs6.next();
 			if (!adv) {
-				return (_NO_ERROR_MODE) ? 0 : 9;
+				System.out.println("ERROR_47: frequent flyer does not exist");
+				return (_NO_ERROR_MODE) ? 0 : 47;
 			}
 			long oldFFAttr10 = rs6.getLong("FF_IATTR10");
 
@@ -565,8 +563,6 @@ public class SeatsClient {
 	public static int updateCustomer(Connection connect, long c_id, String c_id_str, long update_ff, long attr0,
 			long attr1) throws Exception {
 		try {
-			// System.out.println(String.format("c_id:%d --- c_id_str:%s", c_id, c_id_str));
-			// Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			if (c_id == -1) {
 				PreparedStatement stmt1 = connect.prepareStatement("SELECT C_ID FROM CUSTOMER WHERE C_ID_STR = ? ");
 				stmt1.setString(1, c_id_str);
@@ -576,8 +572,9 @@ public class SeatsClient {
 					rs1.close();
 				} else {
 					rs1.close();
-					System.out.println((String.format("ERROR_1 : No Customer information record found for string")));
-					return 1;
+					System.out.println(
+							(String.format("ERROR_51 : No Customer information record found for string:" + c_id_str)));
+					return (_NO_ERROR_MODE) ? 0 : 51;
 				}
 			}
 			PreparedStatement stmt2 = connect.prepareStatement("SELECT * FROM CUSTOMER WHERE C_ID = ? ");
@@ -585,10 +582,14 @@ public class SeatsClient {
 			ResultSet rs2 = stmt2.executeQuery();
 			if (rs2.next() == false) {
 				rs2.close();
-				System.out.println(String.format("ERROR_2: No Customer information record found for id: %d", c_id));
-				return 2;
+				System.out.println(String.format("ERROR_52: No Customer information record found for id: %d", c_id));
+				return (_NO_ERROR_MODE) ? 0 : 52;
 			}
-			assert (c_id == rs2.getInt(1));
+			if (c_id != rs2.getInt(1)) {
+				System.out.println(String.format("ERROR_53: unacceptable state: wrong customer is retrieved"));
+				return (_NO_ERROR_MODE) ? 0 : 53;
+			}
+
 			int base_airport = rs2.getInt("C_BASE_AP_ID");
 			rs2.close();
 
@@ -598,8 +599,8 @@ public class SeatsClient {
 			ResultSet airport_results = stmt31.executeQuery();
 			boolean adv = airport_results.next();
 			if (!adv) {
-				System.out.println("ERROR_3: base airport_id is invalid");
-				return 3;
+				System.out.println("ERROR_54: base airport_id is invalid");
+				return (_NO_ERROR_MODE) ? 0 : 54;
 			}
 
 			PreparedStatement stmt32 = connect.prepareStatement("SELECT * " + "  FROM COUNTRY WHERE CO_ID = ?");
@@ -607,7 +608,10 @@ public class SeatsClient {
 			ResultSet country_results = stmt32.executeQuery();
 			adv = country_results.next() && adv;
 			airport_results.close();
-			assert (adv);
+			if (!adv) {
+				System.out.println("ERROR_55: country does not exist");
+				return (_NO_ERROR_MODE) ? 0 : 55;
+			}
 
 			if (update_ff != -1) {
 				PreparedStatement stmt4 = connect.prepareStatement("SELECT * FROM FREQUENT_FLYER WHERE FF_C_ID = ?");
@@ -656,7 +660,6 @@ public class SeatsClient {
 	public static int updateReservation(Connection connect, long r_id, long f_id, long c_id, long seatnum,
 			long attr_idx, long attr_val) throws Exception {
 		try {
-			// Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			PreparedStatement stmt1 = connect.prepareStatement(
 					("SELECT R_ID " + "  FROM RESERVATION WHERE R_F_ID = ? and R_SEAT = ? ALLOW FILTERING"));
 			stmt1.setLong(1, f_id);
@@ -665,8 +668,8 @@ public class SeatsClient {
 			boolean found1 = results1.next();
 			results1.close();
 			if (found1) {
-				System.out.println(String.format("ERROR_1: Seat %d is already reserved on flight %d", seatnum, f_id));
-				return (_NO_ERROR_MODE) ? 0 : 1;
+				System.out.println(String.format("ERROR_61: Seat %d is already reserved on flight %d", seatnum, f_id));
+				return (_NO_ERROR_MODE) ? 0 : 61;
 			}
 
 			PreparedStatement stmt2 = connect.prepareStatement(
@@ -678,8 +681,8 @@ public class SeatsClient {
 			results2.close();
 			if (!found2) {
 				System.out.println(String.format(
-						"ERROR_2: Customer %d does not have an existing reservation on flight #%d", c_id, f_id));
-				return (_NO_ERROR_MODE) ? 0 : 2;
+						"ERROR_62: Customer %d does not have an existing reservation on flight #%d", c_id, f_id));
+				return (_NO_ERROR_MODE) ? 0 : 62;
 			}
 
 			if (!found1 && found2) { // minor simplification compared to original SEATS
