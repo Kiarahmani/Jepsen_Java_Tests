@@ -18,15 +18,15 @@ public class SeatsClient {
 	private static RoundRobin<CassandraConnection> connectionPool = new RoundRobin<CassandraConnection>();
 	private static Iterator<CassandraConnection> connections = connectionPool.iterator();
 
-	public static void prepareConnections(int n, int c) {
+	public static void prepareConnections(int n, int c, String bench) {
 
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			for (int i = 1; i <= n; i++)
 				for (int j = 0; j < _NUMBER_OF_CONNECTIONS_PER_NODE; j++) {
 					CassandraConnection connect = (CassandraConnection) DriverManager.getConnection("jdbc:cassandra://"
-							+ "n" + String.valueOf(i) + ":9042/seats?" + "consistency=ONE&retry=FallthroughRetryPolicy"
-							+ "&loadbalancing=RoundRobinPolicy()");
+							+ "n" + String.valueOf(i) + ":9042/" + bench + "?"
+							+ "consistency=ONE&retry=FallthroughRetryPolicy" + "&loadbalancing=RoundRobinPolicy()");
 					connectionPool.add(connect);
 				}
 		} catch (ClassNotFoundException e) {
