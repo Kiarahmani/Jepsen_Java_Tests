@@ -1,1 +1,1 @@
-CREATE TABLE bals (id int, balance int);
+CREATE TABLE kv.bals (id int, balance int);
