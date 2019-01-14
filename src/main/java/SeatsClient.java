@@ -50,7 +50,7 @@ public class SeatsClient {
 			e.printStackTrace();
 		}
 	}
- 
+
 	/*
 	 * 
 	 * (1) WITHDRAW
@@ -59,14 +59,20 @@ public class SeatsClient {
 
 	public static int withdraw(CassandraConnection conn, int id, int bal) throws Exception {
 		try {
-			PreparedStatement stmt = conn.prepareStatement("SELECT balance FROM bals WHERE id = ? ");;
+			PreparedStatement stmt = conn.prepareStatement("SELECT balance FROM bals WHERE id = ? ");
+			;
 			stmt.setInt(1, id);
 			ResultSet results = stmt.executeQuery();
 			int old_bal = results.getInt("balance");
-			System.out.println("balance:"+old_bal);
-			if (old_bal==865)
+			if (old_bal <= 0)
 				return 1;
-			
+			if (old_bal <= bal)
+				return -1;
+			stmt = conn.prepareStatement("UPDATE bals SET balance = ? WHERE id = ? ");
+			stmt.setInt(1, old_bal - bal);
+			stmt.setInt(2, id);
+			stmt.executeUpdate();
+
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
@@ -77,5 +83,4 @@ public class SeatsClient {
 		}
 	}
 
-	
 }
