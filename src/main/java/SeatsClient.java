@@ -64,6 +64,8 @@ public class SeatsClient {
 			ResultSet results = stmt.executeQuery();
 			int old_bal = results.getInt("balance");
 			System.out.println("balance:"+old_bal);
+			if (old_bal==637)
+				return 1;
 			
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
