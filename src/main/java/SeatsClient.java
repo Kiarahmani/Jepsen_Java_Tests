@@ -67,7 +67,7 @@ public class SeatsClient {
 			if (old_bal <= 0)
 				return 1;
 			if (old_bal <= bal)
-				return -1;
+				return (_NO_ERROR_MODE) ? 0 : -1;
 			stmt = conn.prepareStatement("UPDATE bals SET balance = ? WHERE id = ? ");
 			stmt.setInt(1, old_bal - bal);
 			stmt.setInt(2, id);
