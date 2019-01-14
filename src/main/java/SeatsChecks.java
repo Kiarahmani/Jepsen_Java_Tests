@@ -7,11 +7,11 @@ public class SeatsChecks {
 
 	public static int checkBalance(CassandraConnection conn) throws Exception {
 		try {
-			PreparedStatement stmt = conn.prepareStatement("SELECT balance FROM bals ALLOW FILTERING");
+			PreparedStatement stmt = conn.prepareStatement("SELECT sum (balance) FROM bals");
 			ResultSet results = stmt.executeQuery();
 			int all_bals = 0;
-			while (results.next())
-				all_bals += results.getInt("balance");
+			results.next();
+			all_bals += results.getInt(1);
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
