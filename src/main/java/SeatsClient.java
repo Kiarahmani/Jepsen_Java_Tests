@@ -39,7 +39,6 @@ public class SeatsClient {
 	public static CassandraConnection getConnection(String localAddr) {
 		CassandraConnection connect = null;
 		connect = connections.next();
-		System.out.println("GET CONNECTION: " + connect.getClusterMetadata());
 		return connect;
 	}
 
