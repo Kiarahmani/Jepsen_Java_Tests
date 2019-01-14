@@ -5,7 +5,7 @@ import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class SeatsChecks {
 
-	public static int checkBalance(CassandraConnection conn, int[] something) throws Exception {
+	public static int checkBalance(CassandraConnection conn) throws Exception {
 		try {
 			PreparedStatement stmt = conn.prepareStatement("SELECT sum (balance) FROM bals");
 			ResultSet results = stmt.executeQuery();
