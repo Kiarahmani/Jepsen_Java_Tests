@@ -3,11 +3,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class SeatsClient {
@@ -56,19 +52,15 @@ public class SeatsClient {
 	 * 
 	 */
 
-	public static int withdraw(CassandraConnection conn, int id, int bal) throws Exception {
+	public static int deposit(CassandraConnection conn, int id, int bal) throws Exception {
 		try {
 			PreparedStatement stmt = conn.prepareStatement("SELECT balance FROM bals WHERE id = ? ");
 			;
 			stmt.setInt(1, id);
 			ResultSet results = stmt.executeQuery();
 			int old_bal = results.getInt("balance");
-			if (old_bal <= 0)
-				return 1;
-			if (old_bal <= bal)
-				return (_NO_ERROR_MODE) ? 0 : -1;
-			stmt = conn.prepareStatement("UPDATE bals SET balance = ? WHERE id = ? ");
-			stmt.setInt(1, old_bal - bal);
+			stmt = conn.prepareStatement("UPDATE checking SET balance = ? WHERE id = ? ");
+			stmt.setInt(1, old_bal + bal);
 			stmt.setInt(2, id);
 			stmt.executeUpdate();
 
