@@ -111,7 +111,7 @@ public class SeatsClient {
 			return -1;
 		}
 	}
-
+ 
 	public static int check(CassandraConnection conn, int id) throws Exception {
 		try {
 			PreparedStatement stmt1 = conn.prepareStatement("SELECT balance FROM saving WHERE id = ? ");
