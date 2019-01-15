@@ -48,13 +48,13 @@ public class SeatsClient {
 
 	/*
 	 * 
-	 * (1) WITHDRAW
+	 * (1) DEPOSIT
 	 * 
 	 */
 
 	public static int deposit(CassandraConnection conn, int id, int bal) throws Exception {
 		try {
-			PreparedStatement stmt = conn.prepareStatement("SELECT balance FROM bals WHERE id = ? ");
+			PreparedStatement stmt = conn.prepareStatement("SELECT balance FROM checking WHERE id = ? ");
 			;
 			stmt.setInt(1, id);
 			ResultSet results = stmt.executeQuery();
