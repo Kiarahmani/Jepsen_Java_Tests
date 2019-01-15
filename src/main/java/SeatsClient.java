@@ -122,9 +122,9 @@ public class SeatsClient {
 			stmt3.setInt(1, id);
 			ResultSet results1 = stmt1.executeQuery();
 			ResultSet results2 = stmt2.executeQuery();
-			ResultSet results3 = stmt2.executeQuery();
-			int checking_bal = results2.getInt("balance");
+			ResultSet results3 = stmt3.executeQuery();
 			int saving_bal = results1.getInt("balance");
+			int checking_bal = results2.getInt("balance");
 			int total_bal = results3.getInt("balance");
 			if (total_bal != (saving_bal + checking_bal))
 				return 1;
