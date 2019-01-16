@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
-
+ 
 public class DeleteReservation {
 	public static int deleteReservation(CassandraConnection conn, long f_id, Long c_id, String c_id_str,
 			String ff_c_id_str, Long ff_al_id) throws Exception {
