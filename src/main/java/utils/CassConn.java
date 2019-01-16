@@ -1,13 +1,10 @@
 package utils;
 
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Iterator;
 
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
-
-import seats.Constants;
 
 public class CassConn {
 	private static RoundRobin<CassandraConnection> connectionPool = new RoundRobin<CassandraConnection>();
