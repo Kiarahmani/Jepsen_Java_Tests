@@ -1,12 +1,12 @@
 CREATE TABLE tpcc.WAREHOUSE (
-  W_ID INT NOT NULL,
-  W_YTD DOUBLE NOT NULL,
-  W_TAX DOUBLE NOT NULL,
-  W_NAME text NOT NULL,
-  W_STREET_1 text NOT NULL,
-  W_STREET_2 text NOT NULL,
-  W_CITY text NOT NULL,
-  W_STATE text NOT NULL,
-  W_ZIP text NOT NULL,
+  W_ID INT,
+  W_YTD DOUBLE,
+  W_TAX DOUBLE,
+  W_NAME text,
+  W_STREET_1 text,
+  W_STREET_2 text,
+  W_CITY text,
+  W_STATE text,
+  W_ZIP text,
   PRIMARY KEY (W_ID)
 );
