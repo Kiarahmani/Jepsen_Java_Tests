@@ -23,6 +23,10 @@ public class SeatsUtils {
 	static AtomicBoolean atomicInitialized = new AtomicBoolean(false);
 	static boolean waitForInit = true;
 
+	public SeatsUtils() {
+		System.out.println("I'm a fucking constructor!");
+	}
+
 	public static long getRandomCustomerId() {
 		long composite_id = -1;
 		while (true) {
