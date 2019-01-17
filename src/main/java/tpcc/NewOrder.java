@@ -59,7 +59,7 @@ public class NewOrder {
 				System.out.println("ERROR_13: Invalid customer id: (" + w_id + "," + d_id + "," + c_id + ")");
 				return 13;
 			}
-			double c_discount = c_rs.getFloat("C_DISCOUNT");
+			double c_discount = c_rs.getDouble("C_DISCOUNT");
 			String c_last = c_rs.getString("C_LAST");
 			String c_credit = c_rs.getString("C_CREDIT");
 
