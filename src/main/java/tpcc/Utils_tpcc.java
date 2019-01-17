@@ -8,19 +8,27 @@ public class Utils_tpcc {
 	static boolean waitForInit = true;
 
 	// this function will be -dynamically- called from clojure at runtime
-	public Utils_tpcc() {
-		Utils_tpcc.initialize();
+	public Utils_tpcc(int scale) {
+		Utils_tpcc.initialize(scale);
 	}
 
 	/*
 	 * 
 	 * 
 	 */
-	public static void initialize() {
+	public static void initialize(int scale) {
 		if (atomicInitialized.compareAndSet(false, true)) {
-			System.out.println("Utils_tpcc: intializing data structures....");
+			System.out.println("Utils_tpcc_"+scale+": intializing data structures....");
+			
+			/*
+			 * 
+			 * THIS IS WHERE YOUR INITIALIZATION CODE GOES
+			 * 
+			 */
+			
+			
+			
 			waitForInit = false;
-
 		} else {
 			while (waitForInit)
 				try {

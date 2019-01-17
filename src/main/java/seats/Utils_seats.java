@@ -24,12 +24,9 @@ public class Utils_seats {
 	static boolean waitForInit = true;
 
 	// this function will be -dynamically- called from clojure at runtime
-	public Utils_seats() {
-		Utils_seats.initialize();
+	public Utils_seats(int scale) {
+		Utils_seats.initialize(scale);
 	}
-	
-	
-	
 
 	public static long getRandomCustomerId() {
 		long composite_id = -1;
@@ -133,11 +130,11 @@ public class Utils_seats {
 		return (id);
 	}
 
-	public static void initialize() {
+	public static void initialize(int scale) {
 		if (atomicInitialized.compareAndSet(false, true)) {
-			initializeFLightIds();
+			initializeFLightIds(scale);
 			initializeCustomerMap();
-			initializeReservations();
+			initializeReservations(scale);
 			resCount = r_c_id.size();
 			waitForInit = false;
 		} else {
@@ -151,11 +148,12 @@ public class Utils_seats {
 		}
 	}
 
-	private static void initializeFLightIds() {
+	private static void initializeFLightIds(int scale) {
 		flightIds = new ArrayList<Long>();
 		Scanner s = null;
 		try {
-			s = new Scanner(new File("/home/ubuntu/jepsen.seats/snapshots/seats/flight.id"));
+			s = new Scanner(new File(
+					"/home/ubuntu/jepsen.seats/snapshots/seats/" + (String.valueOf(scale)) + "/seats/flight.id"));
 			while (s.hasNext()) {
 				flightIds.add(Long.parseLong(s.next()));
 			}
@@ -167,13 +165,13 @@ public class Utils_seats {
 
 	// another data structure holding customer and flight id, extracted from valid
 	// reservations
-	private static void initializeReservations() {
+	private static void initializeReservations(int scale) {
 		r_c_id = new ArrayList<Long>();
 		r_f_id = new ArrayList<Long>();
 		Scanner s1 = null, s2 = null;
 		try {
-			s1 = new Scanner(new File("/home/ubuntu/jepsen.seats/snapshots/seats/r_c.id"));
-			s2 = new Scanner(new File("/home/ubuntu/jepsen.seats/snapshots/seats/r_f.id"));
+			s1 = new Scanner(new File("/home/ubuntu/jepsen.seats/snapshots/seats/"+ (String.valueOf(scale)) +"/seats/r_c.id"));
+			s2 = new Scanner(new File("/home/ubuntu/jepsen.seats/snapshots/seats/"+ (String.valueOf(scale)) +"/seats/r_f.id"));
 			while (s1.hasNext() && s2.hasNext()) {
 				r_c_id.add(Long.parseLong(s1.next()));
 				r_f_id.add(Long.parseLong(s2.next()));
