@@ -73,6 +73,10 @@ public class NewOrder {
 			stmt.setInt(3, w_id);
 			stmt.setInt(4, c_id);
 			stmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+			System.out.println();
+			System.out.println(o_ol_cnt);
+			System.out.println(o_all_local);
+			System.out.println();
 			stmt.setInt(6, o_ol_cnt);
 			stmt.setInt(7, o_all_local);
 			stmt.executeUpdate();
