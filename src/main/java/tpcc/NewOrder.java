@@ -2,12 +2,13 @@ package tpcc;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class NewOrder {
-	public static int newOrder(CassandraConnection conn, int w_id, int d_id, int c_id, int o_ol_cnt, int[] itemIDs,
-			int[] supplierWarehouseIDs, int[] orderQuantities) throws Exception {
+	public static int newOrder(CassandraConnection conn, int w_id, int d_id, int c_id, int o_all_local, int o_ol_cnt,
+			int[] itemIDs, int[] supplierWarehouseIDs, int[] orderQuantities) throws Exception {
 		PreparedStatement stmt = null;
 
 		try {
@@ -33,6 +34,7 @@ public class NewOrder {
 			ResultSet d_rs = stmt.executeQuery();
 			if (!d_rs.next()) {
 				System.out.println("ERROR_12: Invalid district id: (" + w_id + "," + d_id + ")");
+				return 12;
 			}
 			int d_next_o_id = d_rs.getInt("D_NEXT_O_ID");
 			double d_tax = d_rs.getDouble("D_TAX");
@@ -45,6 +47,37 @@ public class NewOrder {
 			stmt.executeUpdate();
 			int o_id = d_next_o_id;
 
+			//
+			// retrieve customer's information
+			stmt = conn.prepareStatement("SELECT C_DISCOUNT, C_LAST, C_CREDIT" + "  FROM " + "CUSTOMER"
+					+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_ID = ?");
+			stmt.setInt(1, w_id);
+			stmt.setInt(2, d_id);
+			stmt.setInt(3, c_id);
+			ResultSet c_rs = stmt.executeQuery();
+			if (!c_rs.next()) {
+				System.out.println("ERROR_13: Invalid customer id: (" + w_id + "," + d_id + "," + c_id + ")");
+				return 13;
+			}
+			double c_discount = c_rs.getFloat("C_DISCOUNT");
+			String c_last = c_rs.getString("C_LAST");
+			String c_credit = c_rs.getString("C_CREDIT");
+
+			//
+			// insert a new row into OORDER and NEW_ORDER tables
+			stmt = conn.prepareStatement(
+					"INSERT INTO " + "OORDER" + " (O_ID, O_D_ID, O_W_ID, O_C_ID, O_ENTRY_D, O_OL_CNT, O_ALL_LOCAL)"
+							+ " VALUES (?, ?, ?, ?, ?, ?, ?)");
+			stmt.setInt(1, o_id);
+			stmt.setInt(2, d_id);
+			stmt.setInt(3, w_id);
+			stmt.setInt(4, c_id);
+			stmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+			stmt.setInt(6, o_ol_cnt);
+			stmt.setInt(7, o_all_local);
+			stmt.executeUpdate();
+
+			//
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
@@ -55,3 +88,9 @@ public class NewOrder {
 		}
 	}
 }
+//
+//
+//
+//
+//
+//
