@@ -132,6 +132,7 @@ public class Utils_seats {
 
 	public static void initialize(int scale) {
 		if (atomicInitialized.compareAndSet(false, true)) {
+			System.out.println("Utils_seats_"+scale+": intializing data structures....");
 			initializeFLightIds(scale);
 			initializeCustomerMap();
 			initializeReservations(scale);
