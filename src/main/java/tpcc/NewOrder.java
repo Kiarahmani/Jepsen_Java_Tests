@@ -19,7 +19,7 @@ public class NewOrder {
 				System.out.println("ERROR_11: Invalid warehouse id: " + w_id);
 				return 11;
 			}
-			float w_tax = w_rs.getFloat("W_TAX");
+			double w_tax = w_rs.getDouble("W_TAX");
 			w_rs.close();
 			//
 			//
@@ -35,7 +35,7 @@ public class NewOrder {
 				System.out.println("ERROR_12: Invalid district id: (" + w_id + "," + d_id + ")");
 			}
 			int d_next_o_id = d_rs.getInt("D_NEXT_O_ID");
-			float d_tax = d_rs.getFloat("D_TAX");
+			double d_tax = d_rs.getDouble("D_TAX");
 
 			stmt = conn.prepareStatement(
 					"UPDATE " + "DISTRICT" + "   SET D_NEXT_O_ID = ? " + " WHERE D_W_ID = ? " + "   AND D_ID = ?");
