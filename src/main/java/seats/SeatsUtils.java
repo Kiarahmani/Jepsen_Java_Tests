@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Utils {
+public class SeatsUtils {
 
 	private static Map<Long, Integer> customerIdCount;
 	private static List<Long> flightIds;
