@@ -24,7 +24,7 @@ public class SeatsUtils {
 	static boolean waitForInit = true;
 
 	public SeatsUtils() {
-		System.out.println("I'm a fucking constructor!");
+		SeatsUtils.initialize();
 	}
 
 	public static long getRandomCustomerId() {
