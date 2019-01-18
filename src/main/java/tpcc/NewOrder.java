@@ -167,7 +167,7 @@ public class NewOrder {
 				stmtUpdateStock.setInt(4, s_remote_cnt + s_remote_cnt_increment);
 				stmtUpdateStock.setInt(5, ol_i_id);
 				stmtUpdateStock.setInt(6, ol_supply_w_id);
-				stmtUpdateStock.addBatch();
+				stmtUpdateStock.executeUpdate();
 				//
 				double ol_amount = ol_quantity * i_price;
 				orderLineAmounts[ol_number - 1] = ol_amount;
