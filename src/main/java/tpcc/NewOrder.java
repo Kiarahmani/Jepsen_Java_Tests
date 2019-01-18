@@ -115,7 +115,7 @@ public class NewOrder {
 			stmt.setInt(3, w_id);
 			stmt.executeUpdate();
 			// For each O_OL_CNT item on the order perform the following tasks
-			for (int ol_number = 1; ol_number <= o_ol_cnt; ol_number++) {
+			for (int ol_number = 1; ol_number <= 1; ol_number++) {
 				int ol_supply_w_id = supplierWarehouseIDs[ol_number - 1];
 				int ol_i_id = itemIDs[ol_number - 1];
 				int ol_quantity = orderQuantities[ol_number - 1];
