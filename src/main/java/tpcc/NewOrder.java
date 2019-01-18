@@ -249,8 +249,8 @@ public class NewOrder {
 				stmt.addBatch();
 
 			}
-			//stmt.executeBatch();
-			//stmt.executeBatch();
+			stmt.executeBatch();
+			stmt.executeBatch();
 			total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
 			//
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
