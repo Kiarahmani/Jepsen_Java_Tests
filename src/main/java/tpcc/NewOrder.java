@@ -254,7 +254,7 @@ public class NewOrder {
 			total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
 			//
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-			// TXN SUCCESSFUL!
+			// TXN SUCCESSFUL! 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			if (_VERBOSE)
 				System.out.println("SUCCESS!");
