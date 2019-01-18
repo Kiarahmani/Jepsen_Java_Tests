@@ -54,4 +54,8 @@ public class Utils_tpcc {
 	public static int get_d_id() {
 		return ThreadLocalRandom.current().nextInt(1, 11);
 	}
+	
+	public static int get_c_id() {
+		return ThreadLocalRandom.current().nextInt(1, 3001);
+	}
 }
