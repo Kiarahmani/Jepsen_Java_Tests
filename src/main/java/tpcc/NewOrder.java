@@ -143,7 +143,8 @@ public class NewOrder {
 
 				// retrieve stock
 				stmt = conn.prepareStatement(
-						"SELECT *" + "  FROM " + "STOCK"
+						"SELECT S_REMOTE_CNT, S_ORDER_CNT,S_YTD, S_QUANTITY, S_DATA, S_DIST_01, S_DIST_02, S_DIST_03, S_DIST_04, S_DIST_05, "
+								+ "       S_DIST_06, S_DIST_07, S_DIST_08, S_DIST_09, S_DIST_10" + "  FROM " + "STOCK"
 								+ " WHERE S_I_ID = ? " + "   AND S_W_ID = ?");
 				stmt.setInt(1, ol_i_id );  
 				stmt.setInt(2, ol_supply_w_id );
