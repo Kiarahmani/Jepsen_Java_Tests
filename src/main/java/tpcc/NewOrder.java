@@ -13,11 +13,11 @@ public class NewOrder {
 
 		try {
 			System.out.println("******************************");
-			System.out.println("w_id:                " + w_id);
-			System.out.println("d_id:                " + d_id);
-			System.out.println("c_id:                " + c_id);
-			System.out.println("o_all_local:         " + o_all_local);
-			System.out.println("o_ol_cnt:            " + o_ol_cnt);
+			System.out.println("w_id:                 " + w_id);
+			System.out.println("d_id:                 " + d_id);
+			System.out.println("c_id:                 " + c_id);
+			System.out.println("o_all_local:          " + o_all_local);
+			System.out.println("o_ol_cnt:             " + o_ol_cnt);
 			System.out.print  ("itemIDs:              [");
 			String delim = "";
 			for (int i : itemIDs) {
