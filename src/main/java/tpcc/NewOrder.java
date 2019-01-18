@@ -159,7 +159,7 @@ public class NewOrder {
 					s_remote_cnt_increment = 1;
 				}
 				// update stock row
-				stmtUpdateStock = conn.prepareCall("UPDATE " + "STOCK" + " SET S_QUANTITY = ?," + "S_YTD = ?,"
+				stmtUpdateStock = conn.prepareStatement("UPDATE " + "STOCK" + " SET S_QUANTITY = ?," + "S_YTD = ?,"
 						+ "S_ORDER_CNT = ?," + "S_REMOTE_CNT = ? " + " WHERE S_I_ID = ? " + "   AND S_W_ID = ?");
 				stmtUpdateStock.setDouble(1, s_quantity);
 				stmtUpdateStock.setDouble(2, s_ytd + ol_quantity);
