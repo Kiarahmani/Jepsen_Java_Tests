@@ -7,42 +7,36 @@ import java.sql.Timestamp;
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class NewOrder {
+	private static boolean _PRINT_INPUT = true;
+
+	private static void printArray(String name, int[] arr) {
+		System.out.print(name + ": [");
+		String delim = "";
+		for (int i : arr) {
+			System.out.print(delim + i);
+			delim = ", ";
+		}
+		System.out.println("]");
+	}
+
 	public static int newOrder(CassandraConnection conn, int w_id, int d_id, int c_id, int o_all_local, int o_ol_cnt,
 			int[] itemIDs, int[] supplierWarehouseIDs, int[] orderQuantities) throws Exception {
 		PreparedStatement stmt = null, stmtUpdateStock = null;
 
 		try {
-			System.out.println("******************************");
-			System.out.println("w_id:                 " + w_id);
-			System.out.println("d_id:                 " + d_id);
-			System.out.println("c_id:                 " + c_id);
-			System.out.println("o_all_local:          " + o_all_local);
-			System.out.println("o_ol_cnt:             " + o_ol_cnt);
-			System.out.print  ("itemIDs:              [");
-			String delim = "";
-			for (int i : itemIDs) {
-				System.out.print(delim + i);
-				delim = ", ";
+			if (_PRINT_INPUT) {
+				System.out.println("******************************");
+				System.out.println("w_id:                 " + w_id);
+				System.out.println("d_id:                 " + d_id);
+				System.out.println("c_id:                 " + c_id);
+				System.out.println("o_all_local:          " + o_all_local);
+				System.out.println("o_ol_cnt:             " + o_ol_cnt);
+				System.out.print("itemIDs:              [");
+				printArray("supplierWarehouseIDs", supplierWarehouseIDs);
+				printArray("itemIDs", itemIDs);
+				printArray("orderQuantities", orderQuantities);
+				System.out.println("******************************");
 			}
-			System.out.println("]");
-
-			System.out.print("supplierWarehouseIDs: [");
-			delim = "";
-			for (int i : supplierWarehouseIDs) {
-				System.out.print(delim + i);
-				delim = ", ";
-			}
-			System.out.println("]");
-
-			System.out.print("orderQuantities:      [");
-			delim = "";
-			for (int i : orderQuantities) {
-				System.out.print(delim + i);
-				delim = ", ";
-			}
-			System.out.println("]");
-
-			System.out.println("******************************");
 			// datastructures required for bookkeeping
 			double[] itemPrices = new double[o_ol_cnt];
 			String[] itemNames = new String[o_ol_cnt];
