@@ -76,6 +76,13 @@ public class NewOrder {
 			stmt.setInt(6, o_ol_cnt);
 			stmt.setInt(7, o_all_local);
 			stmt.executeUpdate();
+			//
+			stmt = conn.prepareStatement(
+					"INSERT INTO " + "NEW_ORDER" + " (NO_O_ID, NO_D_ID, NO_W_ID) " + " VALUES ( ?, ?, ?)");
+			stmt.setInt(1, o_id);
+			stmt.setInt(2, d_id);
+			stmt.setInt(3, w_id);
+			stmt.executeUpdate();
 
 			//
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
