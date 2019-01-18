@@ -122,8 +122,7 @@ public class NewOrder {
 				// retrieve item
 				stmt = conn
 						.prepareStatement("SELECT I_PRICE, I_NAME , I_DATA " + "  FROM " + "ITEM" + " WHERE I_ID = ?");
-				stmt.setInt(1, ol_i_id + 1); // XXXXXXXXXXXXXXX
-				// XXX remove +1 (it's just for testing!)
+				stmt.setInt(1, ol_i_id);
 				ResultSet i_rs = stmt.executeQuery();
 				// this is expected to happen 1% of the times
 				if (!i_rs.next()) {
@@ -147,8 +146,8 @@ public class NewOrder {
 						"SELECT S_REMOTE_CNT, S_ORDER_CNT,S_YTD, S_QUANTITY, S_DATA, S_DIST_01, S_DIST_02, S_DIST_03, S_DIST_04, S_DIST_05, "
 								+ "       S_DIST_06, S_DIST_07, S_DIST_08, S_DIST_09, S_DIST_10" + "  FROM " + "STOCK"
 								+ " WHERE S_I_ID = ? " + "   AND S_W_ID = ?");
-				stmt.setInt(1, ol_i_id + 1); // XXX
-				stmt.setInt(2, ol_supply_w_id + 1); // XXX
+				stmt.setInt(1, ol_i_id ); 
+				stmt.setInt(2, ol_supply_w_id );
 				ResultSet s_rs = stmt.executeQuery();
 				if (!s_rs.next()) {
 					System.out.println("ERROR_16: Invalid stock primary key: (" + ol_i_id + "," + ol_supply_w_id + ")");
