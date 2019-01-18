@@ -173,7 +173,7 @@ public class NewOrder {
 				orderLineAmounts[ol_number - 1] = ol_amount;
 				total_amount += ol_amount;
 			}
-			stmtUpdateStock.executeBatch();
+			//stmtUpdateStock.executeBatch();
 
 			//
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
