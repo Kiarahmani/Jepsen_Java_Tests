@@ -97,7 +97,8 @@ public class NewOrder {
 				// retrieve item
 				stmt = conn
 						.prepareStatement("SELECT I_PRICE, I_NAME , I_DATA " + "  FROM " + "ITEM" + " WHERE I_ID = ?");
-				stmt.setInt(1, ol_i_id);
+				stmt.setInt(1, ol_i_id+1); //XXXXXXXXXXXXXXX
+				//XXX remove +1 (it's just for testing!)
 				ResultSet i_rs = stmt.executeQuery();
 				// this is expected to happen 1% of the times
 				if (!i_rs.next()) {
