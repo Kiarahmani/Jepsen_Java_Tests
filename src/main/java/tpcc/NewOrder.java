@@ -172,13 +172,16 @@ public class NewOrder {
 				double ol_amount = ol_quantity * i_price;
 				orderLineAmounts[ol_number - 1] = ol_amount;
 				total_amount += ol_amount;
+				System.out.println(i_data);
+				System.out.println(s_data);
+				System.out.println();
 			}
-			System.out.println("KIRKIR");
 
 			//
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+			System.out.println("SUCCESS!");
 			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
