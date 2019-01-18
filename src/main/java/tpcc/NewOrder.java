@@ -130,7 +130,7 @@ public class NewOrder {
 					return 16;
 				}
 				double s_quantity = s_rs.getDouble("S_QUANTITY");
-				int s_ytd = s_rs.getInt("S_YTD");
+				double s_ytd = s_rs.getDouble("S_YTD");
 				int s_order_cnt = s_rs.getInt("S_ORDER_CNT");
 				int s_remote_cnt = s_rs.getInt("S_REMOTE_CNT");
 				String s_data = s_rs.getString("S_DATA");
@@ -162,7 +162,7 @@ public class NewOrder {
 				stmtUpdateStock = conn.prepareCall("UPDATE " + "STOCK" + " SET S_QUANTITY = ?," + "S_YTD = ?,"
 						+ "S_ORDER_CNT = ?," + "S_REMOTE_CNT = ? " + " WHERE S_I_ID = ? " + "   AND S_W_ID = ?");
 				stmtUpdateStock.setDouble(1, s_quantity);
-				stmtUpdateStock.setInt(2, s_ytd + ol_quantity);
+				stmtUpdateStock.setDouble(2, s_ytd + ol_quantity);
 				stmtUpdateStock.setInt(3, s_order_cnt + 1);
 				stmtUpdateStock.setInt(4, s_remote_cnt + s_remote_cnt_increment);
 				stmtUpdateStock.setInt(5, ol_i_id);
