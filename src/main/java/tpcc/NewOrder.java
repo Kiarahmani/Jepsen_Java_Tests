@@ -15,7 +15,7 @@ public class NewOrder {
 			// datastructures required for bookkeeping
 			double[] itemPrices = new double[o_ol_cnt];
 			String[] itemNames = new String[o_ol_cnt];
-			int[] stockQuantities = new int[o_ol_cnt];
+			double[] stockQuantities = new double[o_ol_cnt];
 			double[] orderLineAmounts = new double[o_ol_cnt];
 			double total_amount = 0;
 			// retrieve w_tax rate
@@ -129,7 +129,7 @@ public class NewOrder {
 					System.out.println("ERROR_16: Invalid stock primary key: (" + ol_i_id + "," + ol_supply_w_id + ")");
 					return 16;
 				}
-				int s_quantity = s_rs.getInt("S_QUANTITY");
+				double s_quantity = s_rs.getDouble("S_QUANTITY");
 				int s_ytd = s_rs.getInt("S_YTD");
 				int s_order_cnt = s_rs.getInt("S_ORDER_CNT");
 				int s_remote_cnt = s_rs.getInt("S_REMOTE_CNT");
@@ -161,7 +161,7 @@ public class NewOrder {
 				// update stock row
 				stmtUpdateStock = conn.prepareCall("UPDATE " + "STOCK" + " SET S_QUANTITY = ?," + "S_YTD = ?,"
 						+ "S_ORDER_CNT = ?," + "S_REMOTE_CNT = ? " + " WHERE S_I_ID = ? " + "   AND S_W_ID = ?");
-				stmtUpdateStock.setInt(1, s_quantity);
+				stmtUpdateStock.setDouble(1, s_quantity);
 				stmtUpdateStock.setInt(2, s_ytd + ol_quantity);
 				stmtUpdateStock.setInt(3, s_order_cnt + 1);
 				stmtUpdateStock.setInt(4, s_remote_cnt + s_remote_cnt_increment);
