@@ -12,6 +12,17 @@ public class NewOrder {
 		PreparedStatement stmt = null, stmtUpdateStock = null;
 
 		try {
+			System.out.println("******************************");
+			System.out.println(w_id);
+			System.out.println(d_id);
+			System.out.println(c_id);
+			System.out.println(o_all_local);
+			System.out.println(o_ol_cnt);
+			System.out.println(itemIDs);
+			System.out.println(supplierWarehouseIDs);
+			System.out.println(orderQuantities);
+
+			System.out.println("******************************");
 			// datastructures required for bookkeeping
 			double[] itemPrices = new double[o_ol_cnt];
 			String[] itemNames = new String[o_ol_cnt];
