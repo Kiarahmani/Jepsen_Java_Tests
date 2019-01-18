@@ -18,6 +18,8 @@ public class NewOrder {
 			double[] stockQuantities = new double[o_ol_cnt];
 			double[] orderLineAmounts = new double[o_ol_cnt];
 			double total_amount = 0;
+			char[] brandGeneric = new char[o_ol_cnt];
+
 			// retrieve w_tax rate
 			stmt = conn.prepareStatement("SELECT W_TAX " + "  FROM " + "WAREHOUSE" + " WHERE W_ID = ?");
 			stmt.setInt(1, w_id);
@@ -172,11 +174,64 @@ public class NewOrder {
 				double ol_amount = ol_quantity * i_price;
 				orderLineAmounts[ol_number - 1] = ol_amount;
 				total_amount += ol_amount;
-				System.out.println(i_data);
-				System.out.println(s_data);
-				System.out.println();
+				if (i_data.indexOf("GENERIC") != -1 && s_data.indexOf("GENERIC") != -1) {
+					brandGeneric[ol_number - 1] = 'B';
+				} else {
+					brandGeneric[ol_number - 1] = 'G';
+				}
+				String ol_dist_info = null;
+				switch ((int) d_id) {
+				case 1:
+					ol_dist_info = s_dist_01;
+					break;
+				case 2:
+					ol_dist_info = s_dist_02;
+					break;
+				case 3:
+					ol_dist_info = s_dist_03;
+					break;
+				case 4:
+					ol_dist_info = s_dist_04;
+					break;
+				case 5:
+					ol_dist_info = s_dist_05;
+					break;
+				case 6:
+					ol_dist_info = s_dist_06;
+					break;
+				case 7:
+					ol_dist_info = s_dist_07;
+					break;
+				case 8:
+					ol_dist_info = s_dist_08;
+					break;
+				case 9:
+					ol_dist_info = s_dist_09;
+					break;
+				case 10:
+					ol_dist_info = s_dist_10;
+					break;
+				}
+
+				//
+				// insert a row into orderline table representing each order item
+				stmt = conn.prepareStatement("INSERT INTO " + "ORDER_LINE"
+						+ " (OL_O_ID, OL_D_ID, OL_W_ID, OL_NUMBER, OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DIST_INFO) "
+						+ " VALUES (?,?,?,?,?,?,?,?,?)");
+				stmt.setInt(1, o_id);
+				stmt.setInt(2, d_id);
+				stmt.setInt(3, w_id);
+				stmt.setInt(4, ol_number);
+				stmt.setInt(5, ol_i_id);
+				stmt.setInt(6, ol_supply_w_id);
+				stmt.setInt(7, ol_quantity);
+				stmt.setDouble(8, ol_amount);
+				stmt.setString(9, ol_dist_info);
+				stmt.executeUpdate();
+
 			}
 
+			total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
 			//
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
