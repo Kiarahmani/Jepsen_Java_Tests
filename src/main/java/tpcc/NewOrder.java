@@ -115,7 +115,7 @@ public class NewOrder {
 			stmt.setInt(3, w_id);
 			stmt.executeUpdate();
 			// For each O_OL_CNT item on the order perform the following tasks
-			for (int ol_number = 1; ol_number <= 1; ol_number++) {
+			for (int ol_number = 1; ol_number <= o_ol_cnt; ol_number++) {
 				int ol_supply_w_id = supplierWarehouseIDs[ol_number - 1];
 				int ol_i_id = itemIDs[ol_number - 1];
 				int ol_quantity = orderQuantities[ol_number - 1];
@@ -188,7 +188,7 @@ public class NewOrder {
 				stmtUpdateStock.setInt(4, s_remote_cnt + s_remote_cnt_increment);
 				stmtUpdateStock.setInt(5, ol_i_id);
 				stmtUpdateStock.setInt(6, ol_supply_w_id);
-				stmtUpdateStock.executeUpdate();
+				stmtUpdateStock.addBatch();
 				//
 				double ol_amount = ol_quantity * i_price;
 				orderLineAmounts[ol_number - 1] = ol_amount;
@@ -246,10 +246,11 @@ public class NewOrder {
 				stmt.setInt(7, ol_quantity);
 				stmt.setDouble(8, ol_amount);
 				stmt.setString(9, ol_dist_info);
-				stmt.executeUpdate();
+				stmt.addBatch();
 
 			}
-
+			stmt.executeBatch();
+			stmt.executeBatch();
 			total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
 			//
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
