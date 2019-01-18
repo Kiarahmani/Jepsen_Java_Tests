@@ -48,6 +48,6 @@ public class Utils_tpcc {
 	 */
 
 	public static int get_w_id() {
-		return ThreadLocalRandom.current().nextInt(1, scale);
+		return ThreadLocalRandom.current().nextInt(1, scale+1);
 	}
 }
