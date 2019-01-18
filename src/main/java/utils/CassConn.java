@@ -9,13 +9,13 @@ import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 public class CassConn {
 	private static RoundRobin<CassandraConnection> connectionPool = new RoundRobin<CassandraConnection>();
 	private static Iterator<CassandraConnection> connections = connectionPool.iterator();
+	private static int _NUMBER_OF_CONNECTIONS_PER_NODE = 10;
 
-	
 	public static void prepareConnections(int n, int c, String bench) {
 		try {
 			Class.forName("com.github.adejanovski.cassandra.jdbc.CassandraDriver");
 			for (int i = 1; i <= n; i++)
-				for (int j = 0; j < seats.Constants._NUMBER_OF_CONNECTIONS_PER_NODE; j++) {
+				for (int j = 0; j < _NUMBER_OF_CONNECTIONS_PER_NODE; j++) {
 					CassandraConnection connect = (CassandraConnection) DriverManager.getConnection("jdbc:cassandra://"
 							+ "n" + String.valueOf(i) + ":9042/" + bench + "?"
 							+ "consistency=ONE&retry=FallthroughRetryPolicy" + "&loadbalancing=RoundRobinPolicy()");
@@ -28,7 +28,6 @@ public class CassConn {
 		}
 	}
 
-	
 	public static CassandraConnection getConnection(String localAddr) {
 		CassandraConnection connect = null;
 		connect = connections.next();
@@ -36,7 +35,6 @@ public class CassConn {
 		return connect;
 	}
 
-	
 	public static void closeConnection(CassandraConnection connection) {
 		try {
 			connection.close();
