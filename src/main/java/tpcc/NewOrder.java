@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class NewOrder {
-	private static boolean _PRINT_INPUT = true;
+	private static boolean _PRINT_INPUT = false;
 
 	private static void printArray(String name, int[] arr) {
 		System.out.print(name + ": [");
@@ -37,6 +37,7 @@ public class NewOrder {
 				printArray("orderQuantities", orderQuantities);
 				System.out.println("******************************");
 			}
+
 			// datastructures required for bookkeeping
 			double[] itemPrices = new double[o_ol_cnt];
 			String[] itemNames = new String[o_ol_cnt];
@@ -196,7 +197,7 @@ public class NewOrder {
 				double ol_amount = ol_quantity * i_price;
 				orderLineAmounts[ol_number - 1] = ol_amount;
 				total_amount += ol_amount;
-				if (i_data.indexOf("GENERIC") != -1 && s_data.indexOf("GENERIC") != -1) {
+				if (i_data.indexOf("ORIGINAL") != -1 && s_data.indexOf("ORIGINAL") != -1) {
 					brandGeneric[ol_number - 1] = 'B';
 				} else {
 					brandGeneric[ol_number - 1] = 'G';
