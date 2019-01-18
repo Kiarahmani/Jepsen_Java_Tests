@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class NewOrder {
-	private static boolean _PRINT_INPUT = false;
+	private static boolean _VERBOSE = false;
 
 	private static void printArray(String name, int[] arr) {
 		System.out.print(name + ": [");
@@ -24,7 +24,7 @@ public class NewOrder {
 		PreparedStatement stmt = null, stmtUpdateStock = null;
 
 		try {
-			if (_PRINT_INPUT) {
+			if (_VERBOSE) {
 				System.out.println("******************************");
 				System.out.println("w_id:                 " + w_id);
 				System.out.println("d_id:                 " + d_id);
@@ -142,12 +142,9 @@ public class NewOrder {
 				itemNames[ol_number - 1] = i_name;
 
 				// retrieve stock
-				stmt = conn.prepareStatement(
-						"SELECT  S_REMOTE_CNT, S_ORDER_CNT,S_YTD, S_QUANTITY, S_DATA, S_DIST_01, S_DIST_02, S_DIST_03, S_DIST_04, S_DIST_05, "
-								+ "       S_DIST_06, S_DIST_07, S_DIST_08, S_DIST_09, S_DIST_10" + "  FROM " + "STOCK"
-								+ " WHERE S_I_ID = ? " + "   AND S_W_ID = ?");
-				stmt.setInt(1, ol_i_id );  
-				stmt.setInt(2, ol_supply_w_id );
+				stmt = conn.prepareStatement("SELECT  *  FROM " + "STOCK" + " WHERE S_I_ID = ? " + "   AND S_W_ID = ?");
+				stmt.setInt(1, ol_i_id);
+				stmt.setInt(2, ol_supply_w_id);
 				ResultSet s_rs = stmt.executeQuery();
 				if (!s_rs.next()) {
 					System.out.println("ERROR_16: Invalid stock primary key: (" + ol_i_id + "," + ol_supply_w_id + ")");
@@ -258,7 +255,8 @@ public class NewOrder {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-			System.out.println("SUCCESS!");
+			if (_VERBOSE)
+				System.out.println("SUCCESS!");
 			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
