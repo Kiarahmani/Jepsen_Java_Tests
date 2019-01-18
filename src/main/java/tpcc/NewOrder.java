@@ -31,9 +31,6 @@ public class NewOrder {
 			double w_tax = w_rs.getDouble("W_TAX");
 			w_rs.close();
 			//
-			//
-			// Q? XXX should I close the stmt before reassigning it? does it affect the
-			// performance?
 			// retrieve d_tax rate and update D_NEXT_O_ID
 			stmt = conn.prepareStatement(
 					"SELECT D_NEXT_O_ID, D_TAX " + "  FROM " + "DISTRICT" + " WHERE D_W_ID = ? AND D_ID = ?");
