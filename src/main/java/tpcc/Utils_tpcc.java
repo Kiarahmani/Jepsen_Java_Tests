@@ -102,4 +102,17 @@ public class Utils_tpcc {
 		return result;
 	}
 
+	public static int get_paymentAmount() {
+		return ThreadLocalRandom.current().nextInt(1, 5000);
+	}
+
+	public static int get_customerDistrictID(int w_id) {
+		return 1;
+	}
+
+	public static List<Object> get_payment_cust() {
+		List<Object> result = new ArrayList<Object>();
+		return result;
+	}
+
 }
