@@ -262,6 +262,9 @@ public class NewOrder {
 			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("\n\n\n\n");
+			System.out.println("stmt--->" + stmt);
+			System.out.println("\n\n\n\n");
 			return -1;
 		}
 	}
