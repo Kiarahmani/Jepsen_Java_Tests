@@ -2,6 +2,7 @@ package tpcc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -10,6 +11,7 @@ public class Utils_tpcc {
 	static AtomicBoolean atomicInitialized = new AtomicBoolean(false);
 	static boolean waitForInit = true;
 	static int scale = -10;
+	private static Random r = new Random();
 
 	// this function will be -dynamically- called from clojure at runtime
 	public Utils_tpcc(int scale) {
@@ -107,11 +109,58 @@ public class Utils_tpcc {
 	}
 
 	public static int get_customerDistrictID(int w_id) {
-		return 1;
+		int customerDistrictID = w_id;
+		if (ThreadLocalRandom.current().nextInt(1, 101) <= 15)
+			do
+				customerDistrictID = Utils_tpcc.get_w_id();
+			while (customerDistrictID == w_id && scale > 1);
+		return customerDistrictID;
+	}
+
+	/*
+	 * imported from OLTPBench
+	 */
+	private final static String[] nameTokens = { "BAR", "OUGHT", "ABLE", "PRI", "PRES", "ESE", "ANTI", "CALLY", "ATION",
+			"EING" };
+
+	private static String getLastName(int num) {
+		return nameTokens[num / 100] + nameTokens[(num / 10) % 10] + nameTokens[num % 10];
+	}
+
+	private static final int C_LAST_RUN_C = 223; // in range [0, 255]
+
+	private static int randomNumber(int min, int max, Random r) {
+		return (int) (r.nextDouble() * (max - min + 1) + min);
+	}
+
+	private static int nonUniformRandom(int A, int C, int min, int max, Random r) {
+		return (((randomNumber(0, A, r) | randomNumber(min, max, r)) + C) % (max - min + 1)) + min;
+	}
+
+	private static String getNonUniformRandomLastNameForRun(Random r) {
+		return getLastName(nonUniformRandom(255, C_LAST_RUN_C, 0, 999, r));
+	}
+	/*
+	 * END of imported from OLTPBench
+	 */
+
+	public static String get_cust_last_name() {
+		return getNonUniformRandomLastNameForRun(r);
 	}
 
 	public static List<Object> get_payment_cust() {
 		List<Object> result = new ArrayList<Object>();
+		if (ThreadLocalRandom.current().nextInt(1, 101) >= 60) {
+			// by id
+			result.add(false);
+			result.add(Utils_tpcc.get_c_id());
+			result.add("");
+		} else {
+			// by last name
+			result.add(true);
+			result.add(-1);
+			result.add(Utils_tpcc.get_cust_last_name());
+		}
 		return result;
 	}
 
