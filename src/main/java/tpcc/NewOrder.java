@@ -252,9 +252,10 @@ public class NewOrder {
 			stmt.executeBatch();
 			stmt.executeBatch();
 			total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
+			stmt.close();
 			//
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-			// TXN SUCCESSFUL! 
+			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			if (_VERBOSE)
 				System.out.println("SUCCESS!");
