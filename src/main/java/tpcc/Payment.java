@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class Payment {
+	@SuppressWarnings("resource")
 	public static int payment(CassandraConnection conn, int w_id, int d_id, boolean customerByName, int c_id,
 			String c_last, int customerWarehouseID, int customerDistrictID, double paymentAmount) throws Exception {
 		PreparedStatement stmt = null;
@@ -85,9 +86,7 @@ public class Payment {
 				stmt.setInt(2, customerDistrictID);
 				stmt.setString(3, c_last);
 				ResultSet c_rs = stmt.executeQuery();
-
-				
-				
+				System.out.println(">>>>" + c_rs.getFetchSize());
 
 			} else {
 				// retrieve customer by id
@@ -127,6 +126,8 @@ public class Payment {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+			stmt.clearBatch();
+			stmt.close();
 			return 0;
 		} catch (Exception e) {
 			e.printStackTrace();
