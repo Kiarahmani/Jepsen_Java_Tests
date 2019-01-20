@@ -76,12 +76,11 @@ public class Payment {
 			float c_ytd_payment;
 			int c_payment_cnt;
 			Timestamp c_since;
-			System.out.println(customerByName);
 			if (customerByName) {
 				stmt = conn.prepareCall("SELECT C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2,"
 						+ "C_CITY, C_STATE, C_ZIP, C_PHONE, C_CREDIT, C_CREDIT_LIM,"
 						+ "   C_DISCOUNT, C_BALANCE, C_YTD_PAYMENT, C_PAYMENT_CNT, C_SINCE " + "  FROM " + "CUSTOMER"
-						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_LAST = ? " + " ORDER BY C_FIRST");
+						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_LAST = ? " );
 				stmt.setInt(1, customerWarehouseID);
 				stmt.setInt(2, customerDistrictID);
 				stmt.setString(3, c_last);
