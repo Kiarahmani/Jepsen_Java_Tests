@@ -92,7 +92,6 @@ public class Payment {
 					index++;
 					all_c_ids.add(c_rs.getInt("C_ID"));
 				}
-				System.out.println("all c_ids:   " + all_c_ids);
 				if (index == 0) {
 					System.out.println("ERROR_23: No customer with the given last name: " + customerWarehouseID + ","
 							+ customerDistrictID + "," + c_last);
@@ -110,6 +109,7 @@ public class Payment {
 				stmt.setInt(1, customerWarehouseID);
 				stmt.setInt(2, customerDistrictID);
 				stmt.setInt(3, c_id);
+				c_rs = stmt.executeQuery();
 
 				c_first = c_rs.getString("c_first");
 				c_middle = c_rs.getString("c_middle");
