@@ -79,10 +79,8 @@ public class Payment {
 			int c_payment_cnt;
 			Timestamp c_since;
 			if (customerByName) {
-				stmt = conn.prepareStatement("SELECT C_ID, C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2,"
-						+ "C_CITY, C_STATE, C_ZIP, C_PHONE, C_CREDIT, C_CREDIT_LIM,"
-						+ "   C_DISCOUNT, C_BALANCE, C_YTD_PAYMENT, C_PAYMENT_CNT, C_SINCE " + "  FROM " + "CUSTOMER"
-						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_LAST = ? " + "ALLOW FILTERING");
+				stmt = conn.prepareStatement("SELECT C_ID" + "  FROM " + "CUSTOMER" + " WHERE C_W_ID = ? "
+						+ "   AND C_D_ID = ? " + "   AND C_LAST = ? " + "ALLOW FILTERING");
 				stmt.setInt(1, customerWarehouseID);
 				stmt.setInt(2, customerDistrictID);
 				stmt.setString(3, c_last);
@@ -103,13 +101,33 @@ public class Payment {
 				if (index % 2 != 0)
 					index++;
 				index = (index / 2);
-				int chose_c_id = all_c_ids.get(index-1);
-				System.out.println("chosen c_id: " + chose_c_id);
-				c_rs.absolute(index);
-				System.out.println("------------>"+c_rs.getInt("C_ID"));
-				
-				
-				
+				c_id = all_c_ids.get(index - 1);
+
+				stmt = conn.prepareStatement("SELECT C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2,"
+						+ "C_CITY, C_STATE, C_ZIP, C_PHONE, C_CREDIT, C_CREDIT_LIM,"
+						+ "   C_DISCOUNT, C_BALANCE, C_YTD_PAYMENT, C_PAYMENT_CNT, C_SINCE " + "  FROM " + "CUSTOMER"
+						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_ID = ? ");
+				stmt.setInt(1, customerWarehouseID);
+				stmt.setInt(2, customerDistrictID);
+				stmt.setInt(3, c_id);
+
+				c_first = c_rs.getString("c_first");
+				c_middle = c_rs.getString("c_middle");
+				c_street_1 = c_rs.getString("c_street_1");
+				c_street_2 = c_rs.getString("c_street_2");
+				c_city = c_rs.getString("c_city");
+				c_state = c_rs.getString("c_state");
+				c_zip = c_rs.getString("c_zip");
+				c_phone = c_rs.getString("c_phone");
+				c_credit = c_rs.getString("c_credit");
+				c_credit_lim = c_rs.getDouble("c_credit_lim");
+				c_discount = c_rs.getDouble("c_discount");
+				c_balance = c_rs.getDouble("c_balance");
+				c_ytd_payment = c_rs.getFloat("c_ytd_payment");
+				c_payment_cnt = c_rs.getInt("c_payment_cnt");
+				c_since = c_rs.getTimestamp("c_since");
+				c_rs.close();
+
 			} else {
 				// retrieve customer by id
 				stmt = conn.prepareStatement("SELECT C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2, "
@@ -140,11 +158,65 @@ public class Payment {
 				c_ytd_payment = c_rs.getFloat("c_ytd_payment");
 				c_payment_cnt = c_rs.getInt("c_payment_cnt");
 				c_since = c_rs.getTimestamp("c_since");
-				//
-				// update columns
+				c_rs.close();
+			}
+			//
+			// Update customers info
+			c_balance -= paymentAmount;
+			c_ytd_payment += paymentAmount;
+			c_payment_cnt++;
+			String c_data = null;
+			if (c_credit.equals("BC")) {
+				// bad credit (c_data is also updated)
+				stmt = conn.prepareStatement("SELECT C_DATA " + "  FROM " + "CUSTOMER" + " WHERE C_W_ID = ? "
+						+ "   AND C_D_ID = ? " + "   AND C_ID = ?");
+				stmt.setInt(1, customerWarehouseID);
+				stmt.setInt(2, customerDistrictID);
+				stmt.setInt(3, c_id);
+				ResultSet c_rs = stmt.executeQuery();
+				if (!c_rs.next()) {
+					System.out.println("ERROR_25: Invalid customer id: " + customerWarehouseID + ","
+							+ customerDistrictID + "," + c_id);
+					return 25;
+				}
+				c_data = c_rs.getString("C_DATA");
+				c_rs.close();
+				c_data = c_id + " " + customerDistrictID + " " + customerWarehouseID + " " + d_id + " " + w_id + " "
+						+ paymentAmount + " | " + c_data;
+				if (c_data.length() > 500)
+					c_data = c_data.substring(0, 500);
+				stmt = conn.prepareStatement("UPDATE " + "CUSTOMER" + "   SET C_BALANCE = ?, "
+						+ "       C_YTD_PAYMENT = ?, " + "       C_PAYMENT_CNT = ?, " + "       C_DATA = ? "
+						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_ID = ?");
+				stmt.setDouble(1, c_balance);
+				stmt.setFloat(2, c_ytd_payment);
+				stmt.setInt(3, c_payment_cnt);
+				stmt.setString(4, c_data);
+				stmt.setInt(5, customerWarehouseID);
+				stmt.setInt(6, customerDistrictID);
+				stmt.setInt(7, c_id);
+				stmt.executeUpdate();
 
+			} else {
+				stmt = conn.prepareStatement("UPDATE " + "CUSTOMER" + "   SET C_BALANCE = ?, "
+						+ "       C_YTD_PAYMENT = ?, " + "       C_PAYMENT_CNT = ? " + " WHERE C_W_ID = ? "
+						+ "   AND C_D_ID = ? " + "   AND C_ID = ?");
+				stmt.setDouble(1, c_balance);
+				stmt.setDouble(2, c_ytd_payment);
+				stmt.setInt(3, c_payment_cnt);
+				stmt.setInt(4, customerWarehouseID);
+				stmt.setInt(5, customerDistrictID);
+				stmt.setInt(6, c_id);
+				stmt.executeUpdate();
 			}
 
+			//
+			//
+			//
+			//
+			//
+			//
+			//
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
