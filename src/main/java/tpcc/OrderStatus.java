@@ -53,15 +53,19 @@ public class OrderStatus {
 			c_rs.close();
 			//
 			// retrieve orders by this customer
-			stmt = conn.prepareStatement(
-					"SELECT O_ID, O_CARRIER_ID, O_ENTRY_D " + "  FROM " + "OORDER" + " WHERE O_W_ID = ? "
-							+ "   AND O_D_ID = ? " + "   " + "ORDER BY O_ID ALLOW FILTERING");
+			stmt = conn.prepareStatement("SELECT MAX(O_ID) " + "  FROM " + "OORDER"
+					+ " WHERE O_W_ID = ? " + "   AND O_D_ID = ? " + "AND O_C_ID = ? " + "ALLOW FILTERING");
 			stmt.setInt(1, w_id);
 			stmt.setInt(2, d_id);
 			stmt.setInt(3, c_id);
 			ResultSet o_rs = stmt.executeQuery();
+			
+			stmt = conn.prepareStatement("SELECT O_ID, O_CARRIER_ID, O_ENTRY_D " + "  FROM " + "OORDER"
+					+ " WHERE O_W_ID = ? " + "   AND O_D_ID = ? " + "   " + "ALLOW FILTERING");
+			
+			
 			System.out.println("---------");
-			while(o_rs.next())
+			while (o_rs.next())
 				System.out.println(o_rs.getInt("O_ID"));
 			System.out.println("---------");
 
