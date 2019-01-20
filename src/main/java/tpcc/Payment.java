@@ -104,7 +104,7 @@ public class Payment {
 					index++;
 				index = (index / 2);
 
-				System.out.println("chosen c_id: " + all_c_ids.get(index));
+				System.out.println("chosen c_id: " + all_c_ids.get(index-1));
 			} else {
 				// retrieve customer by id
 				stmt = conn.prepareStatement("SELECT C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2, "
