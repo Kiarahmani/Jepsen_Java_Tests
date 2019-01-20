@@ -90,11 +90,11 @@ public class OrderStatus {
 			while (ol_rs.next()) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("[");
-				sb.append(ol_rs.getLong("OL_SUPPLY_W_ID"));
+				sb.append(ol_rs.getInt("OL_SUPPLY_W_ID"));
 				sb.append(" - ");
-				sb.append(ol_rs.getLong("OL_I_ID"));
+				sb.append(ol_rs.getInt("OL_I_ID"));
 				sb.append(" - ");
-				sb.append(ol_rs.getLong("OL_QUANTITY"));
+				sb.append(ol_rs.getDouble("OL_QUANTITY"));
 				sb.append(" - ");
 				sb.append(String.valueOf(ol_rs.getDouble("OL_AMOUNT")));
 				sb.append(" - ");
