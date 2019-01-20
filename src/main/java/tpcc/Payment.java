@@ -196,9 +196,8 @@ public class Payment {
 				stmt.setInt(6, customerDistrictID);
 				stmt.setInt(7, c_id);
 				stmt.executeUpdate();
-				System.out.println("XXX:" + customerWarehouseID + "," + customerDistrictID + "," + c_id);
-
 			} else {
+				// good credit (no need to update c_data)
 				stmt = conn.prepareStatement("UPDATE " + "CUSTOMER" + "   SET C_BALANCE = ?, "
 						+ "       C_YTD_PAYMENT = ?, " + "       C_PAYMENT_CNT = ? " + " WHERE C_W_ID = ? "
 						+ "   AND C_D_ID = ? " + "   AND C_ID = ?");
@@ -211,7 +210,7 @@ public class Payment {
 				stmt.executeUpdate();
 			}
 
-			// create H_DATA
+			// create H_DATA and insert a new row into HISTORY
 			if (w_name.length() > 10)
 				w_name = w_name.substring(0, 10);
 			if (d_name.length() > 10)
