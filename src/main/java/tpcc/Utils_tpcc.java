@@ -108,13 +108,18 @@ public class Utils_tpcc {
 		return ThreadLocalRandom.current().nextInt(1, 5000);
 	}
 
-	public static int get_customerDistrictID(int w_id) {
-		int customerDistrictID = w_id;
+	public static List<Integer> get_customerinfo(int w_id, int d_id) {
+		int customerWarehouseID = w_id;
+		int customerDistrictID = d_id;
+		List<Integer> result = new ArrayList<Integer>();
 		if (ThreadLocalRandom.current().nextInt(1, 101) <= 15)
-			do
-				customerDistrictID = Utils_tpcc.get_w_id();
-			while (customerDistrictID == w_id && scale > 1);
-		return customerDistrictID;
+			do {
+				customerWarehouseID = Utils_tpcc.get_w_id();
+				customerDistrictID = Utils_tpcc.get_d_id();
+			} while (customerWarehouseID == w_id && scale > 1);
+		result.add(customerWarehouseID);
+		result.add(customerDistrictID);
+		return result;
 	}
 
 	/*

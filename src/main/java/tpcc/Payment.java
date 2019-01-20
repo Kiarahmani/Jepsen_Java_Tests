@@ -7,7 +7,7 @@ import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class Payment {
 	public static int payment(CassandraConnection conn, int w_id, int d_id, boolean customerByName, int c_id,
-			String c_last, int customerDistrictID, double paymentAmount) throws Exception {
+			String c_last, int customerWarehouseID, int customerDistrictID, double paymentAmount) throws Exception {
 		PreparedStatement stmt = null;
 		try {
 			boolean isRemote = (w_id != customerDistrictID);
@@ -57,7 +57,6 @@ public class Payment {
 			d_zip = d_rs.getString("D_ZIP");
 			d_name = d_rs.getString("D_NAME");
 			d_rs.close();
-
 			//
 			// update D_YTD by paymentAmount
 			stmt = conn
@@ -66,6 +65,19 @@ public class Payment {
 			stmt.setInt(2, w_id);
 			stmt.setInt(3, d_id);
 			stmt.executeUpdate();
+
+			if (customerByName) {
+
+			} else {
+				// retrieve customer by id
+				stmt = conn.prepareCall("SELECT C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2, "
+						+ "       C_CITY, C_STATE, C_ZIP, C_PHONE, C_CREDIT, C_CREDIT_LIM, "
+						+ "       C_DISCOUNT, C_BALANCE, C_YTD_PAYMENT, C_PAYMENT_CNT, C_SINCE " + "  FROM "
+						+ "CUSTOMER" + " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_ID = ?");
+				stmt.setInt(1, customerWarehouseID);
+				stmt.setInt(2, customerDistrictID);
+				stmt.setInt(3, c_id);
+			}
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
