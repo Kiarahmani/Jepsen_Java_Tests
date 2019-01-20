@@ -15,7 +15,7 @@ public class Delivery {
 			int d_id;
 			for (d_id = 1; d_id <= 10; d_id++) {
 				stmt = conn.prepareStatement("SELECT NO_O_ID FROM " + "NEW_ORDER" + " WHERE NO_D_ID = ? "
-						+ "   AND NO_W_ID = ? " + " ORDER BY NO_O_ID ASC " + " LIMIT 1");
+						+ "   AND NO_W_ID = ? " + " ORDER BY no_d_id,no_o_id" + " LIMIT 1 ALLOW FILTERING");
 				stmt.setInt(1, d_id);
 				stmt.setInt(2, w_id);
 				ResultSet rs = stmt.executeQuery();
