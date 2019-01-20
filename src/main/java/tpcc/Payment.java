@@ -110,8 +110,18 @@ public class Payment {
 				c_since = c_rs.getTimestamp("c_since");
 			}
 
+			//
+			// XXX
+			//
+			
 			/// Customer's data by ID is retrieed -> must  be updated now
-			// also, the update with last name is also remaining
+			//  also, the update with last name is also remaining
+			
+			
+			//
+			//
+			//
+			//
 			
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
