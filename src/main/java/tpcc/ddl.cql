@@ -68,6 +68,8 @@ CREATE TABLE tpcc.OORDER (
   PRIMARY KEY (O_W_ID,O_D_ID,O_ID)
 );
 
+ CREATE INDEX index_oorder_o_c_id ON tpcc.oorder (o_c_id);
+
 
 CREATE TABLE tpcc.NEW_ORDER (
   NO_W_ID INT,

@@ -60,6 +60,10 @@ public class OrderStatus {
 			stmt.setInt(2, d_id);
 			stmt.setInt(3, c_id);
 			ResultSet o_rs = stmt.executeQuery();
+			System.out.println("---------");
+			while(o_rs.next())
+				System.out.println(o_rs.getInt("O_ID"));
+			System.out.println("---------");
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
