@@ -94,7 +94,7 @@ public class Payment {
 					index++;
 					all_c_ids.add(c_rs.getInt("C_ID"));
 				}
-				System.out.println("all c_ids: " + all_c_ids);
+				System.out.println("all c_ids:   " + all_c_ids);
 				if (index == 0) {
 					System.out.println("ERROR_23: No customer with the given last name: " + customerWarehouseID + ","
 							+ customerDistrictID + "," + c_last);
@@ -103,8 +103,13 @@ public class Payment {
 				if (index % 2 != 0)
 					index++;
 				index = (index / 2);
-
-				System.out.println("chosen c_id: " + all_c_ids.get(index-1));
+				int chose_c_id = all_c_ids.get(index-1);
+				System.out.println("chosen c_id: " + chose_c_id);
+				c_rs.absolute(index);
+				System.out.println("------------>"+c_rs.getInt("C_ID"));
+				
+				
+				
 			} else {
 				// retrieve customer by id
 				stmt = conn.prepareStatement("SELECT C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2, "
