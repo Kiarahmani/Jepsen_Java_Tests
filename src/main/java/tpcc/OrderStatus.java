@@ -105,7 +105,8 @@ public class OrderStatus {
 				sb.append("]");
 				orderLines.add(sb.toString());
 			}
-			System.out.println(orderLines);
+			for (String kir : orderLines)
+				System.out.println(kir);
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
