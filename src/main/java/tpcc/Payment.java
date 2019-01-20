@@ -196,6 +196,7 @@ public class Payment {
 				stmt.setInt(6, customerDistrictID);
 				stmt.setInt(7, c_id);
 				stmt.executeUpdate();
+				System.out.println("XXX:"+customerWarehouseID+","+customerDistrictID+","+c_id);
 
 			} else {
 				stmt = conn.prepareStatement("UPDATE " + "CUSTOMER" + "   SET C_BALANCE = ?, "
