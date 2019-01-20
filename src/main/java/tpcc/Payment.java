@@ -3,6 +3,8 @@ package tpcc;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
@@ -77,7 +79,7 @@ public class Payment {
 			int c_payment_cnt;
 			Timestamp c_since;
 			if (customerByName) {
-				stmt = conn.prepareStatement("SELECT C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2,"
+				stmt = conn.prepareStatement("SELECT C_ID, C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2,"
 						+ "C_CITY, C_STATE, C_ZIP, C_PHONE, C_CREDIT, C_CREDIT_LIM,"
 						+ "   C_DISCOUNT, C_BALANCE, C_YTD_PAYMENT, C_PAYMENT_CNT, C_SINCE " + "  FROM " + "CUSTOMER"
 						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_LAST = ? " + "ALLOW FILTERING");
@@ -85,12 +87,24 @@ public class Payment {
 				stmt.setInt(2, customerDistrictID);
 				stmt.setString(3, c_last);
 				ResultSet c_rs = stmt.executeQuery();
-				int count = 0;
+				// find the appropriate index ano
+				int index = 0;
+				List<Integer> all_c_ids = new ArrayList<Integer>();
 				while (c_rs.next()) {
-					count++;
+					index++;
+					all_c_ids.add(c_rs.getInt("C_ID"));
 				}
-				System.out.println(">>>>" + count);
+				System.out.println("all c_ids: " + all_c_ids);
+				if (index == 0) {
+					System.out.println("ERROR_23: No customer with the given last name: " + customerWarehouseID + ","
+							+ customerDistrictID + "," + c_last);
+					return 23;
+				}
+				if (index % 2 != 0)
+					index++;
+				index = (index / 2);
 
+				System.out.println("chosen c_id: " + all_c_ids.get(index));
 			} else {
 				// retrieve customer by id
 				stmt = conn.prepareStatement("SELECT C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2, "
@@ -102,9 +116,9 @@ public class Payment {
 				stmt.setInt(3, c_id);
 				ResultSet c_rs = stmt.executeQuery();
 				if (!c_rs.next()) {
-					System.out.println("ERROR_23: Invalid customer id: " + customerWarehouseID + ","
+					System.out.println("ERROR_24: Invalid customer id: " + customerWarehouseID + ","
 							+ customerDistrictID + "," + c_id);
-					return 23;
+					return 24;
 				}
 				c_first = c_rs.getString("c_first");
 				c_middle = c_rs.getString("c_middle");
