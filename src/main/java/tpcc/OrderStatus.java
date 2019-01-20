@@ -53,19 +53,19 @@ public class OrderStatus {
 			c_rs.close();
 			//
 			// retrieve orders by this customer
-			stmt = conn.prepareStatement("SELECT MAX(O_ID) " + "  FROM " + "OORDER"
-					+ " WHERE O_W_ID = ? " + "   AND O_D_ID = ? " + "AND O_C_ID = ? " + "ALLOW FILTERING");
+			stmt = conn.prepareStatement("SELECT MAX(O_ID) " + "  FROM " + "OORDER" + " WHERE O_W_ID = ? "
+					+ "   AND O_D_ID = ? " + "AND O_C_ID = ? " + "ALLOW FILTERING");
 			stmt.setInt(1, w_id);
 			stmt.setInt(2, d_id);
 			stmt.setInt(3, c_id);
 			ResultSet o_rs = stmt.executeQuery();
-			
-			
-			
-			System.out.println("---------");
-			while (o_rs.next())
-				System.out.println(o_rs.getInt(1));
-			System.out.println("---------");
+			int o_id = o_rs.getInt(1);
+			stmt = conn.prepareStatement("SELECT  O_CARRIER_ID, O_ENTRY_D  " + "  FROM " + "OORDER"
+					+ " WHERE O_W_ID = ? " + "   AND O_D_ID = ? " + "AND O_ID = ? ");
+			stmt.setInt(1, w_id);
+			stmt.setInt(2, d_id);
+			stmt.setInt(3, o_id);
+
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
