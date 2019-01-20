@@ -154,6 +154,26 @@ public class Utils_tpcc {
 	}
 
 	public static List<Object> get_payment_cust() {
+		// returns a 3-element list consisting of customerByName flag, c_id int and
+		// c_last string
+		List<Object> result = new ArrayList<Object>();
+		if (ThreadLocalRandom.current().nextInt(1, 101) >= 60) {
+			// by id
+			result.add(false);
+			result.add(Utils_tpcc.get_c_id());
+			result.add("");
+		} else {
+			// by last name
+			result.add(true);
+			result.add(-1);
+			result.add(Utils_tpcc.get_cust_last_name());
+		}
+		return result;
+	}
+	
+	public static List<Object> get_orderStatus_cust() {
+		// returns a 3-element list consisting of customerByName flag, c_id int and
+		// c_last string
 		List<Object> result = new ArrayList<Object>();
 		if (ThreadLocalRandom.current().nextInt(1, 101) >= 60) {
 			// by id
