@@ -53,7 +53,8 @@ public class OrderStatus {
 			double c_balance = c_rs.getDouble("C_BALANCE");
 			c_rs.close();
 			//
-			// retrieve orders by this customer
+			// find the newest order for the customer
+			// retrieve the carrier & order date for the most recent order.
 			stmt = conn.prepareStatement("SELECT MAX(O_ID) " + "  FROM " + "OORDER" + " WHERE O_W_ID = ? "
 					+ "   AND O_D_ID = ? " + "AND O_C_ID = ? " + "ALLOW FILTERING");
 			stmt.setInt(1, w_id);
@@ -76,10 +77,35 @@ public class OrderStatus {
 			int o_carrier_id = o_rs.getInt("O_CARRIER_ID");
 			Timestamp o_entry_d = o_rs.getTimestamp("O_ENTRY_D");
 			o_rs.close();
-			System.out.println(o_carrier_id);
-			System.out.println(o_entry_d);
-			System.out.println("-----------");
-			
+			// retrieve the order lines for the most recent order
+			stmt = conn.prepareStatement("SELECT OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DELIVERY_D "
+					+ "  FROM " + "ORDERLINE" + " WHERE OL_O_ID = ?" + "   AND OL_D_ID = ?" + "   AND OL_W_ID = ?");
+			stmt.setInt(1, o_id);
+			stmt.setInt(2, d_id);
+			stmt.setInt(3, w_id);
+			ResultSet ol_rs = stmt.executeQuery();
+
+			// craft the final result
+			ArrayList<String> orderLines = new ArrayList<String>();
+			while (ol_rs.next()) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("[");
+				sb.append(ol_rs.getLong("OL_SUPPLY_W_ID"));
+				sb.append(" - ");
+				sb.append(ol_rs.getLong("OL_I_ID"));
+				sb.append(" - ");
+				sb.append(ol_rs.getLong("OL_QUANTITY"));
+				sb.append(" - ");
+				sb.append(String.valueOf(ol_rs.getDouble("OL_AMOUNT")));
+				sb.append(" - ");
+				if (ol_rs.getTimestamp("OL_DELIVERY_D") != null)
+					sb.append(ol_rs.getTimestamp("OL_DELIVERY_D"));
+				else
+					sb.append("99-99-9999");
+				sb.append("]");
+				orderLines.add(sb.toString());
+			}
+			System.out.println(orderLines);
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
