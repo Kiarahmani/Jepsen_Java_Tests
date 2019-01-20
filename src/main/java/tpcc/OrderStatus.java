@@ -79,7 +79,7 @@ public class OrderStatus {
 			o_rs.close();
 			// retrieve the order lines for the most recent order
 			stmt = conn.prepareStatement("SELECT OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DELIVERY_D "
-					+ "  FROM " + "ORDERLINE" + " WHERE OL_O_ID = ?" + "   AND OL_D_ID = ?" + "   AND OL_W_ID = ?");
+					+ "  FROM " + "ORDER_LINE" + " WHERE OL_O_ID = ?" + "   AND OL_D_ID = ?" + "   AND OL_W_ID = ?");
 			stmt.setInt(1, o_id);
 			stmt.setInt(2, d_id);
 			stmt.setInt(3, w_id);
