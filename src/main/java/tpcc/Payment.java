@@ -85,7 +85,7 @@ public class Payment {
 				stmt.setInt(2, customerDistrictID);
 				stmt.setString(3, c_last);
 				ResultSet c_rs = stmt.executeQuery();
-				// find the appropriate index ano
+				// find the appropriate index 
 				int index = 0;
 				List<Integer> all_c_ids = new ArrayList<Integer>();
 				while (c_rs.next()) {
