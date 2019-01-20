@@ -46,7 +46,20 @@ public class OrderStatus {
 			stmt.setInt(2, d_id);
 			stmt.setInt(3, c_id);
 			c_rs = stmt.executeQuery();
-			System.out.println("~~~>>"+c_rs.getString("C_FIRST"));
+			String c_first = c_rs.getString("C_FIRST");
+			String c_middle = c_rs.getString("C_MIDDLE");
+			c_last = c_rs.getString("C_LAST");
+			double c_balance = c_rs.getDouble("C_BALANCE");
+			c_rs.close();
+			//
+			// retrieve orders by this customer
+			stmt = conn.prepareStatement(
+					"SELECT O_ID, O_CARRIER_ID, O_ENTRY_D " + "  FROM " + "OORDER" + " WHERE O_W_ID = ? "
+							+ "   AND O_D_ID = ? " + "   AND O_C_ID = ? " + " ORDER BY O_ID DESC LIMIT 1");
+			stmt.setInt(1, w_id);
+			stmt.setInt(2, d_id);
+			stmt.setInt(3, c_id);
+			ResultSet o_rs = stmt.executeQuery();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
