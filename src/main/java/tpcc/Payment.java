@@ -2,6 +2,7 @@ package tpcc;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
@@ -46,7 +47,7 @@ public class Payment {
 			stmt.setInt(2, d_id);
 			ResultSet d_rs = stmt.executeQuery();
 			if (!d_rs.next()) {
-				System.out.println("ERROR_22: Invalid district id: " + d_id);
+				System.out.println("ERROR_22: Invalid district id: " + w_id + "," + d_id);
 				return 22;
 			}
 			d_ytd = d_rs.getDouble("D_YTD");
@@ -66,6 +67,14 @@ public class Payment {
 			stmt.setInt(3, d_id);
 			stmt.executeUpdate();
 
+			//
+			// Retrieve customer's information
+
+			String c_first, c_middle, c_street_1, c_street_2, c_city, c_state, c_zip, c_phone, c_credit;
+			double c_credit_lim, c_discount, c_balance, c_ytd_payment;
+			int c_payment_cnt;
+			Timestamp c_since;
+
 			if (customerByName) {
 
 			} else {
@@ -77,8 +86,32 @@ public class Payment {
 				stmt.setInt(1, customerWarehouseID);
 				stmt.setInt(2, customerDistrictID);
 				stmt.setInt(3, c_id);
+				ResultSet c_rs = stmt.executeQuery();
+				if (!c_rs.next()) {
+					System.out.println("ERROR_23: Invalid customer id: " + customerWarehouseID + ","
+							+ customerDistrictID + "," + c_id);
+					return 23;
+				}
+				c_first = c_rs.getString("c_first");
+				c_middle = c_rs.getString("c_middle");
+				c_street_1 = c_rs.getString("c_street_1");
+				c_street_2 = c_rs.getString("c_street_2");
+				c_city = c_rs.getString("c_city");
+				c_state = c_rs.getString("c_state");
+				c_zip = c_rs.getString("c_zip");
+				c_phone = c_rs.getString("c_phone");
+				c_credit = c_rs.getString("c_credit");
+				c_credit_lim = c_rs.getFloat("c_credit_lim");
+				c_discount = c_rs.getFloat("c_discount");
+				c_balance = c_rs.getFloat("c_balance");
+				c_ytd_payment = c_rs.getFloat("c_ytd_payment");
+				c_payment_cnt = c_rs.getInt("c_payment_cnt");
+				c_since = c_rs.getTimestamp("c_since");
 			}
 
+			/// Customer's data by ID is retrieed -> must  be updated now
+			// also, the update with last name is also remaining
+			
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
