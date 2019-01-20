@@ -188,5 +188,12 @@ public class Utils_tpcc {
 		}
 		return result;
 	}
+	
+	
+	
+	public static int get_o_carrier_id() {
+		return ThreadLocalRandom.current().nextInt(1, 11);
+	}
+	
 
 }
