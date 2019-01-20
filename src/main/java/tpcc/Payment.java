@@ -77,6 +77,17 @@ public class Payment {
 			Timestamp c_since;
 
 			if (customerByName) {
+				stmt = conn.prepareCall("SELECT C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2,"
+						+ "C_CITY, C_STATE, C_ZIP, C_PHONE, C_CREDIT, C_CREDIT_LIM,"
+						+ "   C_DISCOUNT, C_BALANCE, C_YTD_PAYMENT, C_PAYMENT_CNT, C_SINCE " + "  FROM " + "CUSTOMER"
+						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_LAST = ? " + " ORDER BY C_FIRST");
+				stmt.setInt(1, customerWarehouseID);
+				stmt.setInt(2, customerDistrictID);
+				stmt.setString(3, c_last);
+				ResultSet c_rs = stmt.executeQuery();
+
+				
+				
 
 			} else {
 				// retrieve customer by id
@@ -108,21 +119,11 @@ public class Payment {
 				c_ytd_payment = c_rs.getFloat("c_ytd_payment");
 				c_payment_cnt = c_rs.getInt("c_payment_cnt");
 				c_since = c_rs.getTimestamp("c_since");
+				//
+				// update columns
+
 			}
 
-			//
-			// XXX
-			//
-			
-			/// Customer's data by ID is retrieed -> must  be updated now
-			//  also, the update with last name is also remaining
-			
-			
-			//
-			//
-			//
-			//
-			
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
