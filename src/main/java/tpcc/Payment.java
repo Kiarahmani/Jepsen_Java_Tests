@@ -102,8 +102,8 @@ public class Payment {
 				c_zip = c_rs.getString("c_zip");
 				c_phone = c_rs.getString("c_phone");
 				c_credit = c_rs.getString("c_credit");
-				c_credit_lim = c_rs.getFloat("c_credit_lim");
-				c_discount = c_rs.getFloat("c_discount");
+				c_credit_lim = c_rs.getDouble("c_credit_lim");
+				c_discount = c_rs.getDouble("c_discount");
 				c_balance = c_rs.getFloat("c_balance");
 				c_ytd_payment = c_rs.getFloat("c_ytd_payment");
 				c_payment_cnt = c_rs.getInt("c_payment_cnt");
