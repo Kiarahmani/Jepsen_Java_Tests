@@ -196,7 +196,7 @@ public class Payment {
 				stmt.setInt(6, customerDistrictID);
 				stmt.setInt(7, c_id);
 				stmt.executeUpdate();
-				System.out.println("XXX:"+customerWarehouseID+","+customerDistrictID+","+c_id);
+				System.out.println("XXX:" + customerWarehouseID + "," + customerDistrictID + "," + c_id);
 
 			} else {
 				stmt = conn.prepareStatement("UPDATE " + "CUSTOMER" + "   SET C_BALANCE = ?, "
@@ -210,6 +210,25 @@ public class Payment {
 				stmt.setInt(6, c_id);
 				stmt.executeUpdate();
 			}
+
+			// create H_DATA
+			if (w_name.length() > 10)
+				w_name = w_name.substring(0, 10);
+			if (d_name.length() > 10)
+				d_name = d_name.substring(0, 10);
+			String h_data = w_name + "    " + d_name;
+			stmt = conn.prepareStatement("INSERT INTO " + "HISTORY"
+					+ " (H_C_D_ID, H_C_W_ID, H_C_ID, H_D_ID, H_W_ID, H_DATE, H_AMOUNT, H_DATA) "
+					+ " VALUES (?,?,?,?,?,?,?,?)");
+			stmt.setInt(1, customerDistrictID);
+			stmt.setInt(2, customerWarehouseID);
+			stmt.setInt(3, c_id);
+			stmt.setInt(4, d_id);
+			stmt.setInt(5, w_id);
+			stmt.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+			stmt.setDouble(7, paymentAmount);
+			stmt.setString(8, h_data);
+			stmt.executeUpdate();
 
 			//
 			//
