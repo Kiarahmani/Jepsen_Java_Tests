@@ -76,7 +76,7 @@ public class Payment {
 			float c_ytd_payment;
 			int c_payment_cnt;
 			Timestamp c_since;
-
+			System.out.println(customerByName);
 			if (customerByName) {
 				stmt = conn.prepareCall("SELECT C_FIRST, C_MIDDLE, C_LAST, C_STREET_1, C_STREET_2,"
 						+ "C_CITY, C_STATE, C_ZIP, C_PHONE, C_CREDIT, C_CREDIT_LIM,"
