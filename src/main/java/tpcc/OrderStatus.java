@@ -2,6 +2,7 @@ package tpcc;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,12 +61,25 @@ public class OrderStatus {
 			stmt.setInt(3, c_id);
 			ResultSet o_rs = stmt.executeQuery();
 			int o_id = o_rs.getInt(1);
+			o_rs.close();
 			stmt = conn.prepareStatement("SELECT  O_CARRIER_ID, O_ENTRY_D  " + "  FROM " + "OORDER"
 					+ " WHERE O_W_ID = ? " + "   AND O_D_ID = ? " + "AND O_ID = ? ");
 			stmt.setInt(1, w_id);
 			stmt.setInt(2, d_id);
 			stmt.setInt(3, o_id);
-
+			o_rs = stmt.executeQuery();
+			if (!o_rs.next()) {
+				System.out.println(String.format(
+						"ERROR_31: No order records for CUSTOMER [C_W_ID=%d, C_D_ID=%d, C_ID=%d]", w_id, d_id, c_id));
+				return 31;
+			}
+			int o_carrier_id = o_rs.getInt("O_CARRIER_ID");
+			Timestamp o_entry_d = o_rs.getTimestamp("O_ENTRY_D");
+			o_rs.close();
+			System.out.println(o_carrier_id);
+			System.out.println(o_entry_d);
+			System.out.println("-----------");
+			
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
