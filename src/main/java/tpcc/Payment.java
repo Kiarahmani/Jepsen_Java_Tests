@@ -85,9 +85,11 @@ public class Payment {
 				stmt.setInt(2, customerDistrictID);
 				stmt.setString(3, c_last);
 				ResultSet c_rs = stmt.executeQuery();
-				c_rs.last();
-
-				System.out.println(">>>>" + c_rs.getRow());
+				int count = 0;
+				while (c_rs.next()) {
+					count++;
+				}
+				System.out.println(">>>>" + count);
 
 			} else {
 				// retrieve customer by id
