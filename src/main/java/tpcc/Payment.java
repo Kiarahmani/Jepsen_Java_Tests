@@ -71,7 +71,8 @@ public class Payment {
 			// Retrieve customer's information
 
 			String c_first, c_middle, c_street_1, c_street_2, c_city, c_state, c_zip, c_phone, c_credit;
-			double c_credit_lim, c_discount, c_balance, c_ytd_payment;
+			double c_credit_lim, c_discount, c_balance;
+			float c_ytd_payment;
 			int c_payment_cnt;
 			Timestamp c_since;
 
