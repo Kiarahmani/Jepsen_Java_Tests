@@ -52,6 +52,8 @@ CREATE TABLE tpcc.CUSTOMER (
   PRIMARY KEY (C_W_ID, C_D_ID, C_ID)
 );
 
+CREATE INDEX index_cust_last on tpcc.customer (c_last) ;
+
 
 
 CREATE TABLE tpcc.OORDER (
