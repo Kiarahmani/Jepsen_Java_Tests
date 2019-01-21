@@ -2,6 +2,7 @@ package tpcc;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +15,15 @@ public class Delivery {
 	public static int delivery(CassandraConnection conn, int w_id, int o_carrier_id) throws Exception {
 		try {
 			PreparedStatement stmt = null;
-			PreparedStatement ol_stmt = null;
-			PreparedStatement no_stmt = null;
-			PreparedStatement oo_stmt = null;
-			PreparedStatement cu_stmt = null;
-			ol_stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? "
-					+ " WHERE OL_O_ID = ? " + "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? " + "AND OL_NUMBER=?");
+			final PreparedStatement ol_stmt = conn
+					.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? " + " WHERE OL_O_ID = ? "
+							+ "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? " + "AND OL_NUMBER=?");
+			final PreparedStatement no_stmt = conn.prepareStatement(
+					"DELETE FROM " + "NEW_ORDER" + " WHERE NO_O_ID = ? " + " AND NO_D_ID = ?" + "   AND NO_W_ID = ?");
+			final PreparedStatement oo_stmt = conn.prepareStatement("UPDATE OORDER  SET O_CARRIER_ID = ? "
+					+ " WHERE O_ID = ? " + "   AND O_D_ID = ?" + "   AND O_W_ID = ?");
+			final PreparedStatement cu_stmt = conn.prepareStatement("UPDATE " + "CUSTOMER" + " SET C_BALANCE = ?,"
+					+ " C_DELIVERY_CNT = ? " + " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + " AND C_ID = ? ");
 			int d_id;
 			int[] orderIDs = new int[10];
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -40,8 +44,6 @@ public class Delivery {
 				orderIDs[d_id - 1] = no_o_id;
 				no_rs.close();
 				// delete the row containing the oldest order
-				no_stmt = conn.prepareStatement("DELETE FROM " + "NEW_ORDER" + " WHERE NO_O_ID = ? "
-						+ " AND NO_D_ID = ?" + "   AND NO_W_ID = ?");
 
 				no_stmt.setInt(1, no_o_id);
 				no_stmt.setInt(2, d_id);
@@ -65,8 +67,7 @@ public class Delivery {
 				oo_rs.close();
 				//
 				// update order's carrier id
-				oo_stmt = conn.prepareStatement("UPDATE OORDER  SET O_CARRIER_ID = ? " + " WHERE O_ID = ? "
-						+ "   AND O_D_ID = ?" + "   AND O_W_ID = ?");
+
 				oo_stmt.setInt(1, o_carrier_id);
 				oo_stmt.setInt(2, no_o_id);
 				oo_stmt.setInt(3, d_id);
@@ -113,8 +114,7 @@ public class Delivery {
 				int c_delivery_cnt = c_rs.getInt("C_DELIVERY_CNT");
 				c_rs.close();
 				// update customer's info
-				cu_stmt = conn.prepareStatement("UPDATE " + "CUSTOMER" + " SET C_BALANCE = ?," + " C_DELIVERY_CNT = ? "
-						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + " AND C_ID = ? ");
+
 				cu_stmt.setDouble(1, c_balance + ol_total);
 				cu_stmt.setInt(2, c_delivery_cnt + 1);
 				cu_stmt.setInt(3, w_id);
@@ -123,12 +123,18 @@ public class Delivery {
 				cu_stmt.addBatch();
 
 			}
-			
-			ol_stmt.executeBatch();
-			no_stmt.executeBatch();
-			oo_stmt.executeBatch();
-			cu_stmt.executeBatch();
-
+			new Thread() {
+				public void run() {
+					try {
+						ol_stmt.executeBatch();
+						no_stmt.executeBatch();
+						oo_stmt.executeBatch();
+						cu_stmt.executeBatch();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}.start();
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
