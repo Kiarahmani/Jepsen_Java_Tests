@@ -123,10 +123,10 @@ public class Delivery {
 				cu_stmt.addBatch();
 
 			}
-			//ol_stmt.executeBatch();
-			//no_stmt.executeBatch();
-			//oo_stmt.executeBatch();
-			//cu_stmt.executeBatch();
+			ol_stmt.executeBatch();
+			no_stmt.executeBatch();
+			oo_stmt.executeBatch();
+			cu_stmt.executeBatch();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
