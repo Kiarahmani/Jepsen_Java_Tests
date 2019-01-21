@@ -44,12 +44,12 @@ public class StockLevel {
 			List<Integer> ditinct_ol_i_ids = (List<Integer>) (List<?>) all_ol_i_ids.stream().distinct()
 					.collect(Collectors.toList());
 			for (int ol_i_id : ditinct_ol_i_ids) {
-				stmt = conn.prepareStatement("SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND s_i_id=?");
+				stmt = conn.prepareStatement("SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND s_i_id IN (1,2,3,4)");
 				stmt.setInt(1, w_id);
 				stmt.setInt(2, ol_i_id);
-				stmt.addBatch();
+				stmt.executeQuery();
 			}
-			stmt.executeBatch();
+			//stmt.executeBatch();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
