@@ -15,6 +15,8 @@ public class Delivery {
 		try {
 			PreparedStatement stmt = null;
 			PreparedStatement ol_stmt = null;
+			PreparedStatement no_stmt = null;
+
 			ol_stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? "
 					+ " WHERE OL_O_ID = ? " + "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? " + "AND OL_NUMBER=?");
 			int d_id;
@@ -37,13 +39,13 @@ public class Delivery {
 				orderIDs[d_id - 1] = no_o_id;
 				no_rs.close();
 				// delete the row containing the oldest order
-				stmt = conn.prepareStatement("DELETE FROM " + "NEW_ORDER" + " WHERE NO_O_ID = ? " + " AND NO_D_ID = ?"
-						+ "   AND NO_W_ID = ?");
+				no_stmt = conn.prepareStatement("DELETE FROM " + "NEW_ORDER" + " WHERE NO_O_ID = ? "
+						+ " AND NO_D_ID = ?" + "   AND NO_W_ID = ?");
 
-				stmt.setInt(1, no_o_id);
-				stmt.setInt(2, d_id);
-				stmt.setInt(3, w_id);
-				stmt.executeUpdate();
+				no_stmt.setInt(1, no_o_id);
+				no_stmt.setInt(2, d_id);
+				no_stmt.setInt(3, w_id);
+				no_stmt.addBatch();
 
 				// retrieve order
 				stmt = conn.prepareStatement("SELECT O_C_ID FROM " + "OORDER" + " WHERE O_ID = ? "
@@ -93,8 +95,6 @@ public class Delivery {
 					ol_stmt.setInt(5, ol_number);
 					ol_stmt.addBatch();
 				}
-				// XXX there might be a way to replace the above batched update approache with
-				// IN clauses
 
 				// retrieve customer's info
 				stmt = conn.prepareStatement("SELECT  C_BALANCE, C_DELIVERY_CNT" + " FROM CUSTOMER"
@@ -121,6 +121,7 @@ public class Delivery {
 				stmt.executeUpdate();
 			}
 			ol_stmt.executeBatch();
+			no_stmt.executeBatch();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
