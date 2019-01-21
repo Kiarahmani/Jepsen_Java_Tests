@@ -77,6 +77,7 @@ CREATE TABLE tpcc.NEW_ORDER (
   NO_O_ID INT,
   PRIMARY KEY (NO_W_ID,NO_D_ID,NO_O_ID)
 );
+CREATE INDEX index_new_order_no_o_id on tpcc.new_order (no_o_id) ;
 
 
 CREATE TABLE tpcc.HISTORY (
