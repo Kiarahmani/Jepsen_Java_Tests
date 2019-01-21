@@ -15,6 +15,9 @@ public class Delivery {
 		try {
 
 			PreparedStatement stmt = null;
+			PreparedStatement ol_stmt = null;
+			ol_stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? "
+					+ " WHERE OL_O_ID = ? " + "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? " + "AND OL_NUMBER=?");
 			int d_id;
 			int[] orderIDs = new int[10];
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -81,22 +84,18 @@ public class Delivery {
 					all_ol_numbers.add(ol_rs.getInt("OL_NUMBER"));
 
 				// update all matching rows in orderline table
-				PreparedStatement ol_stmt = null;
 				for (int ol_number : all_ol_numbers) {
-					ol_stmt = conn.prepareStatement(
-							"UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? " + " WHERE OL_O_ID = ? "
-									+ "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? " + "AND OL_NUMBER=?");
 					ol_stmt.setTimestamp(1, timestamp);
 					ol_stmt.setInt(2, no_o_id);
 					ol_stmt.setInt(3, d_id);
 					ol_stmt.setInt(4, w_id);
 					ol_stmt.setInt(5, ol_number);
-					ol_stmt.executeUpdate();
-					//ol_stmt.addBatch();
+					ol_stmt.addBatch();
 				}
-				//ol_stmt.executeBatch();
+				// ol_stmt.executeBatch();
 
 			}
+			ol_stmt.executeBatch();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
