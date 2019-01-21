@@ -30,7 +30,7 @@ public class Delivery {
 				ResultSet no_rs = stmt.executeQuery();
 				if (!no_rs.next()) {
 					// This district has no new orders
-					// This can happen but should be rare 
+					// This can happen but should be rare
 					if (_VERBOSE)
 						System.out.println(String.format("District has no new orders [W_ID=%d, D_ID=%d]", w_id, d_id));
 					continue;
