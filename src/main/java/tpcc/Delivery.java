@@ -95,7 +95,15 @@ public class Delivery {
 				// ol_stmt.executeBatch();
 
 			}
-			ol_stmt.executeBatch();
+			int[] numUpdates = ol_stmt.executeBatch();
+			for (int i=0; i < numUpdates.length; i++) {
+			    if (numUpdates[i] == -2)
+			      System.out.println("Execution " + i + 
+			        ": unknown number of rows updated");
+			    else
+			      System.out.println("Execution " + i + 
+			        "successful: " + numUpdates[i] + " rows updated");
+			  }
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
