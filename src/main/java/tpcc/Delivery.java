@@ -13,7 +13,6 @@ public class Delivery {
 
 	public static int delivery(CassandraConnection conn, int w_id, int o_carrier_id) throws Exception {
 		try {
-			int kir = 0;
 			PreparedStatement stmt = null;
 			PreparedStatement ol_stmt = null;
 			ol_stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? "
@@ -72,17 +71,19 @@ public class Delivery {
 				stmt.executeUpdate();
 				//
 				// retrieve and update all orderlines belonging to this order
-				stmt = conn.prepareStatement("SELECT OL_NUMBER FROM ORDER_LINE " + " WHERE OL_O_ID = ? "
+				stmt = conn.prepareStatement("SELECT OL_NUMBER, OL_AMOUNT FROM ORDER_LINE " + " WHERE OL_O_ID = ? "
 						+ "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? ");
 				stmt.setInt(1, no_o_id);
 				stmt.setInt(2, d_id);
 				stmt.setInt(3, w_id);
 				ResultSet ol_rs = stmt.executeQuery();
 				List<Integer> all_ol_numbers = new ArrayList<Integer>();
-				// read all ol_numbers
-				while (ol_rs.next())
+				// read all ol_numbers and get sum of ol_amounts
+				double ol_total = 0;
+				while (ol_rs.next()) {
 					all_ol_numbers.add(ol_rs.getInt("OL_NUMBER"));
-
+					ol_total += ol_rs.getDouble("OL_AMOUNT");
+				}
 				// update all matching rows in orderline table
 				for (int ol_number : all_ol_numbers) {
 					ol_stmt.setTimestamp(1, timestamp);
@@ -91,21 +92,35 @@ public class Delivery {
 					ol_stmt.setInt(4, w_id);
 					ol_stmt.setInt(5, ol_number);
 					ol_stmt.addBatch();
-					kir++;
 				}
-				// ol_stmt.executeBatch();
+				// XXX there might be a way to replace the above batched update approache with
+				// IN clauses
 
+				// retrieve customer's info
+				stmt = conn.prepareStatement("SELECT  C_BALANCE, C_DELIVERY_CNT" + " FROM CUSTOMER"
+						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + " AND C_ID = ? ");
+				stmt.setInt(1, w_id);
+				stmt.setInt(2, d_id);
+				stmt.setInt(3, c_id);
+				ResultSet c_rs = stmt.executeQuery();
+				if (!c_rs.next()) {
+					System.out.println("ERROR_42: customer does not exist: " + w_id + "," + d_id + "," + c_id);
+					return 42;
+				}
+				double c_balance = c_rs.getDouble("C_BALANCE");
+				int c_delivery_cnt = c_rs.getInt("C_DELIVERY_CNT");
+				c_rs.close();
+				// update customer's info
+				stmt = conn.prepareStatement("UPDATE " + "CUSTOMER" + " SET C_BALANCE = ?," + " C_DELIVERY_CNT = ? "
+						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + " AND C_ID = ? ");
+				stmt.setDouble(1, c_balance + ol_total);
+				stmt.setInt(2, c_delivery_cnt + 1);
+				stmt.setInt(3, w_id);
+				stmt.setInt(4, d_id);
+				stmt.setInt(5, c_id);
+				stmt.executeUpdate();
 			}
-			int[] numUpdates = ol_stmt.executeBatch();
-			System.out.println(">>>"+kir);
-			for (int i=0; i < numUpdates.length; i++) {
-			    if (numUpdates[i] == -2)
-			      System.out.println("Execution " + i + 
-			        ": unknown number of rows updated");
-			    else
-			      System.out.println("Execution " + i + 
-			        "successful: " + numUpdates[i] + " rows updated");
-			  }
+			ol_stmt.executeBatch();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
