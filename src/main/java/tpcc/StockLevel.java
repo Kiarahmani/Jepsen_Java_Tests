@@ -44,7 +44,7 @@ public class StockLevel {
 			List<Integer> ditinct_ol_i_ids = (List<Integer>) (List<?>) all_ol_i_ids.stream().distinct()
 					.collect(Collectors.toList());
 			// for (int ol_i_id : ditinct_ol_i_ids) {
-			stmt = conn.prepareStatement("SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND s_i_id IN (1,2,3,4)");
+			stmt = conn.prepareStatement("SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND s_i_id IN (1,2,3,4,5,6,7,8)");
 			stmt.setInt(1, w_id);
 			// stmt.setInt(2, ol_i_id);
 			ResultSet kir = stmt.executeQuery();
