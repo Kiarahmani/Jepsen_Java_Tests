@@ -120,7 +120,7 @@ public class Delivery {
 				stmt.setInt(5, c_id);
 				stmt.executeUpdate();
 			}
-			ol_stmt.executeLargeBatch();
+			ol_stmt.executeBatch();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
