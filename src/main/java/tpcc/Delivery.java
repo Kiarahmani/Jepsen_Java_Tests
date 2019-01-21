@@ -1,6 +1,5 @@
 package tpcc;
 
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -16,7 +15,8 @@ public class Delivery {
 		try {
 			PreparedStatement stmt = null;
 			PreparedStatement ol_stmt = null;
-
+			ol_stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? "
+					+ " WHERE OL_O_ID = ? " + "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? " + "AND OL_NUMBER=?");
 			int d_id;
 			int[] orderIDs = new int[10];
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -85,21 +85,16 @@ public class Delivery {
 					ol_total += ol_rs.getDouble("OL_AMOUNT");
 				}
 				// update all matching rows in orderline table
-				ol_stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + " SET OL_DELIVERY_D = ?"
-						+ " WHERE OL_O_ID = ?" + " AND OL_D_ID = ?" + " AND OL_W_ID = ?" + " AND OL_NUMBER IN (?)");
-
-				// for (int ol_number : all_ol_numbers) {
-				ol_stmt.setTimestamp(1, timestamp);
-				ol_stmt.setInt(2, no_o_id);
-				ol_stmt.setInt(3, d_id);
-				ol_stmt.setInt(4, w_id);
-				Array array = conn.createArrayOf("Int", all_ol_numbers.toArray(new Integer[0]));
-				ol_stmt.setArray(5, array);
-				ol_stmt.executeUpdate();
-				// ol_stmt.setInt(5, ol_number);
-
-				// ol_stmt.addBatch();
-				// }
+				for (int ol_number : all_ol_numbers) {
+					ol_stmt.setTimestamp(1, timestamp);
+					ol_stmt.setInt(2, no_o_id);
+					ol_stmt.setInt(3, d_id);
+					ol_stmt.setInt(4, w_id);
+					ol_stmt.setInt(5, ol_number);
+					ol_stmt.addBatch();
+				}
+				// XXX there might be a way to replace the above batched update approache with
+				// IN clauses
 
 				// retrieve customer's info
 				stmt = conn.prepareStatement("SELECT  C_BALANCE, C_DELIVERY_CNT" + " FROM CUSTOMER"
@@ -125,7 +120,7 @@ public class Delivery {
 				stmt.setInt(5, c_id);
 				stmt.executeUpdate();
 			}
-			// ol_stmt.executeBatch();
+			ol_stmt.executeBatch();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
