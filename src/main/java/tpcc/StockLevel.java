@@ -51,10 +51,10 @@ public class StockLevel {
 			stmt.setInt(1, w_id);
 			stmt.setDouble(2, threshold);
 			ResultSet s_rs = stmt.executeQuery();
-			while (s_rs.next()) {
-				if (_VERBOSE)
+			if (_VERBOSE)
+				while (s_rs.next()) {
 					System.out.println("low stock found: " + s_rs.getInt("s_i_id"));
-			}
+				}
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!

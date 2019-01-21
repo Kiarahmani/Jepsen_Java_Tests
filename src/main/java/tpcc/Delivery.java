@@ -18,8 +18,7 @@ public class Delivery {
 			PreparedStatement no_stmt = null;
 			PreparedStatement oo_stmt = null;
 			PreparedStatement cu_stmt = null;
-			ol_stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? "
-					+ " WHERE OL_O_ID = ? " + "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? " + "AND OL_NUMBER=?");
+
 			int d_id;
 			int[] orderIDs = new int[10];
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -89,14 +88,14 @@ public class Delivery {
 					ol_total += ol_rs.getDouble("OL_AMOUNT");
 				}
 				// update all matching rows in orderline table
-				for (int ol_number : all_ol_numbers) {
-					ol_stmt.setTimestamp(1, timestamp);
-					ol_stmt.setInt(2, no_o_id);
-					ol_stmt.setInt(3, d_id);
-					ol_stmt.setInt(4, w_id);
-					ol_stmt.setInt(5, ol_number);
-					ol_stmt.addBatch();
-				}
+				String ol_in_clause = Utils_tpcc.get_in_clause(all_ol_numbers);
+				ol_stmt = conn
+						.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? " + " WHERE OL_O_ID = ? "
+								+ "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? " + "AND OL_NUMBER IN " + ol_in_clause);
+				ol_stmt.setTimestamp(1, timestamp);
+				ol_stmt.setInt(2, no_o_id);
+				ol_stmt.setInt(3, d_id);
+				ol_stmt.setInt(4, w_id);
 
 				// retrieve customer's info
 				stmt = conn.prepareStatement("SELECT  C_BALANCE, C_DELIVERY_CNT" + " FROM CUSTOMER"
@@ -123,7 +122,7 @@ public class Delivery {
 				cu_stmt.addBatch();
 
 			}
-			
+
 			ol_stmt.executeBatch();
 			no_stmt.executeBatch();
 			oo_stmt.executeBatch();
