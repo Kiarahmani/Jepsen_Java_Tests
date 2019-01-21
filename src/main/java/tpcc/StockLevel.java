@@ -40,9 +40,16 @@ public class StockLevel {
 			while (ol_rs.next()) {
 				all_ol_i_ids.add(ol_rs.getInt("ol_i_id"));
 			}
+			@SuppressWarnings("unchecked")
 			List<Integer> ditinct_ol_i_ids = (List<Integer>) (List<?>) all_ol_i_ids.stream().distinct()
 					.collect(Collectors.toList());
-			System.out.println(ditinct_ol_i_ids);
+			for (int ol_i_id : ditinct_ol_i_ids) {
+				stmt = conn.prepareStatement("SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND s_i_id=?");
+				stmt.setInt(1, w_id);
+				stmt.setInt(2, ol_i_id);
+				ResultSet s_rs = stmt.executeQuery();
+				
+			}
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
