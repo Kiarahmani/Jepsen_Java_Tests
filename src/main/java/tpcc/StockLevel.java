@@ -48,6 +48,7 @@ public class StockLevel {
 					"SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND S_QUANTITY < ? AND s_i_id IN " + in_clause + "  ALLOW FILTERING");
 			stmt.setInt(1, w_id);
 			stmt.setInt(2, threshold);
+			System.out.println("$$$$$$$"+threshold);
 			ResultSet s_rs = stmt.executeQuery();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
