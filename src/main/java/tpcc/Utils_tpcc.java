@@ -170,7 +170,7 @@ public class Utils_tpcc {
 		}
 		return result;
 	}
-	
+
 	public static List<Object> get_orderStatus_cust() {
 		// returns a 3-element list consisting of customerByName flag, c_id int and
 		// c_last string
@@ -188,12 +188,13 @@ public class Utils_tpcc {
 		}
 		return result;
 	}
-	
-	
-	
+
 	public static int get_o_carrier_id() {
 		return ThreadLocalRandom.current().nextInt(1, 11);
 	}
-	
+
+	public static int get_threshold() {
+		return ThreadLocalRandom.current().nextInt(10, 21);
+	}
 
 }
