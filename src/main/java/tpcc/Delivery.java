@@ -45,7 +45,7 @@ public class Delivery {
 				no_stmt.setInt(1, no_o_id);
 				no_stmt.setInt(2, d_id);
 				no_stmt.setInt(3, w_id);
-				no_stmt.executeUpdate();
+				no_stmt.addBatch();
 
 				// retrieve order
 				stmt = conn.prepareStatement("SELECT O_C_ID FROM " + "OORDER" + " WHERE O_ID = ? "
@@ -70,7 +70,7 @@ public class Delivery {
 				oo_stmt.setInt(2, no_o_id);
 				oo_stmt.setInt(3, d_id);
 				oo_stmt.setInt(4, w_id);
-				oo_stmt.executeUpdate();
+				oo_stmt.addBatch();
 
 				//
 				// retrieve and update all orderlines belonging to this order
@@ -96,7 +96,7 @@ public class Delivery {
 				ol_stmt.setInt(2, no_o_id);
 				ol_stmt.setInt(3, d_id);
 				ol_stmt.setInt(4, w_id);
-				ol_stmt.executeUpdate();
+				ol_stmt.addBatch();
 
 				// retrieve customer's info
 				stmt = conn.prepareStatement("SELECT  C_BALANCE, C_DELIVERY_CNT" + " FROM CUSTOMER"
@@ -120,9 +120,12 @@ public class Delivery {
 				cu_stmt.setInt(3, w_id);
 				cu_stmt.setInt(4, d_id);
 				cu_stmt.setInt(5, c_id);
-				cu_stmt.executeUpdate();
-
+				cu_stmt.addBatch();
 			}
+			cu_stmt.executeBatch();
+			oo_stmt.executeBatch();
+			ol_stmt.executeBatch();
+			no_stmt.executeBatch();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
