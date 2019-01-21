@@ -13,7 +13,7 @@ public class Delivery {
 
 	public static int delivery(CassandraConnection conn, int w_id, int o_carrier_id) throws Exception {
 		try {
-
+			int kir = 0;
 			PreparedStatement stmt = null;
 			PreparedStatement ol_stmt = null;
 			ol_stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? "
@@ -91,11 +91,13 @@ public class Delivery {
 					ol_stmt.setInt(4, w_id);
 					ol_stmt.setInt(5, ol_number);
 					ol_stmt.addBatch();
+					kir++;
 				}
 				// ol_stmt.executeBatch();
 
 			}
 			int[] numUpdates = ol_stmt.executeBatch();
+			System.out.println(">>>"+kir);
 			for (int i=0; i < numUpdates.length; i++) {
 			    if (numUpdates[i] == -2)
 			      System.out.println("Execution " + i + 
