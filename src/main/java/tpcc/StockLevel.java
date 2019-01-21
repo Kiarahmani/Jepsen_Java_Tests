@@ -45,7 +45,7 @@ public class StockLevel {
 					.collect(Collectors.toList());
 			String in_clause = Utils_tpcc.get_in_clause(ditinct_ol_i_ids);
 			stmt = conn.prepareStatement(
-					"SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND s_i_id IN " + in_clause + " AND S_QUANTITY<? ALLOW FILTERING");
+					"SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND S_QUANTITY < ? AND s_i_id IN " + in_clause + "  ALLOW FILTERING");
 			stmt.setInt(1, w_id);
 			stmt.setInt(2, threshold);
 			ResultSet s_rs = stmt.executeQuery();
