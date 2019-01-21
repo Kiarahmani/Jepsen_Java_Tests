@@ -44,12 +44,9 @@ public class StockLevel {
 			List<Integer> ditinct_ol_i_ids = (List<Integer>) (List<?>) all_ol_i_ids.stream().distinct()
 					.collect(Collectors.toList());
 			String in_clause = Utils_tpcc.get_in_clause(ditinct_ol_i_ids);
-			System.out.println(in_clause);
-			
-			stmt = conn.prepareStatement("SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND s_i_id IN (1,2,3,4,5,6,7,8)");
+			stmt = conn.prepareStatement("SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND s_i_id IN " + in_clause);
 			stmt.setInt(1, w_id);
-			
-
+			ResultSet s_rs = stmt.executeQuery();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!

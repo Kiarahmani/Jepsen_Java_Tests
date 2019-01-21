@@ -209,7 +209,7 @@ public class Utils_tpcc {
 			result += (delim + i);
 			delim = ",";
 		}
-		return result;
+		return (result + ")");
 	}
 
 }
