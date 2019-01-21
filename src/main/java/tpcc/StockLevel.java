@@ -47,9 +47,9 @@ public class StockLevel {
 				stmt = conn.prepareStatement("SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND s_i_id=?");
 				stmt.setInt(1, w_id);
 				stmt.setInt(2, ol_i_id);
-				ResultSet s_rs = stmt.executeQuery();
-				
+				stmt.addBatch();
 			}
+			stmt.executeBatch();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
