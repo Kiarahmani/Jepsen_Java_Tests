@@ -2,6 +2,7 @@ package tpcc;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
@@ -14,7 +15,7 @@ public class Delivery {
 			PreparedStatement stmt = null;
 			int d_id;
 			int[] orderIDs = new int[10];
-
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			for (d_id = 1; d_id <= 10; d_id++) {
 				stmt = conn.prepareStatement("SELECT NO_O_ID FROM " + "NEW_ORDER" + " WHERE NO_D_ID = ? "
 						+ "   AND NO_W_ID = ? " + " ORDER BY no_d_id,no_o_id" + " LIMIT 1 ALLOW FILTERING");
@@ -55,7 +56,23 @@ public class Delivery {
 				}
 				int c_id = oo_rs.getInt("O_C_ID");
 				oo_rs.close();
-				System.out.println("###" + c_id);
+				//
+				// update order's carrier id
+				stmt = conn.prepareStatement("UPDATE OORDER  SET O_CARRIER_ID = ? " + " WHERE O_ID = ? "
+						+ "   AND O_D_ID = ?" + "   AND O_W_ID = ?");
+				stmt.setInt(1, o_carrier_id);
+				stmt.setInt(2, no_o_id);
+				stmt.setInt(3, d_id);
+				stmt.setInt(4, w_id);
+				stmt.executeUpdate();
+				//
+				// retrieve all orderlines belonging to this order
+				stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? "
+						+ " WHERE OL_O_ID = ? " + "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? ");
+				stmt.setTimestamp(1, timestamp);
+				stmt.setInt(2, no_o_id);
+				stmt.setInt(3, d_id);
+				stmt.setInt(4, w_id);
 
 			}
 
