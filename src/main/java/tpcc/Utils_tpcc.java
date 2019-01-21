@@ -197,4 +197,19 @@ public class Utils_tpcc {
 		return ThreadLocalRandom.current().nextInt(10, 21);
 	}
 
+	/*
+	 * 
+	 * Helping Functions
+	 * 
+	 */
+
+	public static String get_in_clause(List<Integer> input_list) {
+		String result = "(", delim = "";
+		for (int i : input_list) {
+			result += (delim + i);
+			delim = ",";
+		}
+		return result;
+	}
+
 }
