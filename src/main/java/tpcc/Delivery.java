@@ -76,17 +76,25 @@ public class Delivery {
 				stmt.setInt(3, w_id);
 				ResultSet ol_rs = stmt.executeQuery();
 				List<Integer> all_ol_numbers = new ArrayList<Integer>();
+				// read all ol_numbers
 				while (ol_rs.next())
 					all_ol_numbers.add(ol_rs.getInt("OL_NUMBER"));
-				System.out.println(all_ol_numbers);
 
-				/*stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? "
-						+ " WHERE OL_O_ID = ? " + "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? ");
-				stmt.setTimestamp(1, timestamp);
-				stmt.setInt(2, no_o_id);
-				stmt.setInt(3, d_id);
-				stmt.setInt(4, w_id);
-*/
+				// update all matching rows in orderline table
+				PreparedStatement ol_stmt = null;
+				for (int ol_number : all_ol_numbers) {
+					ol_stmt = conn.prepareStatement(
+							"UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? " + " WHERE OL_O_ID = ? "
+									+ "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? " + "AND OL_NUMBER=?");
+					ol_stmt.setTimestamp(1, timestamp);
+					ol_stmt.setInt(2, no_o_id);
+					ol_stmt.setInt(3, d_id);
+					ol_stmt.setInt(4, w_id);
+					ol_stmt.setInt(5, ol_number);
+					ol_stmt.addBatch();
+				}
+				ol_stmt.executeBatch();
+
 			}
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
