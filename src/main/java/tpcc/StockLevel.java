@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class StockLevel {
-	private static boolean _VERBOSE = true;
+	private static boolean _VERBOSE = false;
 
 	public static int stockLevel(CassandraConnection conn, int w_id, int d_id, double threshold) throws Exception {
 		PreparedStatement stmt = null;
