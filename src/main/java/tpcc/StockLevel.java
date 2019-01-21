@@ -40,9 +40,9 @@ public class StockLevel {
 			while (ol_rs.next()) {
 				all_ol_i_ids.add(ol_rs.getInt("ol_i_id"));
 			}
-			List<Object> ditinct_ol_i_ids = all_ol_i_ids.stream().distinct().collect(Collectors.toList());
-			System.out.println("original:"+all_ol_i_ids.size());
-			System.out.println("distinct:"+ditinct_ol_i_ids.size());
+			List<Integer> ditinct_ol_i_ids = (List<Integer>) (List<?>) all_ol_i_ids.stream().distinct()
+					.collect(Collectors.toList());
+			System.out.println(ditinct_ol_i_ids);
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
