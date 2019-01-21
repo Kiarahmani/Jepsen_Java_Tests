@@ -71,9 +71,9 @@ public class Delivery {
 				// retrieve and update all orderlines belonging to this order
 				stmt = conn.prepareStatement("SELECT OL_NUMBER FROM ORDER_LINE " + " WHERE OL_O_ID = ? "
 						+ "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? ");
-				stmt.setInt(2, no_o_id);
-				stmt.setInt(3, d_id);
-				stmt.setInt(4, w_id);
+				stmt.setInt(1, no_o_id);
+				stmt.setInt(2, d_id);
+				stmt.setInt(3, w_id);
 				ResultSet ol_rs = stmt.executeQuery();
 				List<Integer> all_ol_numbers = new ArrayList<Integer>();
 				while (ol_rs.next())
