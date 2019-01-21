@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class StockLevel {
+	private static boolean _VERBOSE = true;
+
 	public static int stockLevel(CassandraConnection conn, int w_id, int d_id, double threshold) throws Exception {
 		PreparedStatement stmt = null;
 		try {
@@ -49,6 +51,10 @@ public class StockLevel {
 			stmt.setInt(1, w_id);
 			stmt.setDouble(2, threshold);
 			ResultSet s_rs = stmt.executeQuery();
+			while (s_rs.next()) {
+				if (_VERBOSE)
+					System.out.println("low stock found: " + s_rs.getInt("s_i_id"));
+			}
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
