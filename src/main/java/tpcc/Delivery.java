@@ -93,7 +93,7 @@ public class Delivery {
 					ol_stmt.setInt(5, ol_number);
 					ol_stmt.addBatch();
 				}
-				ol_stmt.executeBatch();
+				//ol_stmt.executeBatch();
 
 			}
 
