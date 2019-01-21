@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class StockLevel {
-	public static int stockLevel(CassandraConnection conn, int w_id, int d_id, int threshold) throws Exception {
+	public static int stockLevel(CassandraConnection conn, int w_id, int d_id, double threshold) throws Exception {
 		PreparedStatement stmt = null;
 		try {
 
@@ -44,10 +44,11 @@ public class StockLevel {
 			List<Integer> ditinct_ol_i_ids = (List<Integer>) (List<?>) all_ol_i_ids.stream().distinct()
 					.collect(Collectors.toList());
 			String in_clause = Utils_tpcc.get_in_clause(ditinct_ol_i_ids);
-			stmt = conn.prepareStatement("SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND S_QUANTITY = ? ALLOW FILTERING");
-					//+ "AND s_i_id IN " + in_clause + "  ALLOW FILTERING");
+			stmt = conn.prepareStatement(
+					"SELECT * FROM STOCK WHERE " + "s_w_id=? " + "AND S_QUANTITY = ? ALLOW FILTERING");
+			// + "AND s_i_id IN " + in_clause + " ALLOW FILTERING");
 			stmt.setInt(1, w_id);
-			stmt.setInt(2, threshold);
+			stmt.setDouble(2, threshold);
 			System.out.println("$$$$$$$" + threshold);
 			ResultSet s_rs = stmt.executeQuery();
 

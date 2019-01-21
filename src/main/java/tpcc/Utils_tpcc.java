@@ -193,7 +193,7 @@ public class Utils_tpcc {
 		return ThreadLocalRandom.current().nextInt(1, 11);
 	}
 
-	public static int get_threshold() {
+	public static double get_threshold() {
 		return ThreadLocalRandom.current().nextInt(10, 21);
 	}
 
