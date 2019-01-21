@@ -3,6 +3,8 @@ package tpcc;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
@@ -66,14 +68,25 @@ public class Delivery {
 				stmt.setInt(4, w_id);
 				stmt.executeUpdate();
 				//
-				// retrieve all orderlines belonging to this order
-				stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? "
+				// retrieve and update all orderlines belonging to this order
+				stmt = conn.prepareStatement("SELECT OL_NUMBER FROM ORDER_LINE " + " WHERE OL_O_ID = ? "
+						+ "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? ");
+				stmt.setInt(2, no_o_id);
+				stmt.setInt(3, d_id);
+				stmt.setInt(4, w_id);
+				ResultSet ol_rs = stmt.executeQuery();
+				List<Integer> all_ol_numbers = new ArrayList<Integer>();
+				while (ol_rs.next())
+					all_ol_numbers.add(ol_rs.getInt("OL_NUMBER"));
+				System.out.println(all_ol_numbers);
+
+				/*stmt = conn.prepareStatement("UPDATE " + "ORDER_LINE" + "   SET OL_DELIVERY_D = ? "
 						+ " WHERE OL_O_ID = ? " + "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? ");
 				stmt.setTimestamp(1, timestamp);
 				stmt.setInt(2, no_o_id);
 				stmt.setInt(3, d_id);
 				stmt.setInt(4, w_id);
-
+*/
 			}
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
