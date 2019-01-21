@@ -2,6 +2,9 @@ package tpcc;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
@@ -33,10 +36,13 @@ public class StockLevel {
 			stmt.setInt(3, o_id);
 			stmt.setInt(4, (o_id - 20));
 			ResultSet ol_rs = stmt.executeQuery();
+			List<Integer> all_ol_i_ids = new ArrayList<Integer>();
 			while (ol_rs.next()) {
-				int ol_i_id = ol_rs.getInt("ol_i_id");
-				System.out.println(ol_i_id);
+				all_ol_i_ids.add(ol_rs.getInt("ol_i_id"));
 			}
+			List<Object> ditinct_ol_i_ids = all_ol_i_ids.stream().distinct().collect(Collectors.toList());
+			System.out.println("original:"+all_ol_i_ids.size());
+			System.out.println("distinct:"+ditinct_ol_i_ids.size());
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
