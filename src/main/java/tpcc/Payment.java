@@ -216,8 +216,8 @@ public class Payment {
 			if (d_name.length() > 10)
 				d_name = d_name.substring(0, 10);
 			String h_data = w_name + "    " + d_name;
-			stmt = conn.prepareStatement("SELECT H_AMOUNT FROM HISTORY WHERE" + " H_C_D_ID=?" + " H_C_W_ID=?"
-					+ " H_C_ID=?" + " H_D_ID=?" + " H_W_ID=?");
+			stmt = conn.prepareStatement("SELECT H_AMOUNT FROM HISTORY WHERE" + " H_C_D_ID=?" + " AND H_C_W_ID=?"
+					+ " AND H_C_ID=?" + " AND H_D_ID=?" + " AND H_W_ID=?");
 			stmt.setInt(1, customerDistrictID);
 			stmt.setInt(2, customerWarehouseID);
 			stmt.setInt(3, c_id);
