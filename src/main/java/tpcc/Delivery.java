@@ -96,7 +96,7 @@ public class Delivery {
 				ol_stmt.setInt(2, no_o_id);
 				ol_stmt.setInt(3, d_id);
 				ol_stmt.setInt(4, w_id);
-				ol_stmt.addBatch();
+				ol_stmt.executeBatch();
 
 				// retrieve customer's info
 				stmt = conn.prepareStatement("SELECT  C_BALANCE, C_DELIVERY_CNT" + " FROM CUSTOMER"
@@ -124,7 +124,7 @@ public class Delivery {
 			}
 			cu_stmt.executeBatch();
 			oo_stmt.executeBatch();
-			ol_stmt.executeBatch();
+			//ol_stmt.executeBatch();
 			no_stmt.executeBatch();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
