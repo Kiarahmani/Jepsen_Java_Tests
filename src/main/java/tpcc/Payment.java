@@ -85,7 +85,7 @@ public class Payment {
 				stmt.setInt(2, customerDistrictID);
 				stmt.setString(3, c_last);
 				ResultSet c_rs = stmt.executeQuery();
-				// find the appropriate index 
+				// find the appropriate index
 				int index = 0;
 				List<Integer> all_c_ids = new ArrayList<Integer>();
 				while (c_rs.next()) {
@@ -216,6 +216,17 @@ public class Payment {
 			if (d_name.length() > 10)
 				d_name = d_name.substring(0, 10);
 			String h_data = w_name + "    " + d_name;
+			stmt = conn.prepareStatement("SELECT H_AMOUNT FROM HISTORY WHERE" + " H_C_D_ID=?" + " H_C_W_ID=?"
+					+ " H_C_ID=?" + " H_D_ID=?" + " H_W_ID=?");
+			stmt.setInt(1, customerDistrictID);
+			stmt.setInt(2, customerWarehouseID);
+			stmt.setInt(3, c_id);
+			stmt.setInt(4, d_id);
+			stmt.setInt(5, w_id);
+			ResultSet h_rs = stmt.executeQuery();
+			double old_amount = 0;
+			if (h_rs.next())
+				old_amount += h_rs.getDouble("H_AMOUNT");
 			stmt = conn.prepareStatement("INSERT INTO " + "HISTORY"
 					+ " (H_C_D_ID, H_C_W_ID, H_C_ID, H_D_ID, H_W_ID, H_DATE, H_AMOUNT, H_DATA) "
 					+ " VALUES (?,?,?,?,?,?,?,?)");
@@ -225,7 +236,7 @@ public class Payment {
 			stmt.setInt(4, d_id);
 			stmt.setInt(5, w_id);
 			stmt.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
-			stmt.setDouble(7, paymentAmount);
+			stmt.setDouble(7, old_amount + paymentAmount);
 			stmt.setString(8, h_data);
 			stmt.executeUpdate();
 
@@ -239,7 +250,6 @@ public class Payment {
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-			stmt.clearBatch();
 			stmt.close();
 			return 0;
 		} catch (Exception e) {
