@@ -187,7 +187,8 @@ public class Payment {
 					c_data = c_data.substring(0, 500);
 				stmt = conn.prepareStatement("UPDATE " + "CUSTOMER" + "   SET C_BALANCE = ?, "
 						+ "       C_YTD_PAYMENT = ?, " + "       C_PAYMENT_CNT = ?, " + "       C_DATA = ? "
-						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_ID = ?");
+						+ " WHERE C_W_ID = ? "
+						+ "   AND C_D_ID = ? " + "   AND C_ID = ?");
 				stmt.setDouble(1, c_balance);
 				stmt.setFloat(2, c_ytd_payment);
 				stmt.setInt(3, c_payment_cnt);

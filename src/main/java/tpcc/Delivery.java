@@ -35,18 +35,10 @@ public class Delivery {
 						System.out.println(String.format("District has no new orders [W_ID=%d, D_ID=%d]", w_id, d_id));
 					continue;
 				}
+
 				int no_o_id = no_rs.getInt("NO_O_ID");
 				orderIDs[d_id - 1] = no_o_id;
 				no_rs.close();
-				// delete the row containing the oldest order
-				no_stmt = conn.prepareStatement("DELETE FROM " + "NEW_ORDER" + " WHERE NO_O_ID = ? "
-						+ " AND NO_D_ID = ?" + "   AND NO_W_ID = ?");
-
-				no_stmt.setInt(1, no_o_id);
-				no_stmt.setInt(2, d_id);
-				no_stmt.setInt(3, w_id);
-				no_stmt.executeUpdate();
-
 				// retrieve order
 				stmt = conn.prepareStatement("SELECT O_C_ID FROM " + "OORDER" + " WHERE O_ID = ? "
 						+ "   AND O_D_ID = ? " + "   AND O_W_ID = ?");
@@ -62,6 +54,16 @@ public class Delivery {
 				}
 				int c_id = oo_rs.getInt("O_C_ID");
 				oo_rs.close();
+
+				// delete the row containing the oldest order
+				no_stmt = conn.prepareStatement("DELETE FROM " + "NEW_ORDER" + " WHERE NO_O_ID = ? "
+						+ " AND NO_D_ID = ?" + "   AND NO_W_ID = ?");
+
+				no_stmt.setInt(1, no_o_id);
+				no_stmt.setInt(2, d_id);
+				no_stmt.setInt(3, w_id);
+				no_stmt.executeUpdate();
+
 				//
 				// update order's carrier id
 				oo_stmt = conn.prepareStatement("UPDATE OORDER  SET O_CARRIER_ID = ? " + " WHERE O_ID = ? "
@@ -122,10 +124,10 @@ public class Delivery {
 				cu_stmt.setInt(5, c_id);
 				cu_stmt.executeUpdate();
 			}
-			//cu_stmt.executeBatch();
-			//oo_stmt.executeBatch();
-			//ol_stmt.executeBatch();
-			//no_stmt.executeBatch();
+			// cu_stmt.executeBatch();
+			// oo_stmt.executeBatch();
+			// ol_stmt.executeBatch();
+			// no_stmt.executeBatch();
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
