@@ -103,6 +103,7 @@ public class Delivery {
 				ol_stmt.setInt(3, d_id);
 				ol_stmt.setInt(4, w_id);
 				ol_stmt.executeUpdate();
+				
 
 				// retrieve customer's info
 				stmt = conn.prepareStatement("SELECT  C_BALANCE, C_DELIVERY_CNT" + " FROM CUSTOMER"

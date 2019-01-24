@@ -114,6 +114,9 @@ public class NewOrder {
 			stmt.setInt(2, d_id);
 			stmt.setInt(3, w_id);
 			stmt.executeUpdate();
+			PreparedStatement i_stmt = conn.prepareStatement("INSERT INTO " + "ORDER_LINE"
+					+ " (OL_O_ID, OL_D_ID, OL_W_ID, OL_NUMBER, OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DIST_INFO) "
+					+ " VALUES (?,?,?,?,?,?,?,?,?)");
 			// For each O_OL_CNT item on the order perform the following tasks
 			for (int ol_number = 1; ol_number <= o_ol_cnt; ol_number++) {
 				int ol_supply_w_id = supplierWarehouseIDs[ol_number - 1];
@@ -234,25 +237,23 @@ public class NewOrder {
 
 				//
 				// insert a row into orderline table representing each order item
-				stmt = conn.prepareStatement("INSERT INTO " + "ORDER_LINE"
-						+ " (OL_O_ID, OL_D_ID, OL_W_ID, OL_NUMBER, OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DIST_INFO) "
-						+ " VALUES (?,?,?,?,?,?,?,?,?)");
-				stmt.setInt(1, o_id);
-				stmt.setInt(2, d_id);
-				stmt.setInt(3, w_id);
-				stmt.setInt(4, ol_number);
-				stmt.setInt(5, ol_i_id);
-				stmt.setInt(6, ol_supply_w_id);
-				stmt.setInt(7, ol_quantity);
-				stmt.setDouble(8, ol_amount);
-				stmt.setString(9, ol_dist_info);
-				stmt.executeUpdate();
+
+				i_stmt.setInt(1, o_id);
+				i_stmt.setInt(2, d_id);
+				i_stmt.setInt(3, w_id);
+				i_stmt.setInt(4, ol_number);
+				i_stmt.setInt(5, ol_i_id);
+				i_stmt.setInt(6, ol_supply_w_id);
+				i_stmt.setInt(7, ol_quantity);
+				i_stmt.setDouble(8, ol_amount);
+				i_stmt.setString(9, ol_dist_info);
+				i_stmt.addBatch();
 
 			}
-			//stmt.executeBatch();
-			//stmtUpdateStock.executeBatch();
+			i_stmt.executeBatch();
+			// stmtUpdateStock.executeBatch();
 			total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
-			//stmt.clearBatch();
+			// stmt.clearBatch();
 			stmt.close();
 			//
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
