@@ -48,7 +48,7 @@ public class Delivery {
 				ResultSet oo_rs = stmt.executeQuery();
 				if (!oo_rs.next()) {
 					System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-					for (int i=0;i<100;i++)
+					for (int i = 0; i < 300; i++)
 						System.out.println("##");
 					System.out.println(
 							String.format("ERROR_41: Failed to retrieve ORDER record [W_ID=%d, D_ID=%d, O_ID=%d]", w_id,
