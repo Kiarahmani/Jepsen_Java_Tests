@@ -97,9 +97,6 @@ public class NewOrder {
 			stmt.setInt(2, d_id);
 			stmt.setInt(3, w_id);
 			stmt.executeUpdate();
-			PreparedStatement i_stmt = conn.prepareStatement("INSERT INTO " + "ORDER_LINE"
-					+ " (OL_O_ID, OL_D_ID, OL_W_ID, OL_NUMBER, OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DIST_INFO) "
-					+ " VALUES (?,?,?,?,?,?,?,?,?)");
 
 			//
 			// retrieve customer's information
@@ -186,9 +183,7 @@ public class NewOrder {
 				stmtUpdateStock = conn.prepareStatement("UPDATE " + "STOCK" + " SET S_QUANTITY = ?," + "S_YTD = ?,"
 						+ "S_ORDER_CNT = ?," + "S_REMOTE_CNT = ? " + " WHERE S_I_ID = ? " + "   AND S_W_ID = ?");
 				stmtUpdateStock.setDouble(1, s_quantity);
-				System.out.println("s_i_is:" + ol_i_id);
-				System.out.println("old s_ytd:" + s_ytd);
-				System.out.println("ol_quantity:" + ol_quantity);
+
 				stmtUpdateStock.setDouble(2, s_ytd + ol_quantity);
 				stmtUpdateStock.setInt(3, s_order_cnt + 1);
 				stmtUpdateStock.setInt(4, s_remote_cnt + s_remote_cnt_increment);
@@ -240,7 +235,9 @@ public class NewOrder {
 
 				//
 				// insert a row into orderline table representing each order item
-
+				PreparedStatement i_stmt = conn.prepareStatement("INSERT INTO " + "ORDER_LINE"
+						+ " (OL_O_ID, OL_D_ID, OL_W_ID, OL_NUMBER, OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DIST_INFO) "
+						+ " VALUES (?,?,?,?,?,?,?,?,?)");
 				i_stmt.setInt(1, o_id);
 				i_stmt.setInt(2, d_id);
 				i_stmt.setInt(3, w_id);
