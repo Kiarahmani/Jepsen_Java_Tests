@@ -77,23 +77,6 @@ public class NewOrder {
 			stmt.setInt(3, d_id);
 			stmt.executeUpdate();
 			int o_id = d_next_o_id;
-
-			//
-			// retrieve customer's information
-			stmt = conn.prepareStatement("SELECT C_DISCOUNT, C_LAST, C_CREDIT" + "  FROM " + "CUSTOMER"
-					+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_ID = ?");
-			stmt.setInt(1, w_id);
-			stmt.setInt(2, d_id);
-			stmt.setInt(3, c_id);
-			ResultSet c_rs = stmt.executeQuery();
-			if (!c_rs.next()) {
-				System.out.println("ERROR_13: Invalid customer id: (" + w_id + "," + d_id + "," + c_id + ")");
-				return 13;
-			}
-			double c_discount = c_rs.getDouble("C_DISCOUNT");
-			String c_last = c_rs.getString("C_LAST");
-			String c_credit = c_rs.getString("C_CREDIT");
-
 			//
 			// insert a new row into OORDER and NEW_ORDER tables
 			stmt = conn.prepareStatement(
@@ -117,6 +100,23 @@ public class NewOrder {
 			PreparedStatement i_stmt = conn.prepareStatement("INSERT INTO " + "ORDER_LINE"
 					+ " (OL_O_ID, OL_D_ID, OL_W_ID, OL_NUMBER, OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DIST_INFO) "
 					+ " VALUES (?,?,?,?,?,?,?,?,?)");
+
+			//
+			// retrieve customer's information
+			stmt = conn.prepareStatement("SELECT C_DISCOUNT, C_LAST, C_CREDIT" + "  FROM " + "CUSTOMER"
+					+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_ID = ?");
+			stmt.setInt(1, w_id);
+			stmt.setInt(2, d_id);
+			stmt.setInt(3, c_id);
+			ResultSet c_rs = stmt.executeQuery();
+			if (!c_rs.next()) {
+				System.out.println("ERROR_13: Invalid customer id: (" + w_id + "," + d_id + "," + c_id + ")");
+				return 13;
+			}
+			double c_discount = c_rs.getDouble("C_DISCOUNT");
+			String c_last = c_rs.getString("C_LAST");
+			String c_credit = c_rs.getString("C_CREDIT");
+
 			// For each O_OL_CNT item on the order perform the following tasks
 			for (int ol_number = 1; ol_number <= o_ol_cnt; ol_number++) {
 				int ol_supply_w_id = supplierWarehouseIDs[ol_number - 1];
@@ -247,10 +247,10 @@ public class NewOrder {
 				i_stmt.setInt(7, ol_quantity);
 				i_stmt.setDouble(8, ol_amount);
 				i_stmt.setString(9, ol_dist_info);
-				i_stmt.addBatch();
+				i_stmt.executeUpdate();
 
 			}
-			i_stmt.executeBatch();
+			//i_stmt.executeBatch();
 			// stmtUpdateStock.executeBatch();
 			total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
 			// stmt.clearBatch();
