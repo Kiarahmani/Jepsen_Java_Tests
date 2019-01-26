@@ -248,7 +248,11 @@ public class NewOrder {
 				i_stmt.setDouble(7, ol_quantity);
 				i_stmt.setDouble(8, ol_amount);
 				i_stmt.setString(9, ol_dist_info);
-				i_stmt.executeUpdate();
+				int kir = i_stmt.executeUpdate();
+				if (kir!=1) {
+					System.out.println("KIR: "+ol_i_id+","+ol_number+","+o_id+","+ol_quantity);
+					return 69;
+				}
 
 			}
 			System.out.println("=======");
