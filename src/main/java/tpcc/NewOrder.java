@@ -189,9 +189,8 @@ public class NewOrder {
 				stmtUpdateStock.setInt(5, ol_i_id);
 				stmtUpdateStock.setInt(6, ol_supply_w_id);
 				stmtUpdateStock.executeUpdate();
-				System.out.println("s_ytd: "+s_ytd);
-				System.out.println("ol_quantity: "+ol_quantity);
-				System.out.println("ol_i_id: "+ol_i_id);
+				System.out.println("o_id: " + o_id + "    s_ytd: " + s_ytd + "   ol_quantity: " + ol_quantity
+						+ "   ol_i_id: " + ol_i_id);
 				//
 				double ol_amount = ol_quantity * i_price;
 				orderLineAmounts[ol_number - 1] = ol_amount;
