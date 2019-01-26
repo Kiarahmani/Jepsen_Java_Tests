@@ -183,13 +183,15 @@ public class NewOrder {
 				stmtUpdateStock = conn.prepareStatement("UPDATE " + "STOCK" + " SET S_QUANTITY = ?," + "S_YTD = ?,"
 						+ "S_ORDER_CNT = ?," + "S_REMOTE_CNT = ? " + " WHERE S_I_ID = ? " + "   AND S_W_ID = ?");
 				stmtUpdateStock.setDouble(1, s_quantity);
-
 				stmtUpdateStock.setDouble(2, s_ytd + ol_quantity);
 				stmtUpdateStock.setInt(3, s_order_cnt + 1);
 				stmtUpdateStock.setInt(4, s_remote_cnt + s_remote_cnt_increment);
 				stmtUpdateStock.setInt(5, ol_i_id);
 				stmtUpdateStock.setInt(6, ol_supply_w_id);
 				stmtUpdateStock.executeUpdate();
+				System.out.println("s_ytd: "+s_ytd);
+				System.out.println("ol_quantity: "+ol_quantity);
+				System.out.println("ol_i_id: "+ol_i_id);
 				//
 				double ol_amount = ol_quantity * i_price;
 				orderLineAmounts[ol_number - 1] = ol_amount;
