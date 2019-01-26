@@ -249,9 +249,9 @@ public class NewOrder {
 				i_stmt.setDouble(8, ol_amount);
 				i_stmt.setString(9, ol_dist_info);
 				int kir = i_stmt.executeUpdate();
-				if (kir != 1) {
+				if (kir != 0) {
 					System.out
-							.println("KIR: " + kir + "--" + ol_i_id + "," + ol_number + "," + o_id + "," + ol_quantity);
+							.println("KIR: kir:" + kir + "-- ol_i_id:" + ol_i_id + ", ol_number:" + ol_number + ", o_id:" + o_id + ", ol_quantity:" + ol_quantity+", d_id:"+d_id);
 					return 69;
 				}
 
