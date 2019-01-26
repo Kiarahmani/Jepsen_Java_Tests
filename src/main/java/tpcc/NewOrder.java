@@ -247,7 +247,7 @@ public class NewOrder {
 				i_stmt.setInt(4, ol_number);
 				i_stmt.setInt(5, ol_i_id);
 				i_stmt.setInt(6, ol_supply_w_id);
-				i_stmt.setInt(7, ol_quantity);
+				i_stmt.setDouble(7, ol_quantity);
 				i_stmt.setDouble(8, ol_amount);
 				i_stmt.setString(9, ol_dist_info);
 				i_stmt.executeUpdate();
