@@ -113,7 +113,7 @@ public class NewOrder {
 			double c_discount = c_rs.getDouble("C_DISCOUNT");
 			String c_last = c_rs.getString("C_LAST");
 			String c_credit = c_rs.getString("C_CREDIT");
-
+			System.out.println("=======");
 			// For each O_OL_CNT item on the order perform the following tasks
 			for (int ol_number = 1; ol_number <= o_ol_cnt; ol_number++) {
 				int ol_supply_w_id = supplierWarehouseIDs[ol_number - 1];
@@ -252,6 +252,7 @@ public class NewOrder {
 				i_stmt.executeUpdate();
 
 			}
+			System.out.println("=======");
 			// i_stmt.executeBatch();
 			// stmtUpdateStock.executeBatch();
 			total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
