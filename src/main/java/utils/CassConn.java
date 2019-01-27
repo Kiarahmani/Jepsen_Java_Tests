@@ -9,7 +9,7 @@ import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 public class CassConn {
 	private static RoundRobin<CassandraConnection> connectionPool = new RoundRobin<CassandraConnection>();
 	private static Iterator<CassandraConnection> connections = connectionPool.iterator();
-	private static int _NUMBER_OF_CONNECTIONS_PER_NODE = 1;
+	private static int _NUMBER_OF_CONNECTIONS_PER_NODE = 4;
 
 	public static void prepareConnections(int n, int c, String bench) {
 		try {
