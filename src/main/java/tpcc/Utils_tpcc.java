@@ -77,7 +77,7 @@ public class Utils_tpcc {
 			itemIDs[i] = Utils_tpcc.get_i_id();
 		return itemIDs;
 	}
-
+ 
 	public static int[] get_order_quantities(int num_items) {
 		int[] orderQuantities = new int[num_items];
 		for (int i = 0; i < num_items; i++) {
