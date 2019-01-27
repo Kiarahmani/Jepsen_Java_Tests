@@ -244,14 +244,14 @@ public class NewOrder {
 				i_stmt.setInt(1, o_id);
 				i_stmt.setInt(2, d_id);
 				i_stmt.setInt(3, w_id);
-				i_stmt.setInt(4, -1);
-				i_stmt.setInt(5, -1);
-				i_stmt.setInt(6, -1);
+				i_stmt.setInt(4, ol_number);
+				i_stmt.setInt(5, ol_i_id);
+				i_stmt.setInt(6, ol_supply_w_id);
 				i_stmt.setDouble(7, ol_quantity);
-				i_stmt.setDouble(8, -1);
+				i_stmt.setDouble(8, ol_amount);
 				i_stmt.setString(9, "INFO: "+String.valueOf(ol_i_id));
 				i_stmt.execute();
-
+	
 
 			}
 			System.out.println("=======");
