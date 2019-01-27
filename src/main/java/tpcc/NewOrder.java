@@ -110,12 +110,17 @@ public class NewOrder {
 				System.out.println("ERROR_13: Invalid customer id: (" + w_id + "," + d_id + "," + c_id + ")");
 				return 13;
 			}
+			
 			double c_discount = c_rs.getDouble("C_DISCOUNT");
 			String c_last = c_rs.getString("C_LAST");
 			String c_credit = c_rs.getString("C_CREDIT");
 			System.out.println("=======");
 			// For each O_OL_CNT item on the order perform the following tasks
-			*/for (int ol_number = 1; ol_number <= o_ol_cnt; ol_number++) {
+			*/
+			PreparedStatement i_stmt = conn.prepareStatement("INSERT INTO " + "ORDER_LINE"
+					+ " (OL_O_ID, OL_D_ID, OL_W_ID, OL_NUMBER, OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DIST_INFO) "
+					+ " VALUES (?,?,?,?,?,?,?,?,?)");
+			for (int ol_number = 1; ol_number <= o_ol_cnt; ol_number++) {
 				int ol_supply_w_id = supplierWarehouseIDs[ol_number - 1];
 				int ol_i_id = itemIDs[ol_number - 1];
 				int ol_quantity = orderQuantities[ol_number - 1];
@@ -238,9 +243,7 @@ public class NewOrder {
 */
 				//
 				// insert a row into orderline table representing each order item
-				PreparedStatement i_stmt = conn.prepareStatement("INSERT INTO " + "ORDER_LINE"
-						+ " (OL_O_ID, OL_D_ID, OL_W_ID, OL_NUMBER, OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DIST_INFO) "
-						+ " VALUES (?,?,?,?,?,?,?,?,?)");
+
 				i_stmt.setInt(1, o_id);
 				i_stmt.setInt(2, d_id);
 				i_stmt.setInt(3, w_id);
