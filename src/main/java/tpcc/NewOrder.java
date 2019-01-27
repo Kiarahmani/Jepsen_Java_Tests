@@ -253,12 +253,12 @@ public class NewOrder {
 				i_stmt.setDouble(7, ol_quantity);
 				i_stmt.setDouble(8, ol_amount);
 				i_stmt.setString(9, "INFO: "+String.valueOf(ol_i_id));
-				i_stmt.execute();
+				i_stmt.addBatch();
 	
 
 			}
 			System.out.println("=======");
-			// i_stmt.executeBatch();
+			i_stmt.executeBatch();
 			// stmtUpdateStock.executeBatch();
 			//total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
 			// stmt.clearBatch();
