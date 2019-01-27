@@ -140,43 +140,43 @@ public class NewOrder {
 				double s_ytd = s_rs.getDouble("S_YTD");
 				int s_order_cnt = s_rs.getInt("S_ORDER_CNT");
 				int s_remote_cnt = s_rs.getInt("S_REMOTE_CNT");
-				String s_data = s_rs.getString("S_DATA");
-				String s_dist_01 = s_rs.getString("S_DIST_01");
-				String s_dist_02 = s_rs.getString("S_DIST_02");
-				String s_dist_03 = s_rs.getString("S_DIST_03");
-				String s_dist_04 = s_rs.getString("S_DIST_04");
-				String s_dist_05 = s_rs.getString("S_DIST_05");
-				String s_dist_06 = s_rs.getString("S_DIST_06");
-				String s_dist_07 = s_rs.getString("S_DIST_07");
-				String s_dist_08 = s_rs.getString("S_DIST_08");
-				String s_dist_09 = s_rs.getString("S_DIST_09");
-				String s_dist_10 = s_rs.getString("S_DIST_10");
-				s_rs.close();
+				// String s_data = s_rs.getString("S_DATA");
+				// String s_dist_01 = s_rs.getString("S_DIST_01");
+				// String s_dist_02 = s_rs.getString("S_DIST_02");
+				// String s_dist_03 = s_rs.getString("S_DIST_03");
+				// String s_dist_04 = s_rs.getString("S_DIST_04");
+				// String s_dist_05 = s_rs.getString("S_DIST_05");
+				// String s_dist_06 = s_rs.getString("S_DIST_06");
+				// String s_dist_07 = s_rs.getString("S_DIST_07");
+				// String s_dist_08 = s_rs.getString("S_DIST_08");
+				// String s_dist_09 = s_rs.getString("S_DIST_09");
+				// String s_dist_10 = s_rs.getString("S_DIST_10");
+				// s_rs.close();
 				//
-				stockQuantities[ol_number - 1] = s_quantity;
-				if (s_quantity - ol_quantity >= 10) {
-					s_quantity -= ol_quantity; // new s_quantity
-				} else {
-					s_quantity += -ol_quantity + 91; // new s_quantity
-				}
-				int s_remote_cnt_increment;
-				if (ol_supply_w_id == w_id) {
-					s_remote_cnt_increment = 0;
-				} else {
-					s_remote_cnt_increment = 1;
-				}
+				// stockQuantities[ol_number - 1] = s_quantity;
+				// if (s_quantity - ol_quantity >= 10) {
+				// s_quantity -= ol_quantity; // new s_quantity
+				// } else {
+				// s_quantity += -ol_quantity + 91; // new s_quantity
+				// }
+				// int s_remote_cnt_increment;
+				// if (ol_supply_w_id == w_id) {
+				// s_remote_cnt_increment = 0;
+				// } else {
+				// s_remote_cnt_increment = 1;
+				// }
 				// update stock row
 				stmtUpdateStock = conn.prepareStatement("UPDATE " + "STOCK" + " SET S_QUANTITY = ?," + "S_YTD = ?,"
 						+ "S_ORDER_CNT = ?," + "S_REMOTE_CNT = ? " + " WHERE S_I_ID = ? " + "   AND S_W_ID = ?");
-				stmtUpdateStock.setDouble(1, s_quantity);
+				stmtUpdateStock.setDouble(1, 69);
 				stmtUpdateStock.setDouble(2, s_ytd + ol_quantity);
 				stmtUpdateStock.setInt(3, s_order_cnt + 1);
-				stmtUpdateStock.setInt(4, s_remote_cnt + s_remote_cnt_increment);
+				stmtUpdateStock.setInt(4, s_remote_cnt + 69);
 				stmtUpdateStock.setInt(5, ol_i_id);
 				stmtUpdateStock.setInt(6, ol_supply_w_id);
 				stmtUpdateStock.executeUpdate();
-				System.out.println("o_id: " + o_id + "    s_ytd: " + s_ytd + "   ol_quantity: " + ol_quantity
-						+ "   ol_i_id: " + ol_i_id);
+				System.out.println("d_id: " + d_id + "   o_id: " + o_id + "   ol_i_id: " + ol_i_id + "   ol_quantity: "
+						+ ol_quantity + "    s_ytd: " + s_ytd);
 				//
 				double ol_amount = ol_quantity * i_price;
 				/*
@@ -210,8 +210,10 @@ public class NewOrder {
 			}
 			int[] counts = statement.executeBatch();
 			statement.close();
+			System.out.println("=======" + o_id + "," + d_id);
 			for (int kir : counts)
 				System.out.print(kir + ",");
+			System.out.println();
 			System.out.println("=======");
 			// i_stmt.executeBatch();
 			// stmtUpdateStock.executeBatch();
