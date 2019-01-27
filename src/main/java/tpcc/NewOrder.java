@@ -113,7 +113,7 @@ public class NewOrder {
 			double c_discount = c_rs.getDouble("C_DISCOUNT");
 			String c_last = c_rs.getString("C_LAST");
 			String c_credit = c_rs.getString("C_CREDIT");
-			System.out.println("=======");
+			//System.out.println("=======");
 			// For each O_OL_CNT item on the order perform the following tasks
 			for (int ol_number = 1; ol_number <= o_ol_cnt; ol_number++) {
 				int ol_supply_w_id = supplierWarehouseIDs[ol_number - 1];
@@ -189,8 +189,8 @@ public class NewOrder {
 				stmtUpdateStock.setInt(5, ol_i_id);
 				stmtUpdateStock.setInt(6, ol_supply_w_id);
 				stmtUpdateStock.executeUpdate();
-				System.out.println("o_id: " + o_id + "    s_ytd: " + s_ytd + "   ol_quantity: " + ol_quantity
-						+ "   ol_i_id: " + ol_i_id);
+				//System.out.println("o_id: " + o_id + "    s_ytd: " + s_ytd + "   ol_quantity: " + ol_quantity
+				//		+ "   ol_i_id: " + ol_i_id);
 				//
 				double ol_amount = ol_quantity * i_price;
 				orderLineAmounts[ol_number - 1] = ol_amount;
@@ -248,15 +248,11 @@ public class NewOrder {
 				i_stmt.setDouble(7, ol_quantity);
 				i_stmt.setDouble(8, ol_amount);
 				i_stmt.setString(9, ol_dist_info);
-				int kir = i_stmt.executeUpdate();
-				if (kir != 0) {
-					System.out
-							.println("KIR: kir:" + kir + "-- ol_i_id:" + ol_i_id + ", ol_number:" + ol_number + ", o_id:" + o_id + ", ol_quantity:" + ol_quantity+", d_id:"+d_id);
-					return 69;
-				}
+				i_stmt.executeUpdate();
+				
 
 			}
-			System.out.println("=======");
+			//System.out.println("=======");
 			// i_stmt.executeBatch();
 			// stmtUpdateStock.executeBatch();
 			total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
