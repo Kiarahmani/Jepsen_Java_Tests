@@ -2,6 +2,7 @@ package tpcc;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Timestamp;
 
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
@@ -45,19 +46,14 @@ public class NewOrder {
 			double[] orderLineAmounts = new double[o_ol_cnt];
 			double total_amount = 0;
 			char[] brandGeneric = new char[o_ol_cnt];
-/*
-			// retrieve w_tax rate
-			stmt = conn.prepareStatement("SELECT W_TAX " + "  FROM " + "WAREHOUSE" + " WHERE W_ID = ?");
-			stmt.setInt(1, w_id);
-			ResultSet w_rs = stmt.executeQuery();
-			if (!w_rs.next()) {
-				System.out.println("ERROR_11: Invalid warehouse id: " + w_id);
-				return 11;
-			}
-			double w_tax = w_rs.getDouble("W_TAX");
-			w_rs.close();
-	*/		//
-			// retrieve d_tax rate and update D_NEXT_O_ID
+			/*
+			 * // retrieve w_tax rate stmt = conn.prepareStatement("SELECT W_TAX " +
+			 * "  FROM " + "WAREHOUSE" + " WHERE W_ID = ?"); stmt.setInt(1, w_id); ResultSet
+			 * w_rs = stmt.executeQuery(); if (!w_rs.next()) {
+			 * System.out.println("ERROR_11: Invalid warehouse id: " + w_id); return 11; }
+			 * double w_tax = w_rs.getDouble("W_TAX"); w_rs.close();
+			 */ //
+				// retrieve d_tax rate and update D_NEXT_O_ID
 			stmt = conn.prepareStatement(
 					"SELECT D_NEXT_O_ID, D_TAX " + "  FROM " + "DISTRICT" + " WHERE D_W_ID = ? AND D_ID = ?");
 			stmt.setInt(1, w_id);
@@ -78,75 +74,58 @@ public class NewOrder {
 			stmt.executeUpdate();
 			int o_id = d_next_o_id;
 			//
-	/*		// insert a new row into OORDER and NEW_ORDER tables
-			stmt = conn.prepareStatement(
-					"INSERT INTO " + "OORDER" + " (O_ID, O_D_ID, O_W_ID, O_C_ID, O_ENTRY_D, O_OL_CNT, O_ALL_LOCAL)"
-							+ " VALUES (?, ?, ?, ?, ?, ?, ?)");
-			stmt.setInt(1, o_id);
-			stmt.setInt(2, d_id);
-			stmt.setInt(3, w_id);
-			stmt.setInt(4, c_id);
-			stmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-			stmt.setInt(6, o_ol_cnt);
-			stmt.setInt(7, o_all_local);
-			stmt.executeUpdate();
-			//
-			stmt = conn.prepareStatement(
-					"INSERT INTO " + "NEW_ORDER" + " (NO_O_ID, NO_D_ID, NO_W_ID) " + " VALUES ( ?, ?, ?)");
-			stmt.setInt(1, o_id);
-			stmt.setInt(2, d_id);
-			stmt.setInt(3, w_id);
-			stmt.executeUpdate();
-
-			//
-			// retrieve customer's information
-			stmt = conn.prepareStatement("SELECT C_DISCOUNT, C_LAST, C_CREDIT" + "  FROM " + "CUSTOMER"
-					+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + "   AND C_ID = ?");
-			stmt.setInt(1, w_id);
-			stmt.setInt(2, d_id);
-			stmt.setInt(3, c_id);
-			ResultSet c_rs = stmt.executeQuery();
-			if (!c_rs.next()) {
-				System.out.println("ERROR_13: Invalid customer id: (" + w_id + "," + d_id + "," + c_id + ")");
-				return 13;
-			}
-			
-			double c_discount = c_rs.getDouble("C_DISCOUNT");
-			String c_last = c_rs.getString("C_LAST");
-			String c_credit = c_rs.getString("C_CREDIT");
-			System.out.println("=======");
-			// For each O_OL_CNT item on the order perform the following tasks
-			*/
+			/*
+			 * // insert a new row into OORDER and NEW_ORDER tables stmt =
+			 * conn.prepareStatement( "INSERT INTO " + "OORDER" +
+			 * " (O_ID, O_D_ID, O_W_ID, O_C_ID, O_ENTRY_D, O_OL_CNT, O_ALL_LOCAL)" +
+			 * " VALUES (?, ?, ?, ?, ?, ?, ?)"); stmt.setInt(1, o_id); stmt.setInt(2, d_id);
+			 * stmt.setInt(3, w_id); stmt.setInt(4, c_id); stmt.setTimestamp(5, new
+			 * Timestamp(System.currentTimeMillis())); stmt.setInt(6, o_ol_cnt);
+			 * stmt.setInt(7, o_all_local); stmt.executeUpdate(); // stmt =
+			 * conn.prepareStatement( "INSERT INTO " + "NEW_ORDER" +
+			 * " (NO_O_ID, NO_D_ID, NO_W_ID) " + " VALUES ( ?, ?, ?)"); stmt.setInt(1,
+			 * o_id); stmt.setInt(2, d_id); stmt.setInt(3, w_id); stmt.executeUpdate();
+			 * 
+			 * // // retrieve customer's information stmt =
+			 * conn.prepareStatement("SELECT C_DISCOUNT, C_LAST, C_CREDIT" + "  FROM " +
+			 * "CUSTOMER" + " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " +
+			 * "   AND C_ID = ?"); stmt.setInt(1, w_id); stmt.setInt(2, d_id);
+			 * stmt.setInt(3, c_id); ResultSet c_rs = stmt.executeQuery(); if (!c_rs.next())
+			 * { System.out.println("ERROR_13: Invalid customer id: (" + w_id + "," + d_id +
+			 * "," + c_id + ")"); return 13; }
+			 * 
+			 * double c_discount = c_rs.getDouble("C_DISCOUNT"); String c_last =
+			 * c_rs.getString("C_LAST"); String c_credit = c_rs.getString("C_CREDIT");
+			 * System.out.println("======="); // For each O_OL_CNT item on the order perform
+			 * the following tasks
+			 */
 			PreparedStatement i_stmt = conn.prepareStatement("INSERT INTO " + "ORDER_LINE"
 					+ " (OL_O_ID, OL_D_ID, OL_W_ID, OL_NUMBER, OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DIST_INFO) "
 					+ " VALUES (?,?,?,?,?,?,?,?,?)");
+
+			Statement statement = conn.createStatement();
 			for (int ol_number = 1; ol_number <= o_ol_cnt; ol_number++) {
 				int ol_supply_w_id = supplierWarehouseIDs[ol_number - 1];
 				int ol_i_id = itemIDs[ol_number - 1];
 				int ol_quantity = orderQuantities[ol_number - 1];
 				// retrieve item
-			/*	stmt = conn
-						.prepareStatement("SELECT I_PRICE, I_NAME , I_DATA " + "  FROM " + "ITEM" + " WHERE I_ID = ?");
-				stmt.setInt(1, ol_i_id);
-				ResultSet i_rs = stmt.executeQuery();
-				// this is expected to happen 1% of the times
-				if (!i_rs.next()) {
-					if (ol_number != o_ol_cnt) {
-						System.out.println("ERROR_14: Invalid item id: (" + ol_i_id
-								+ ") given in the middle of the order list (unexpected)");
-						return 14;
-					}
-					System.out.println("EXPECTED_ERROR_15: Invalid item id: (" + ol_i_id + ")");
-					return 15;
-				}
-				*/
+				/*
+				 * stmt = conn .prepareStatement("SELECT I_PRICE, I_NAME , I_DATA " + "  FROM "
+				 * + "ITEM" + " WHERE I_ID = ?"); stmt.setInt(1, ol_i_id); ResultSet i_rs =
+				 * stmt.executeQuery(); // this is expected to happen 1% of the times if
+				 * (!i_rs.next()) { if (ol_number != o_ol_cnt) {
+				 * System.out.println("ERROR_14: Invalid item id: (" + ol_i_id +
+				 * ") given in the middle of the order list (unexpected)"); return 14; }
+				 * System.out.println("EXPECTED_ERROR_15: Invalid item id: (" + ol_i_id + ")");
+				 * return 15; }
+				 */
 				double i_price = 5;
-				//String i_name = i_rs.getString("I_NAME");
-				//String i_data = i_rs.getString("I_DATA");
-				//i_rs.close();
-				
+				// String i_name = i_rs.getString("I_NAME");
+				// String i_data = i_rs.getString("I_DATA");
+				// i_rs.close();
+
 				itemPrices[ol_number - 1] = i_price;
-				//itemNames[ol_number - 1] = i_name;
+				// itemNames[ol_number - 1] = i_name;
 
 				// retrieve stock
 				stmt = conn.prepareStatement("SELECT  *  FROM " + "STOCK" + " WHERE S_I_ID = ? " + "   AND S_W_ID = ?");
@@ -200,67 +179,43 @@ public class NewOrder {
 						+ "   ol_i_id: " + ol_i_id);
 				//
 				double ol_amount = ol_quantity * i_price;
-		/*		orderLineAmounts[ol_number - 1] = ol_amount;
-				total_amount += ol_amount;
-				if (i_data.indexOf("ORIGINAL") != -1 && s_data.indexOf("ORIGINAL") != -1) {
-					brandGeneric[ol_number - 1] = 'B';
-				} else {
-					brandGeneric[ol_number - 1] = 'G';
-				}
-				String ol_dist_info = null;
-				switch ((int) d_id) {
-				case 1:
-					ol_dist_info = s_dist_01;
-					break;
-				case 2:
-					ol_dist_info = s_dist_02;
-					break;
-				case 3:
-					ol_dist_info = s_dist_03;
-					break;
-				case 4:
-					ol_dist_info = s_dist_04;
-					break;
-				case 5:
-					ol_dist_info = s_dist_05;
-					break;
-				case 6:
-					ol_dist_info = s_dist_06;
-					break;
-				case 7:
-					ol_dist_info = s_dist_07;
-					break;
-				case 8:
-					ol_dist_info = s_dist_08;
-					break;
-				case 9:
-					ol_dist_info = s_dist_09;
-					break;
-				case 10:
-					ol_dist_info = s_dist_10;
-					break;
-				}
-*/
+				/*
+				 * orderLineAmounts[ol_number - 1] = ol_amount; total_amount += ol_amount; if
+				 * (i_data.indexOf("ORIGINAL") != -1 && s_data.indexOf("ORIGINAL") != -1) {
+				 * brandGeneric[ol_number - 1] = 'B'; } else { brandGeneric[ol_number - 1] =
+				 * 'G'; } String ol_dist_info = null; switch ((int) d_id) { case 1: ol_dist_info
+				 * = s_dist_01; break; case 2: ol_dist_info = s_dist_02; break; case 3:
+				 * ol_dist_info = s_dist_03; break; case 4: ol_dist_info = s_dist_04; break;
+				 * case 5: ol_dist_info = s_dist_05; break; case 6: ol_dist_info = s_dist_06;
+				 * break; case 7: ol_dist_info = s_dist_07; break; case 8: ol_dist_info =
+				 * s_dist_08; break; case 9: ol_dist_info = s_dist_09; break; case 10:
+				 * ol_dist_info = s_dist_10; break; }
+				 */
 				//
 				// insert a row into orderline table representing each order item
 
-				i_stmt.setInt(1, o_id);
-				i_stmt.setInt(2, d_id);
-				i_stmt.setInt(3, w_id);
-				i_stmt.setInt(4, ol_number);
-				i_stmt.setInt(5, ol_i_id);
-				i_stmt.setInt(6, ol_supply_w_id);
-				i_stmt.setDouble(7, ol_quantity);
-				i_stmt.setDouble(8, ol_amount);
-				i_stmt.setString(9, "INFO: "+String.valueOf(ol_i_id));
-				i_stmt.addBatch();
-	
+				statement.addBatch("INSERT INTO " + "ORDER_LINE"
+						+ " (OL_O_ID, OL_D_ID, OL_W_ID, OL_NUMBER, OL_I_ID, OL_SUPPLY_W_ID, OL_QUANTITY, OL_AMOUNT, OL_DIST_INFO) "
+						+ " VALUES (" + o_id + "," + d_id + "," + w_id + "," + ol_number + "," + ol_i_id + ","
+						+ ol_supply_w_id + "," + ol_quantity + "," + ol_amount + "," + "salam" + ")");
+				/*
+				 * 
+				 * i_stmt.setInt(1, o_id); i_stmt.setInt(2, d_id); i_stmt.setInt(3, w_id);
+				 * i_stmt.setInt(4, ol_number); i_stmt.setInt(5, ol_i_id); i_stmt.setInt(6,
+				 * ol_supply_w_id); i_stmt.setDouble(7, ol_quantity); i_stmt.setDouble(8,
+				 * ol_amount); i_stmt.setString(9, "INFO: "+String.valueOf(ol_i_id));
+				 * i_stmt.addBatch();
+				 */
 
 			}
+			int[] counts = statement.executeBatch();
+			statement.close();
+			for (int kir : counts)
+				System.out.print(kir + ",");
 			System.out.println("=======");
-			i_stmt.executeBatch();
+			// i_stmt.executeBatch();
 			// stmtUpdateStock.executeBatch();
-			//total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
+			// total_amount *= (1 + w_tax + d_tax) * (1 - c_discount);
 			// stmt.clearBatch();
 			stmt.close();
 			//
