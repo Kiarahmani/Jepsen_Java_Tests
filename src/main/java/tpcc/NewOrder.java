@@ -23,7 +23,7 @@ public class NewOrder {
 			int[] itemIDs, int[] supplierWarehouseIDs, int[] orderQuantities) throws Exception {
 		PreparedStatement stmt = null, stmtUpdateStock = null;
 
-		try {
+		try { 
 			if (_VERBOSE) {
 				System.out.println("******************************");
 				System.out.println("w_id:                 " + w_id);
