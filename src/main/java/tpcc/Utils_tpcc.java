@@ -81,11 +81,7 @@ public class Utils_tpcc {
 	public static int[] get_order_quantities(int num_items) {
 		int[] orderQuantities = new int[num_items];
 		for (int i = 0; i < num_items; i++) {
-			// temporary hack to check an invariant in the initial database state (don't use 5: because table is initially is populated with 5 and I need to filter them out)
 			int j = ThreadLocalRandom.current().nextInt(1, 11);
-			if (j==5)
-				j++;
-			// end of hack
 			orderQuantities[i] = j;
 			
 		}
