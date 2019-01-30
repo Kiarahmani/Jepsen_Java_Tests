@@ -68,7 +68,9 @@ public class Utils_tpcc {
 	}
 
 	public static int get_num_items() {
-		return ThreadLocalRandom.current().nextInt(5, 16);
+		// XXX
+		return 10;
+		//return ThreadLocalRandom.current().nextInt(5, 16);
 	}
 
 	public static int[] get_item_ids(int num_items) {
@@ -82,7 +84,9 @@ public class Utils_tpcc {
 		int[] orderQuantities = new int[num_items];
 		for (int i = 0; i < num_items; i++) {
 			int j = ThreadLocalRandom.current().nextInt(1, 11);
-			orderQuantities[i] = j;
+			// XXX
+			orderQuantities[i] = 10;
+			//orderQuantities[i] = j;
 		}
 		
 		return orderQuantities;
