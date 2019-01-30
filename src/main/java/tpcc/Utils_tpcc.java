@@ -83,7 +83,6 @@ public class Utils_tpcc {
 		for (int i = 0; i < num_items; i++) {
 			int j = ThreadLocalRandom.current().nextInt(1, 11);
 			orderQuantities[i] = j;
-			
 		}
 		
 		return orderQuantities;

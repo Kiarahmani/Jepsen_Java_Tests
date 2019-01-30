@@ -39,6 +39,8 @@ public class Delivery {
 				int no_o_id = no_rs.getInt("NO_O_ID");
 				orderIDs[d_id - 1] = no_o_id;
 				no_rs.close();
+				//
+
 				// retrieve order
 				stmt = conn.prepareStatement("SELECT O_C_ID FROM " + "OORDER" + " WHERE O_ID = ? "
 						+ "   AND O_D_ID = ? " + "   AND O_W_ID = ?");
@@ -64,7 +66,6 @@ public class Delivery {
 				no_stmt.setInt(3, w_id);
 				no_stmt.executeUpdate();
 
-				//
 				// update order's carrier id
 				oo_stmt = conn.prepareStatement("UPDATE OORDER  SET O_CARRIER_ID = ? " + " WHERE O_ID = ? "
 						+ "   AND O_D_ID = ?" + "   AND O_W_ID = ?");
@@ -75,7 +76,11 @@ public class Delivery {
 				oo_stmt.executeUpdate();
 
 				//
-				// retrieve and update all orderlines belonging to this order
+				//
+				//
+				//
+				//
+				// retrieve all orderlines belonging to this order
 				stmt = conn.prepareStatement("SELECT OL_NUMBER, OL_AMOUNT FROM ORDER_LINE " + " WHERE OL_O_ID = ? "
 						+ "   AND OL_D_ID = ? " + "   AND OL_W_ID = ? ");
 				stmt.setInt(1, no_o_id);
@@ -89,6 +94,7 @@ public class Delivery {
 					all_ol_numbers.add(ol_rs.getInt("OL_NUMBER"));
 					ol_total += ol_rs.getDouble("OL_AMOUNT");
 				}
+
 				// update all matching rows in orderline table
 				String ol_in_clause = Utils_tpcc.get_in_clause(all_ol_numbers);
 				ol_stmt = conn
@@ -99,8 +105,11 @@ public class Delivery {
 				ol_stmt.setInt(3, d_id);
 				ol_stmt.setInt(4, w_id);
 				ol_stmt.executeUpdate();
-				
 
+				//
+				//
+				//
+				//
 				// retrieve customer's info
 				stmt = conn.prepareStatement("SELECT  C_BALANCE, C_DELIVERY_CNT" + " FROM CUSTOMER"
 						+ " WHERE C_W_ID = ? " + "   AND C_D_ID = ? " + " AND C_ID = ? ");

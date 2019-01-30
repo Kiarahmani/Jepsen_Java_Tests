@@ -55,7 +55,7 @@ public class StockLevel {
 				while (s_rs.next()) {
 					System.out.println("low stock found: " + s_rs.getInt("s_i_id"));
 				}
-
+ 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
