@@ -12,6 +12,7 @@ public class Utils_tpcc {
 	static boolean waitForInit = true;
 	static int scale = -10;
 	private static Random r = new Random();
+	private static int count = -1;
 
 	// this function will be -dynamically- called from clojure at runtime
 	public Utils_tpcc(int scale) {
@@ -193,7 +194,8 @@ public class Utils_tpcc {
 	}
 
 	public static int get_o_carrier_id() {
-		return ThreadLocalRandom.current().nextInt(1, 11);
+		return (++count)%2;
+		//return ThreadLocalRandom.current().nextInt(1, 11);
 	}
 
 	public static double get_threshold() {
