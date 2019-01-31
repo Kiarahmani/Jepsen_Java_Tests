@@ -162,17 +162,17 @@ public class Utils_tpcc {
 		// returns a 3-element list consisting of customerByName flag, c_id int and
 		// c_last string
 		List<Object> result = new ArrayList<Object>();
-		if (ThreadLocalRandom.current().nextInt(1, 101) >= 60) {
+		//if (ThreadLocalRandom.current().nextInt(1, 101) >= 60) {
 			// by id
 			result.add(false);
 			result.add(Utils_tpcc.get_c_id());
 			result.add("");
-		} else {
+		//} else {
 			// by last name
-			result.add(true);
-			result.add(-1);
-			result.add(Utils_tpcc.get_cust_last_name());
-		}
+		//	result.add(true);
+		//	result.add(-1);
+		//	result.add(Utils_tpcc.get_cust_last_name());
+		//}
 		return result;
 	}
 
@@ -195,8 +195,8 @@ public class Utils_tpcc {
 	}
 
 	public static int get_o_carrier_id() {
-		return (count.incrementAndGet()) % 2;
-		// return ThreadLocalRandom.current().nextInt(1, 11);
+		//return (count.incrementAndGet()) % 2;   //---> only for ncr6
+		 return ThreadLocalRandom.current().nextInt(1, 11);
 	}
 
 	public static double get_threshold() {
