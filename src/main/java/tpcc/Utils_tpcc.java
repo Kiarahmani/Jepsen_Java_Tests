@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Utils_tpcc {
 
@@ -12,7 +13,7 @@ public class Utils_tpcc {
 	static boolean waitForInit = true;
 	static int scale = -10;
 	private static Random r = new Random();
-	private static int count = -1;
+	private static AtomicInteger count = new AtomicInteger(-1);
 
 	// this function will be -dynamically- called from clojure at runtime
 	public Utils_tpcc(int scale) {
@@ -45,7 +46,7 @@ public class Utils_tpcc {
 				}
 		}
 	}
- 
+
 	/*
 	 * 
 	 * AUXILIARY CODE
@@ -78,14 +79,14 @@ public class Utils_tpcc {
 			itemIDs[i] = Utils_tpcc.get_i_id();
 		return itemIDs;
 	}
- 
+
 	public static int[] get_order_quantities(int num_items) {
 		int[] orderQuantities = new int[num_items];
 		for (int i = 0; i < num_items; i++) {
 			int j = ThreadLocalRandom.current().nextInt(1, 10);
 			orderQuantities[i] = j;
 		}
-		
+
 		return orderQuantities;
 	}
 
@@ -194,8 +195,8 @@ public class Utils_tpcc {
 	}
 
 	public static int get_o_carrier_id() {
-		return (++count)%2;
-		//return ThreadLocalRandom.current().nextInt(1, 11);
+		return (count.incrementAndGet()) % 2;
+		// return ThreadLocalRandom.current().nextInt(1, 11);
 	}
 
 	public static double get_threshold() {
