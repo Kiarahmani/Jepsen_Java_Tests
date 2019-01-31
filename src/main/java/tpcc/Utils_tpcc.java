@@ -68,7 +68,7 @@ public class Utils_tpcc {
 	}
 
 	public static int get_num_items() {
-		return ThreadLocalRandom.current().nextInt(1, 11);
+		return ThreadLocalRandom.current().nextInt(1, 15);
 	}
 
 	public static int[] get_item_ids(int num_items) {
