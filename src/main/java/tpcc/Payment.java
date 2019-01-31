@@ -228,8 +228,6 @@ public class Payment {
 			double old_amount = 0;
 			if (h_rs.next())
 				old_amount += h_rs.getDouble("H_AMOUNT");
-			else
-				return 99;
 			stmt = conn.prepareStatement("INSERT INTO " + "HISTORY"
 					+ " (H_C_D_ID, H_C_W_ID, H_C_ID, H_D_ID, H_W_ID, H_DATE, H_AMOUNT, H_DATA) "
 					+ " VALUES (?,?,?,?,?,?,?,?)");
