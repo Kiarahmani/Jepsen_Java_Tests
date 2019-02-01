@@ -196,8 +196,8 @@ public class Utils_tpcc {
 	}
 
 	public static int get_o_carrier_id() {
-		return (count.incrementAndGet()) % 2;   //---> only for ncr6 //XXX
-		// return ThreadLocalRandom.current().nextInt(1, 11);
+		//return (count.incrementAndGet()) % 2;   //---> only for ncr6 //XXX
+		 return ThreadLocalRandom.current().nextInt(1, 11);
 	}
 
 	public static double get_threshold() {
