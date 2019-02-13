@@ -1,0 +1,1 @@
+CREATE TABLE kv.accounts (id int PRIMARY KEY, balance int);
