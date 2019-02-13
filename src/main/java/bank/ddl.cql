@@ -1,1 +1,1 @@
-CREATE TABLE kv.accounts (id int PRIMARY KEY, balance int);
+CREATE TABLE bank.accounts (id int PRIMARY KEY, balance int);
