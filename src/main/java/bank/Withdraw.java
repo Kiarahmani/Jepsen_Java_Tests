@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import com.github.adejanovski.cassandra.jdbc.CassandraConnection;
 
 public class Withdraw {
-	public static int deposit_saving(CassandraConnection conn, int id, int amount) throws Exception {
+	public static int withdraw(CassandraConnection conn, int id, int amount) throws Exception {
 		try {
 			PreparedStatement stmt = conn.prepareStatement("SELECT balance FROM accounts WHERE id = ? ");
 			stmt.setInt(1, id);
