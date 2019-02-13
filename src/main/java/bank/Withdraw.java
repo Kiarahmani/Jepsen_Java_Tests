@@ -13,10 +13,14 @@ public class Withdraw {
 			ResultSet results = stmt.executeQuery();
 			int old_bal = results.getInt("balance");
 			//
-			stmt = conn.prepareStatement("UPDATE accounts SET balance = ? WHERE id = ? ");
-			stmt.setInt(1, old_bal - amount);
-			stmt.setInt(2, id);
-			stmt.executeUpdate();
+			if (old_bal < 0)
+				return 2;
+			if (old_bal >= amount) {
+				stmt = conn.prepareStatement("UPDATE accounts SET balance = ? WHERE id = ? ");
+				stmt.setInt(1, old_bal - amount);
+				stmt.setInt(2, id);
+				stmt.executeUpdate();
+			}
 
 			// ❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 			// TXN SUCCESSFUL!
